@@ -6,7 +6,7 @@
   <title>产品图片展示</title>
   <!-- 引入Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- 引入Font Awesome -->
+  <!-- 引入引入Font Awesome -->
   <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
   
   <!-- 配置Tailwind自定义颜色和字体 -->
@@ -16,14 +16,11 @@
         extend: {
           colors: {
             primary: '#2563EB',
-            secondary: '#64748B',
             accent: '#F97316',
-            neutral: '#F1F5F9'
-          },
-          fontFamily: {
-            sans: ['Inter', 'system-ui', 'sans-serif'],
-          },
-        },
+            success: '#10B981',
+            info: '#93C5FD'
+          }
+        }
       }
     }
   </script>
@@ -38,10 +35,13 @@
         @apply transition-all duration-300 hover:shadow-lg hover:-translate-y-1;
       }
       .nav-active {
-        @apply bg-primary text-white;
+        @apply bg-primary text-white shadow-md;
       }
       .product-grid {
         @apply grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6;
+      }
+      .btn-effect {
+        @apply transition-all duration-200 hover:shadow-md active:scale-95;
       }
     }
   </style>
@@ -50,16 +50,6 @@
     /* 平滑滚动 */
     html {
       scroll-behavior: smooth;
-    }
-    
-    /* 淡入动画 */
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    
-    .fade-in {
-      animation: fadeIn 0.5s ease forwards;
     }
     
     /* 弹窗动画 */
@@ -72,44 +62,117 @@
       animation: modalOpen 0.3s ease forwards;
     }
 
-    /* 图片加载优化 */
-    img {
-      image-rendering: -webkit-optimize-contrast;
-      backface-visibility: hidden;
+    /* 付款窗口动画 */
+    @keyframes slideUp {
+      from { transform: translateY(100%); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    
+    .slide-up {
+      animation: slideUp 0.4s ease forwards;
+    }
+    
+    /* 隐藏输入框默认样式 */
+    input[type="file"] {
+      display: none;
+    }
+    
+    /* 产品图片懒加载 */
+    .product-img {
+      opacity: 0;
+      transition: opacity 0.3s ease-in-out;
+    }
+    
+    .product-img.loaded {
+      opacity: 1;
+    }
+    
+    /* 弹窗背景遮罩 */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background-color: rgba(0, 0, 0, 0.7);
+      z-index: 45;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+    
+    .modal-backdrop.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* 确保联系客服弹窗在最上层 */
+    #contact-modal {
+      z-index: 1000 !important;
+    }
+    
+    #contact-backdrop {
+      z-index: 999 !important;
     }
   </style>
 </head>
 
 <body class="bg-gray-50 font-sans text-gray-800">
-  <!-- 页面顶部锚点 -->
-  <div id="page-top" class="sr-only"></div>
-  
-  <!-- 导航栏 -->
+  <!-- 导航栏 - 保持原有样式不变 -->
   <header class="sticky top-0 z-50 bg-white shadow-md">
-    <div class="container mx-auto px-4 py-4">
-      <nav class="overflow-x-auto scrollbar-hide -mx-2 px-2">
-        <ul class="flex space-x-3 md:space-x-5 min-w-max">
-          <li><button class="nav-btn nav-active px-5 py-3 rounded-lg transition-all duration-300" data-category="1">产品1</button></li>
-          <li><button class="nav-btn px-5 py-3 rounded-lg transition-all duration-300 bg-neutral hover:bg-gray-200" data-category="2">产品2</button></li>
-          <li><button class="nav-btn px-5 py-3 rounded-lg transition-all duration-300 bg-neutral hover:bg-gray-200" data-category="3">产品3</button></li>
-          <li><button class="nav-btn px-5 py-3 rounded-lg transition-all duration-300 bg-neutral hover:bg-gray-200" data-category="4">产品4</button></li>
-          <li><button class="nav-btn px-5 py-3 rounded-lg transition-all duration-300 bg-neutral hover:bg-gray-200" data-category="5">产品5</button></li>
-        </ul>
+    <div class="container mx-auto">
+      <nav class="flex items-center">
+        <!-- 5个产品按钮导航 -->
+        <button class="nav-btn nav-active flex-1 py-4 px-2 transition-all duration-300 text-center font-medium flex items-center justify-center relative overflow-hidden group" data-category="1">
+          <span>产品1</span>
+          <span class="absolute inset-0 bg-primary/10 scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300"></span>
+        </button>
+        <button class="nav-btn flex-1 py-4 px-2 transition-all duration-300 text-center font-medium bg-gray-50 hover:bg-gray-100 flex items-center justify-center relative overflow-hidden group" data-category="2">
+          <span>产品2</span>
+          <span class="absolute inset-0 bg-primary/10 scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300"></span>
+        </button>
+        <button class="nav-btn flex-1 py-4 px-2 transition-all duration-300 text-center font-medium bg-gray-50 hover:bg-gray-100 flex items-center justify-center relative overflow-hidden group" data-category="3">
+          <span>产品3</span>
+          <span class="absolute inset-0 bg-primary/10 scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300"></span>
+        </button>
+        <button class="nav-btn flex-1 py-4 px-2 transition-all duration-300 text-center font-medium bg-gray-50 hover:bg-gray-100 flex items-center justify-center relative overflow-hidden group" data-category="4">
+          <span>产品4</span>
+          <span class="absolute inset-0 bg-primary/10 scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300"></span>
+        </button>
+        <button class="nav-btn flex-1 py-4 px-2 transition-all duration-300 text-center font-medium bg-gray-50 hover:bg-gray-100 flex items-center justify-center relative overflow-hidden group" data-category="5">
+          <span>产品5</span>
+          <span class="absolute inset-0 bg-primary/10 scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300"></span>
+        </button>
       </nav>
     </div>
   </header>
+
+  <!-- 公告栏 -->
+  <div class="bg-blue-50 border-l-4 border-primary py-3 px-4">
+    <div class="container mx-auto flex items-center">
+      <i class="fa fa-bullhorn text-primary mr-3 text-lg"></i>
+      <p class="text-sm md:text-base text-gray-700">
+        <span class="font-medium">公告：</span>本店所有产品支持7天无理由退换，满299元免运费
+      </p>
+    </div>
+  </div>
 
   <!-- 主内容区 -->
   <main class="container mx-auto px-4 py-8">
     <!-- 产品展示标题 -->
     <div class="mb-8 text-center">
       <h1 class="text-[clamp(1.8rem,4vw,2.5rem)] font-bold mb-2">产品展示</h1>
-      <p class="text-secondary max-w-2xl mx-auto">浏览我们的精选产品，点击图片查看详情</p>
+      <p class="text-gray-600 max-w-2xl mx-auto">浏览我们的精选产品，点击图片查看详情</p>
     </div>
     
     <!-- 产品网格 -->
     <div id="product-grid" class="product-grid">
       <!-- 产品卡片将通过JS动态生成 -->
+    </div>
+    
+    <!-- 加载更多按钮 -->
+    <div class="mt-8 text-center">
+      <button id="load-more" class="text-primary hover:text-primary/80 font-medium flex items-center justify-center mx-auto transition-colors">
+        <span>加载更多</span>
+        <i class="fa fa-angle-down ml-1"></i>
+      </button>
     </div>
   </main>
 
@@ -121,7 +184,7 @@
   </footer>
 
   <!-- 产品详情弹窗 -->
-  <div id="product-modal" class="fixed inset-0 bg-black/70 z-50 hidden items-center justify-center p-4">
+  <div id="product-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4">
     <div class="bg-white rounded-xl max-w-4xl w-full max-h-[90vh] overflow-auto modal-open">
       <div class="relative">
         <!-- 关闭按钮 -->
@@ -131,24 +194,21 @@
         
         <!-- 弹窗内容 -->
         <div class="grid md:grid-cols-2 gap-6 p-4 md:p-6">
-          <div class="modal-image-container">
-            <img id="modal-image" src="" alt="产品详情图" class="w-full h-auto rounded-lg object-cover">
+          <div class="modal-image-container flex items-center justify-center p-4">
+            <img id="modal-image" src="" alt="产品详情图" class="w-full max-h-[300px] md:max-h-[400px] object-contain rounded-lg">
           </div>
           <div class="modal-content">
             <h2 id="modal-title" class="text-2xl font-bold mb-2"></h2>
             <div class="flex items-center mb-4">
               <div id="modal-rating" class="flex text-accent mr-4"></div>
-              <div id="modal-views" class="text-secondary text-sm flex items-center">
+              <div id="modal-views" class="text-gray-500 text-sm flex items-center">
                 <i class="fa fa-eye mr-1"></i> <span></span>
               </div>
             </div>
             <div id="modal-description" class="text-gray-600 mb-6"></div>
-            <div class="flex space-x-3">
-              <button class="bg-primary hover:bg-primary/90 text-white px-6 py-2 rounded-lg transition-colors">
+            <div class="flex">
+              <button id="open-payment-from-product" class="bg-primary hover:bg-primary/90 text-white px-6 py-2 rounded-lg transition-colors btn-effect w-full">
                 加入购物车
-              </button>
-              <button class="border border-primary text-primary hover:bg-primary/10 px-6 py-2 rounded-lg transition-colors">
-                收藏
               </button>
             </div>
           </div>
@@ -157,84 +217,230 @@
     </div>
   </div>
 
+  <!-- 联系客服弹窗 -->
+  <div id="contact-modal" class="fixed inset-0 hidden items-center justify-center p-4">
+    <div class="bg-white rounded-xl max-w-md w-full max-h-[90vh] overflow-auto modal-open relative">
+      <!-- 关闭按钮 -->
+      <button id="close-contact" class="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors z-10 shadow-md">
+        <i class="fa fa-times"></i>
+      </button>
+      
+      <div class="p-6">
+        <h2 class="text-xl font-bold mb-4 text-center">客服联系方式</h2>
+        <div class="flex justify-center mb-4">
+          <img src="https://picsum.photos/seed/service/300/200" alt="客服联系方式" class="max-w-full h-auto rounded-lg shadow-sm">
+        </div>
+        <p class="text-center text-gray-600 text-sm">工作时间：周一至周日 9:00-21:00</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 底部悬浮付款按钮 -->
+  <button id="payment-toggle" class="fixed bottom-6 left-1/2 transform -translate-x-1/2 bg-primary text-white px-10 py-3 rounded-full shadow-lg flex items-center justify-center z-40 hover:bg-primary/90 transition-colors btn-effect min-w-[200px]">
+    <i class="fa fa-lock mr-2"></i>
+    <span>立即付款</span>
+  </button>
+
+  <!-- 付款窗口背景遮罩 -->
+  <div id="payment-backdrop" class="modal-backdrop"></div>
+  
+  <!-- 付款窗口 - 右上角添加明显关闭图标 -->
+  <div id="payment-window" class="fixed bottom-0 left-0 right-0 bg-white shadow-2xl rounded-t-2xl max-w-md mx-auto z-50 hidden slide-up">
+    <!-- 付款窗口头部 -->
+    <div class="bg-primary text-white p-4 rounded-t-2xl flex items-center justify-between">
+      <h3 class="font-semibold text-lg">付款中心</h3>
+      <!-- 明显的关闭按钮 -->
+      <button id="close-payment" class="w-8 h-8 flex items-center justify-center rounded-full bg-white/20 hover:bg-white/30 transition-colors">
+        <i class="fa fa-times text-white"></i>
+      </button>
+    </div>
+    
+    <!-- 付款内容区域 -->
+    <div class="p-4 max-h-[70vh] overflow-y-auto" id="payment-content">
+      <!-- 介绍和收款码区域 -->
+      <div class="mb-6 bg-primary/5 border border-primary/20 rounded-xl p-4">
+        <div class="flex items-start mb-3">
+          <i class="fa fa-info-circle text-primary mt-0.5 mr-2"></i>
+          <h4 class="font-medium text-gray-800">购买说明</h4>
+        </div>
+        <p class="text-gray-600 text-sm mb-4 pl-6">
+          感谢您的购买！请扫描下方二维码完成支付，支付成功后我们将尽快为您安排发货。
+        </p>
+        
+        <div class="flex justify-center mb-3">
+          <img src="https://picsum.photos/seed/payment/200/200" alt="收款二维码" class="w-40 h-40 object-cover border-2 border-white p-2 rounded-lg shadow-md">
+        </div>
+        
+        <p class="text-gray-500 text-xs text-center">
+          请在支付后上传付款凭证以便我们快速确认
+        </p>
+      </div>
+      
+      <!-- 上传图片区域 -->
+      <div class="mb-6">
+        <h4 class="font-medium text-gray-800 mb-3">上传付款凭证</h4>
+        <label for="receipt-upload" class="block w-full border-2 border-dashed border-success rounded-lg p-3 text-center cursor-pointer hover:bg-success/5 transition-colors">
+          <div class="inline-flex flex-col items-center">
+            <i class="fa fa-cloud-upload text-success text-lg mb-1"></i>
+            <span class="text-gray-600 text-sm">点击上传或拖放图片</span>
+            <span class="text-gray-400 text-xs mt-0.5">支持JPG、PNG格式</span>
+          </div>
+          <input type="file" id="receipt-upload" accept="image/*" class="hidden">
+        </label>
+      </div>
+      
+      <!-- 上传后显示的板块 -->
+      <div id="uploaded-section" class="mb-6 hidden" style="scroll-margin-top: 20px;">
+        <div class="border border-success/30 rounded-lg bg-success/5 overflow-hidden">
+          <div class="p-3 border-b border-success/20">
+            <h4 class="font-medium text-gray-800 flex items-center">
+              <i class="fa fa-check-circle text-success mr-2"></i>
+              已上传付款凭证
+            </h4>
+          </div>
+          
+          <!-- 固定的图片显示区域 -->
+          <div class="p-3 bg-white">
+            <img id="receipt-preview" src="https://picsum.photos/seed/receipt/400/300" alt="付款凭证" class="w-full h-auto rounded shadow-sm mb-4">
+          </div>
+          
+          <div class="p-3 grid grid-cols-3 gap-2">
+            <button class="bg-primary text-white py-2 px-3 rounded text-sm btn-effect" onclick="window.open('https://example.com/confirm', '_blank')">
+              <i class="fa fa-check mr-1"></i>确认
+            </button>
+            <button class="bg-accent text-white py-2 px-3 rounded text-sm btn-effect" onclick="window.open('https://example.com/reupload', '_blank')">
+              <i class="fa fa-refresh mr-1"></i>重新上传
+            </button>
+            <button class="bg-info text-gray-800 py-2 px-3 rounded text-sm btn-effect" onclick="window.open('https://example.com/logistics', '_blank')">
+              <i class="fa fa-truck mr-1"></i>查物流
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- 联系客服按钮 -->
+    <div class="border-t p-3 bg-white">
+      <button id="contact-btn" class="w-full bg-gray-100 hover:bg-gray-200 text-gray-800 py-2 rounded-lg flex items-center justify-center transition-colors text-sm btn-effect">
+        <i class="fa fa-headphones mr-2"></i>
+        <span>联系客服</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- 产品弹窗背景遮罩 -->
+  <div id="product-backdrop" class="modal-backdrop"></div>
+  <!-- 联系客服弹窗背景遮罩 -->
+  <div id="contact-backdrop" class="modal-backdrop"></div>
+
   <script>
-    // 产品数据 - 为5个类别各生成12个产品
-    // 【注意：以下图片链接均可替换，格式为"产品类别-序号"的结构】
-    const productData = {
+    // 产品图片链接集中管理
+    const productImages = {
       1: [
-        { id: "1-1", name: "产品1-1", image: "https://img13.360buyimg.com/ddimg/jfs/t1/308486/23/17199/95314/6875e772F6971147b/77c82bf05c8a657e.jpg=%E5%86%99%E7%9C%9F1", rating: 5, views: 1243, description: "产品1-1的详细描述信息，包含产品特点和优势。" },
-        { id: "1-2", name: "产品1-2", image: "https://img10.360buyimg.com/ddimg/jfs/t1/305150/38/18191/91358/6875e777F11a7df6e/e0d050cbef58caeb.jpg=%E5%86%99%E7%9C%9F2", rating: 4, views: 987, description: "产品1-2的详细描述信息，包含产品特点和优势。" },
-        { id: "1-3", name: "产品1-3", image: "https://img12.360buyimg.com/ddimg/jfs/t1/296924/12/20401/104118/6875e779Fee4f78d8/d5dc14661135b3ee.jpg", rating: 5, views: 1567, description: "产品1-3的详细描述信息，包含产品特点和优势。" },
-        { id: "1-4", name: "产品1-4", image: "https://img13.360buyimg.com/ddimg/jfs/t1/307775/31/17161/98018/6875e77bFbaeab7c6/b737c6eb1fd1530d.jpg", rating: 3, views: 842, description: "产品1-4的详细描述信息，包含产品特点和优势。" },
-        { id: "1-5", name: "产品1-5", image: "https://picsum.photos/seed/prod15/400/300", rating: 5, views: 2103, description: "产品1-5的详细描述信息，包含产品特点和优势。" },
-        { id: "1-6", name: "产品1-6", image: "https://picsum.photos/seed/prod16/400/300", rating: 4, views: 1356, description: "产品1-6的详细描述信息，包含产品特点和优势。" },
-        { id: "1-7", name: "产品1-7", image: "https://picsum.photos/seed/prod17/400/300", rating: 4, views: 975, description: "产品1-7的详细描述信息，包含产品特点和优势。" },
-        { id: "1-8", name: "产品1-8", image: "https://picsum.photos/seed/prod18/400/300", rating: 5, views: 1876, description: "产品1-8的详细描述信息，包含产品特点和优势。" },
-        { id: "1-9", name: "产品1-9", image: "https://picsum.photos/seed/prod19/400/300", rating: 3, views: 765, description: "产品1-9的详细描述信息，包含产品特点和优势。" },
-        { id: "1-10", name: "产品1-10", image: "https://picsum.photos/seed/prod110/400/300", rating: 4, views: 1432, description: "产品1-10的详细描述信息，包含产品特点和优势。" },
-        { id: "1-11", name: "产品1-11", image: "https://picsum.photos/seed/prod111/400/300", rating: 5, views: 2011, description: "产品1-11的详细描述信息，包含产品特点和优势。" },
-        { id: "1-12", name: "产品1-12", image: "https://picsum.photos/seed/prod112/400/300", rating: 2, views: 654, description: "产品1-12的详细描述信息，包含产品特点和优势。" }
+        "https://picsum.photos/seed/prod1-1/400/300",  // 产品1-1
+        "https://picsum.photos/seed/prod1-2/400/300",  // 产品1-2
+        "https://picsum.photos/seed/prod1-3/400/300",  // 产品1-3
+        "https://picsum.photos/seed/prod1-4/400/300",  // 产品1-4
+        "https://picsum.photos/seed/prod1-5/400/300",  // 产品1-5
+        "https://picsum.photos/seed/prod1-6/400/300",  // 产品1-6
+        "https://picsum.photos/seed/prod1-7/400/300",  // 产品1-7
+        "https://picsum.photos/seed/prod1-8/400/300"   // 产品1-8
       ],
       2: [
-        { id: "2-1", name: "产品2-1", image: "https://picsum.photos/seed/prod21/400/300", rating: 4, views: 1123, description: "产品2-1的详细描述信息，包含产品特点和优势。" },
-        { id: "2-2", name: "产品2-2", image: "https://picsum.photos/seed/prod22/400/300", rating: 5, views: 1876, description: "产品2-2的详细描述信息，包含产品特点和优势。" },
-        { id: "2-3", name: "产品2-3", image: "https://picsum.photos/seed/prod23/400/300", rating: 3, views: 876, description: "产品2-3的详细描述信息，包含产品特点和优势。" },
-        { id: "2-4", name: "产品2-4", image: "https://picsum.photos/seed/prod24/400/300", rating: 4, views: 1543, description: "产品2-4的详细描述信息，包含产品特点和优势。" },
-        { id: "2-5", name: "产品2-5", image: "https://picsum.photos/seed/prod25/400/300", rating: 5, views: 2109, description: "产品2-5的详细描述信息，包含产品特点和优势。" },
-        { id: "2-6", name: "产品2-6", image: "https://picsum.photos/seed/prod26/400/300", rating: 4, views: 1345, description: "产品2-6的详细描述信息，包含产品特点和优势。" },
-        { id: "2-7", name: "产品2-7", image: "https://picsum.photos/seed/prod27/400/300", rating: 3, views: 987, description: "产品2-7的详细描述信息，包含产品特点和优势。" },
-        { id: "2-8", name: "产品2-8", image: "https://picsum.photos/seed/prod28/400/300", rating: 5, views: 1987, description: "产品2-8的详细描述信息，包含产品特点和优势。" },
-        { id: "2-9", name: "产品2-9", image: "https://picsum.photos/seed/prod29/400/300", rating: 4, views: 1456, description: "产品2-9的详细描述信息，包含产品特点和优势。" },
-        { id: "2-10", name: "产品2-10", image: "https://picsum.photos/seed/prod210/400/300", rating: 5, views: 2345, description: "产品2-10的详细描述信息，包含产品特点和优势。" },
-        { id: "2-11", name: "产品2-11", image: "https://picsum.photos/seed/prod211/400/300", rating: 3, views: 876, description: "产品2-11的详细描述信息，包含产品特点和优势。" },
-        { id: "2-12", name: "产品2-12", image: "https://picsum.photos/seed/prod212/400/300", rating: 4, views: 1567, description: "产品2-12的详细描述信息，包含产品特点和优势。" }
+        "https://picsum.photos/seed/prod2-1/400/300",  // 产品2-1
+        "https://picsum.photos/seed/prod2-2/400/300",  // 产品2-2
+        "https://picsum.photos/seed/prod2-3/400/300",  // 产品2-3
+        "https://picsum.photos/seed/prod2-4/400/300",  // 产品2-4
+        "https://picsum.photos/seed/prod2-5/400/300",  // 产品2-5
+        "https://picsum.photos/seed/prod2-6/400/300",  // 产品2-6
+        "https://picsum.photos/seed/prod2-7/400/300",  // 产品2-7
+        "https://picsum.photos/seed/prod2-8/400/300"   // 产品2-8
       ],
       3: [
-        { id: "3-1", name: "产品3-1", image: "https://picsum.photos/seed/prod31/400/300", rating: 5, views: 1786, description: "产品3-1的详细描述信息，包含产品特点和优势。" },
-        { id: "3-2", name: "产品3-2", image: "https://picsum.photos/seed/prod32/400/300", rating: 4, views: 1456, description: "产品3-2的详细描述信息，包含产品特点和优势。" },
-        { id: "3-3", name: "产品3-3", image: "https://picsum.photos/seed/prod33/400/300", rating: 3, views: 987, description: "产品3-3的详细描述信息，包含产品特点和优势。" },
-        { id: "3-4", name: "产品3-4", image: "https://picsum.photos/seed/prod34/400/300", rating: 5, views: 2103, description: "产品3-4的详细描述信息，包含产品特点和优势。" },
-        { id: "3-5", name: "产品3-5", image: "https://picsum.photos/seed/prod35/400/300", rating: 4, views: 1567, description: "产品3-5的详细描述信息，包含产品特点和优势。" },
-        { id: "3-6", name: "产品3-6", image: "https://picsum.photos/seed/prod36/400/300", rating: 5, views: 1890, description: "产品3-6的详细描述信息，包含产品特点和优势。" },
-        { id: "3-7", name: "产品3-7", image: "https://picsum.photos/seed/prod37/400/300", rating: 2, views: 765, description: "产品3-7的详细描述信息，包含产品特点和优势。" },
-        { id: "3-8", name: "产品3-8", image: "https://picsum.photos/seed/prod38/400/300", rating: 4, views: 1456, description: "产品3-8的详细描述信息，包含产品特点和优势。" },
-        { id: "3-9", name: "产品3-9", image: "https://picsum.photos/seed/prod39/400/300", rating: 5, views: 2012, description: "产品3-9的详细描述信息，包含产品特点和优势。" },
-        { id: "3-10", name: "产品3-10", image: "https://picsum.photos/seed/prod310/400/300", rating: 3, views: 890, description: "产品3-10的详细描述信息，包含产品特点和优势。" },
-        { id: "3-11", name: "产品3-11", image: "https://picsum.photos/seed/prod311/400/300", rating: 4, views: 1567, description: "产品3-11的详细描述信息，包含产品特点和优势。" },
-        { id: "3-12", name: "产品3-12", image: "https://picsum.photos/seed/prod312/400/300", rating: 5, views: 1987, description: "产品3-12的详细描述信息，包含产品特点和优势。" }
+        "https://picsum.photos/seed/prod3-1/400/300",  // 产品3-1
+        "https://picsum.photos/seed/prod3-2/400/300",  // 产品3-2
+        "https://picsum.photos/seed/prod3-3/400/300",  // 产品3-3
+        "https://picsum.photos/seed/prod3-4/400/300",  // 产品3-4
+        "https://picsum.photos/seed/prod3-5/400/300",  // 产品3-5
+        "https://picsum.photos/seed/prod3-6/400/300",  // 产品3-6
+        "https://picsum.photos/seed/prod3-7/400/300",  // 产品3-7
+        "https://picsum.photos/seed/prod3-8/400/300"   // 产品3-8
       ],
       4: [
-        { id: "4-1", name: "产品4-1", image: "https://picsum.photos/seed/prod41/400/300", rating: 4, views: 1345, description: "产品4-1的详细描述信息，包含产品特点和优势。" },
-        { id: "4-2", name: "产品4-2", image: "https://picsum.photos/seed/prod42/400/300", rating: 5, views: 1987, description: "产品4-2的详细描述信息，包含产品特点和优势。" },
-        { id: "4-3", name: "产品4-3", image: "https://picsum.photos/seed/prod43/400/300", rating: 3, views: 876, description: "产品4-3的详细描述信息，包含产品特点和优势。" },
-        { id: "4-4", name: "产品4-4", image: "https://picsum.photos/seed/prod44/400/300", rating: 4, views: 1456, description: "产品4-4的详细描述信息，包含产品特点和优势。" },
-        { id: "4-5", name: "产品4-5", image: "https://picsum.photos/seed/prod45/400/300", rating: 5, views: 2109, description: "产品4-5的详细描述信息，包含产品特点和优势。" },
-        { id: "4-6", name: "产品4-6", image: "https://picsum.photos/seed/prod46/400/300", rating: 2, views: 654, description: "产品4-6的详细描述信息，包含产品特点和优势。" },
-        { id: "4-7", name: "产品4-7", image: "https://picsum.photos/seed/prod47/400/300", rating: 4, views: 1345, description: "产品4-7的详细描述信息，包含产品特点和优势。" },
-        { id: "4-8", name: "产品4-8", image: "https://picsum.photos/seed/prod48/400/300", rating: 5, views: 1876, description: "产品4-8的详细描述信息，包含产品特点和优势。" },
-        { id: "4-9", name: "产品4-9", image: "https://picsum.photos/seed/prod49/400/300", rating: 3, views: 987, description: "产品4-9的详细描述信息，包含产品特点和优势。" },
-        { id: "4-10", name: "产品4-10", image: "https://picsum.photos/seed/prod410/400/300", rating: 4, views: 1567, description: "产品4-10的详细描述信息，包含产品特点和优势。" },
-        { id: "4-11", name: "产品4-11", image: "https://picsum.photos/seed/prod411/400/300", rating: 5, views: 2012, description: "产品4-11的详细描述信息，包含产品特点和优势。" },
-        { id: "4-12", name: "产品4-12", image: "https://picsum.photos/seed/prod412/400/300", rating: 4, views: 1456, description: "产品4-12的详细描述信息，包含产品特点和优势。" }
+        "https://picsum.photos/seed/prod4-1/400/300",  // 产品4-1
+        "https://picsum.photos/seed/prod4-2/400/300",  // 产品4-2
+        "https://picsum.photos/seed/prod4-3/400/300",  // 产品4-3
+        "https://picsum.photos/seed/prod4-4/400/300",  // 产品4-4
+        "https://picsum.photos/seed/prod4-5/400/300",  // 产品4-5
+        "https://picsum.photos/seed/prod4-6/400/300",  // 产品4-6
+        "https://picsum.photos/seed/prod4-7/400/300",  // 产品4-7
+        "https://picsum.photos/seed/prod4-8/400/300"   // 产品4-8
       ],
       5: [
-        { id: "5-1", name: "产品5-1", image: "https://picsum.photos/seed/prod51/400/300", rating: 5, views: 2103, description: "产品5-1的详细描述信息，包含产品特点和优势。" },
-        { id: "5-2", name: "产品5-2", image: "https://picsum.photos/seed/prod52/400/300", rating: 4, views: 1567, description: "产品5-2的详细描述信息，包含产品特点和优势。" },
-        { id: "5-3", name: "产品5-3", image: "https://picsum.photos/seed/prod53/400/300", rating: 3, views: 987, description: "产品5-3的详细描述信息，包含产品特点和优势。" },
-        { id: "5-4", name: "产品5-4", image: "https://picsum.photos/seed/prod54/400/300", rating: 5, views: 1987, description: "产品5-4的详细描述信息，包含产品特点和优势。" },
-        { id: "5-5", name: "产品5-5", image: "https://picsum.photos/seed/prod55/400/300", rating: 4, views: 1456, description: "产品5-5的详细描述信息，包含产品特点和优势。" },
-        { id: "5-6", name: "产品5-6", image: "https://picsum.photos/seed/prod56/400/300", rating: 5, views: 2012, description: "产品5-6的详细描述信息，包含产品特点和优势。" },
-        { id: "5-7", name: "产品5-7", image: "https://picsum.photos/seed/prod57/400/300", rating: 2, views: 765, description: "产品5-7的详细描述信息，包含产品特点和优势。" },
-        { id: "5-8", name: "产品5-8", image: "https://picsum.photos/seed/prod58/400/300", rating: 4, views: 1345, description: "产品5-8的详细描述信息，包含产品特点和优势。" },
-        { id: "5-9", name: "产品5-9", image: "https://picsum.photos/seed/prod59/400/300", rating: 5, views: 1876, description: "产品5-9的详细描述信息，包含产品特点和优势。" },
-        { id: "5-10", name: "产品5-10", image: "https://picsum.photos/seed/prod510/400/300", rating: 3, views: 876, description: "产品5-10的详细描述信息，包含产品特点和优势。" },
-        { id: "5-11", name: "产品5-11", image: "https://picsum.photos/seed/prod511/400/300", rating: 4, views: 1567, description: "产品5-11的详细描述信息，包含产品特点和优势。" },
-        { id: "5-12", name: "产品5-12", image: "https://picsum.photos/seed/prod512/400/300", rating: 5, views: 2109, description: "产品5-12的详细描述信息，包含产品特点和优势。" }
+        "https://picsum.photos/seed/prod5-1/400/300",  // 产品5-1
+        "https://picsum.photos/seed/prod5-2/400/300",  // 产品5-2
+        "https://picsum.photos/seed/prod5-3/400/300",  // 产品5-3
+        "https://picsum.photos/seed/prod5-4/400/300",  // 产品5-4
+        "https://picsum.photos/seed/prod5-5/400/300",  // 产品5-5
+        "https://picsum.photos/seed/prod5-6/400/300",  // 产品5-6
+        "https://picsum.photos/seed/prod5-7/400/300",  // 产品5-7
+        "https://picsum.photos/seed/prod5-8/400/300"   // 产品5-8
       ]
     };
     
+    // 生成固定的评分（3.5-5星）和浏览量（9789-23255）
+    function generateFixedRatingAndViews(category, index) {
+      const seed = category * 100 + index;
+      
+      // 生成3.5-5星的评分
+      const ratingOptions = [3.5, 4, 4.5, 5];
+      const ratingIndex = (seed % ratingOptions.length + ratingOptions.length) % ratingOptions.length;
+      const rating = ratingOptions[ratingIndex];
+      
+      // 生成9789-23255之间的浏览量
+      const minViews = 9789;
+      const maxViews = 23255;
+      const range = maxViews - minViews;
+      let hash = 0;
+      for (let i = 0; i < seed.toString().length; i++) {
+        const char = seed.toString().charCodeAt(i);
+        hash = ((hash << 5) - hash) + char;
+        hash = hash & hash;
+      }
+      const views = minViews + Math.abs(hash) % range;
+      
+      return { rating, views };
+    }
+    
+    // 产品数据生成函数
+    function generateProductData() {
+      const data = {};
+      
+      for (let category = 1; category <= 5; category++) {
+        data[category] = productImages[category].map((image, index) => {
+          const productIndex = index + 1;
+          const { rating, views } = generateFixedRatingAndViews(category, productIndex);
+          
+          return {
+            id: `${category}-${productIndex}`,
+            name: `产品${category}-${productIndex}`,
+            image: image,
+            rating: rating,
+            views: views,
+            description: `产品${category}-${productIndex}的详细描述信息，包含产品特点和优势。这款产品采用优质材料制作，设计精美，深受用户喜爱。`
+          };
+        });
+      }
+      
+      return data;
+    }
+    
+    // 生成产品数据
+    const productData = generateProductData();
+    
     // 当前显示的类别
     let currentCategory = 1;
+    let paymentOpen = false;
     
     // DOM元素
     const productGrid = document.getElementById('product-grid');
@@ -246,127 +452,173 @@
     const modalRating = document.getElementById('modal-rating');
     const modalViews = document.getElementById('modal-views').querySelector('span');
     const modalDescription = document.getElementById('modal-description');
-    const pageTop = document.getElementById('page-top');
+    const openPaymentFromProduct = document.getElementById('open-payment-from-product');
+    const loadMoreBtn = document.getElementById('load-more');
+    
+    // 付款相关元素
+    const paymentToggle = document.getElementById('payment-toggle');
+    const paymentWindow = document.getElementById('payment-window');
+    const closePayment = document.getElementById('close-payment');
+    const receiptUpload = document.getElementById('receipt-upload');
+    const uploadedSection = document.getElementById('uploaded-section');
+    const receiptPreview = document.getElementById('receipt-preview');
+    const paymentBackdrop = document.getElementById('payment-backdrop');
+    
+    // 联系客服相关元素
+    const contactBtn = document.getElementById('contact-btn');
+    const contactModal = document.getElementById('contact-modal');
+    const closeContact = document.getElementById('close-contact');
+    const contactBackdrop = document.getElementById('contact-backdrop');
+    const productBackdrop = document.getElementById('product-backdrop');
+    
+    // 图片懒加载函数
+    function lazyLoadImage(img, src) {
+      const tempImg = new Image();
+      tempImg.src = src;
+      tempImg.onload = function() {
+        img.src = src;
+        img.classList.add('loaded');
+      };
+    }
     
     // 渲染产品网格
     function renderProducts(category) {
-      // 清空网格
       productGrid.innerHTML = '';
-      
-      // 获取当前类别的产品
       const products = productData[category];
       
-      // 添加产品卡片
-      products.forEach((product, index) => {
-        // 创建产品卡片
+      products.forEach((product) => {
         const productCard = document.createElement('div');
-        productCard.className = 'bg-white rounded-xl overflow-hidden shadow-md card-hover fade-in';
-        productCard.style.animationDelay = `${index * 30}ms`;
+        productCard.className = 'bg-white rounded-xl overflow-hidden shadow-md card-hover';
         
-        // 产品图片 - 使用loading="lazy"优化加载
         const productImage = document.createElement('div');
         productImage.className = 'relative overflow-hidden bg-gray-100';
-        productImage.innerHTML = `
-          <img src="${product.image}" alt="${product.name}" class="w-full h-auto object-cover transition-transform duration-500 hover:scale-105 cursor-pointer" loading="lazy">
-        `;
         
-        // 产品信息
+        const img = document.createElement('img');
+        img.className = 'w-full h-auto object-cover transition-transform duration-500 hover:scale-105 cursor-pointer product-img';
+        img.alt = product.name;
+        img.dataset.src = product.image;
+        productImage.appendChild(img);
+        
         const productInfo = document.createElement('div');
         productInfo.className = 'p-4';
         
-        // 产品名称
         const productName = document.createElement('h3');
         productName.className = 'font-semibold text-lg mb-2 truncate';
         productName.textContent = product.name;
         
-        // 评分和浏览量容器
         const productMeta = document.createElement('div');
         productMeta.className = 'flex justify-between items-center';
         
-        // 评分
         const ratingContainer = document.createElement('div');
         ratingContainer.className = 'flex text-accent';
-        for (let i = 1; i <= 5; i++) {
+        
+        // 处理半星评分
+        const fullStars = Math.floor(product.rating);
+        const hasHalfStar = product.rating % 1 !== 0;
+        
+        for (let i = 1; i <= fullStars; i++) {
           const star = document.createElement('i');
-          star.className = `fa ${i <= product.rating ? 'fa-star' : 'fa-star-o'}`;
+          star.className = 'fa fa-star';
           ratingContainer.appendChild(star);
         }
         
-        // 浏览量
-        const viewsContainer = document.createElement('div');
-        viewsContainer.className = 'text-secondary text-sm flex items-center';
-        viewsContainer.innerHTML = `<i class="fa fa-eye mr-1"></i> ${product.views}`;
+        if (hasHalfStar) {
+          const halfStar = document.createElement('i');
+          halfStar.className = 'fa fa-star-half-o';
+          ratingContainer.appendChild(halfStar);
+        }
         
-        // 组装产品信息
+        const emptyStars = 5 - Math.ceil(product.rating);
+        for (let i = 1; i <= emptyStars; i++) {
+          const star = document.createElement('i');
+          star.className = 'fa fa-star-o';
+          ratingContainer.appendChild(star);
+        }
+        
+        const viewsContainer = document.createElement('div');
+        viewsContainer.className = 'text-gray-500 text-sm flex items-center';
+        viewsContainer.innerHTML = `<i class="fa fa-eye mr-1"></i> ${product.views.toLocaleString()}`;
+        
         productMeta.appendChild(ratingContainer);
         productMeta.appendChild(viewsContainer);
         productInfo.appendChild(productName);
         productInfo.appendChild(productMeta);
-        
-        // 组装产品卡片
         productCard.appendChild(productImage);
         productCard.appendChild(productInfo);
-        
-        // 添加到网格
         productGrid.appendChild(productCard);
         
-        // 点击图片打开弹窗
         productImage.addEventListener('click', () => openProductModal(product));
+        lazyLoadImage(img, product.image);
       });
     }
     
     // 打开产品详情弹窗
     function openProductModal(product) {
-      // 填充弹窗内容
-      modalImage.src = product.image;
-      modalImage.alt = product.name;
+      const tempImg = new Image();
+      tempImg.src = product.image;
+      tempImg.onload = function() {
+        modalImage.src = product.image;
+        modalImage.alt = product.name;
+      };
+      
       modalTitle.textContent = product.name;
       
-      // 设置评分星星
       modalRating.innerHTML = '';
-      for (let i = 1; i <= 5; i++) {
+      const fullStars = Math.floor(product.rating);
+      const hasHalfStar = product.rating % 1 !== 0;
+      
+      for (let i = 1; i <= fullStars; i++) {
         const star = document.createElement('i');
-        star.className = `fa ${i <= product.rating ? 'fa-star' : 'fa-star-o'}`;
+        star.className = 'fa fa-star';
         modalRating.appendChild(star);
       }
       
-      // 设置浏览量和描述
-      modalViews.textContent = product.views;
+      if (hasHalfStar) {
+        const halfStar = document.createElement('i');
+        halfStar.className = 'fa fa-star-half-o';
+        modalRating.appendChild(halfStar);
+      }
+      
+      const emptyStars = 5 - Math.ceil(product.rating);
+      for (let i = 1; i <= emptyStars; i++) {
+        const star = document.createElement('i');
+        star.className = 'fa fa-star-o';
+        modalRating.appendChild(star);
+      }
+      
+      modalViews.textContent = product.views.toLocaleString();
       modalDescription.textContent = product.description;
       
-      // 显示弹窗
       productModal.classList.remove('hidden');
       productModal.classList.add('flex');
-      document.body.style.overflow = 'hidden'; // 防止背景滚动
+      productBackdrop.classList.add('active');
+      document.body.style.overflow = 'hidden';
     }
     
-    // 关闭弹窗
+    // 关闭产品弹窗
     function closeProductModal() {
       productModal.classList.add('hidden');
       productModal.classList.remove('flex');
-      document.body.style.overflow = ''; // 恢复滚动
+      productBackdrop.classList.remove('active');
+      document.body.style.overflow = paymentOpen ? 'hidden' : '';
     }
     
     // 导航按钮点击事件
     navButtons.forEach(button => {
       button.addEventListener('click', () => {
-        // 更新当前类别
         const category = parseInt(button.getAttribute('data-category'));
         if (category !== currentCategory) {
           currentCategory = category;
           
-          // 更新导航按钮状态
           navButtons.forEach(btn => {
             btn.classList.remove('nav-active');
-            btn.classList.add('bg-neutral', 'hover:bg-gray-200');
+            btn.classList.add('bg-gray-50', 'hover:bg-gray-100');
           });
           button.classList.add('nav-active');
-          button.classList.remove('bg-neutral', 'hover:bg-gray-200');
+          button.classList.remove('bg-gray-50', 'hover:bg-gray-100');
           
-          // 重新渲染产品
           renderProducts(category);
           
-          // 滚动到页面顶部
           window.scrollTo({
             top: 0,
             behavior: 'smooth'
@@ -375,20 +627,83 @@
       });
     });
     
-    // 关闭弹窗事件
-    closeModal.addEventListener('click', closeProductModal);
+    // 付款窗口控制
+    function togglePaymentWindow() {
+      paymentOpen = !paymentOpen;
+      if (paymentOpen) {
+        paymentWindow.classList.remove('hidden');
+        paymentToggle.classList.add('hidden');
+        paymentBackdrop.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      } else {
+        paymentWindow.classList.add('hidden');
+        paymentToggle.classList.remove('hidden');
+        paymentBackdrop.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    }
     
-    // 点击弹窗外部关闭弹窗
+    // 处理图片上传
+    function handleReceiptUpload() {
+      uploadedSection.classList.remove('hidden');
+      
+      setTimeout(() => {
+        uploadedSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 300);
+    }
+    
+    // 联系客服弹窗控制
+    function toggleContactModal(show) {
+      if (show) {
+        contactModal.classList.remove('hidden');
+        contactModal.classList.add('flex');
+        contactBackdrop.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      } else {
+        contactModal.classList.add('hidden');
+        contactModal.classList.remove('flex');
+        contactBackdrop.classList.remove('active');
+        document.body.style.overflow = paymentOpen ? 'hidden' : '';
+      }
+    }
+    
+    // 事件监听
+    closeModal.addEventListener('click', closeProductModal);
     productModal.addEventListener('click', (e) => {
-      if (e.target === productModal) {
-        closeProductModal();
+      if (e.target === productModal) closeProductModal();
+    });
+    productBackdrop.addEventListener('click', closeProductModal);
+    
+    openPaymentFromProduct.addEventListener('click', () => {
+      closeProductModal();
+      togglePaymentWindow();
+    });
+    
+    loadMoreBtn.addEventListener('click', togglePaymentWindow);
+    
+    paymentToggle.addEventListener('click', togglePaymentWindow);
+    closePayment.addEventListener('click', togglePaymentWindow);
+    paymentBackdrop.addEventListener('click', togglePaymentWindow);
+    
+    receiptUpload.addEventListener('change', (e) => {
+      if (e.target.files && e.target.files[0] && e.target.files[0].type.startsWith('image/')) {
+        handleReceiptUpload();
       }
     });
     
+    contactBtn.addEventListener('click', () => toggleContactModal(true));
+    closeContact.addEventListener('click', () => toggleContactModal(false));
+    contactModal.addEventListener('click', (e) => {
+      if (e.target === contactModal) toggleContactModal(false);
+    });
+    contactBackdrop.addEventListener('click', () => toggleContactModal(false));
+    
     // 键盘ESC关闭弹窗
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && !productModal.classList.contains('hidden')) {
-        closeProductModal();
+      if (e.key === 'Escape') {
+        if (!productModal.classList.contains('hidden')) closeProductModal();
+        else if (!contactModal.classList.contains('hidden')) toggleContactModal(false);
+        else if (paymentOpen) togglePaymentWindow();
       }
     });
     
