@@ -6,7 +6,7 @@
   <title>产品图片展示</title>
   <!-- 引入Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- 引入引入Font Awesome -->
+  <!-- 引入Font Awesome -->
   <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
   
   <!-- 配置Tailwind自定义颜色和字体 -->
@@ -18,7 +18,10 @@
             primary: '#2563EB',
             accent: '#F97316',
             success: '#10B981',
-            info: '#93C5FD'
+            info: '#93C5FD',
+            notice: '#FFF3CD', // 公告栏黄色背景
+            noticeBorder: '#FFE69C', // 公告栏边框
+            noticeText: '#856404' // 公告栏文字
           }
         }
       }
@@ -111,44 +114,72 @@
     #contact-backdrop {
       z-index: 999 !important;
     }
+
+    /* 播放图标样式 - 居中显示在产品图上 */
+    .play-icon {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background-color: rgba(0, 0, 0, 0.6);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      opacity: 0;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      cursor: pointer;
+      z-index: 10;
+    }
+    
+    /* 鼠标悬停时显示播放图标并添加缩放效果 */
+    .product-image-container:hover .play-icon {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1.05);
+    }
+    
+    /* 产品图片容器样式调整 */
+    .product-image-container {
+      position: relative;
+      overflow: hidden;
+    }
   </style>
 </head>
 
 <body class="bg-gray-50 font-sans text-gray-800">
-  <!-- 导航栏 - 保持原有样式不变 -->
-  <header class="sticky top-0 z-50 bg-white shadow-md">
-    <div class="container mx-auto">
-      <nav class="flex items-center">
-        <!-- 5个产品按钮导航 -->
-        <button class="nav-btn nav-active flex-1 py-4 px-2 transition-all duration-300 text-center font-medium flex items-center justify-center relative overflow-hidden group" data-category="1">
-          <span>产品1</span>
-          <span class="absolute inset-0 bg-primary/10 scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300"></span>
+  <!-- 导航栏 - 椭圆按钮样式 -->
+  <header class="sticky top-0 z-50 bg-white shadow-md py-3">
+    <div class="container mx-auto px-2">
+      <nav class="flex items-center justify-between">
+        <!-- 5个椭圆按钮 -->
+        <button class="nav-btn nav-active flex-1 mx-1 py-2 px-3 text-center font-medium rounded-full transition-all duration-300" data-category="1">
+          产品1
         </button>
-        <button class="nav-btn flex-1 py-4 px-2 transition-all duration-300 text-center font-medium bg-gray-50 hover:bg-gray-100 flex items-center justify-center relative overflow-hidden group" data-category="2">
-          <span>产品2</span>
-          <span class="absolute inset-0 bg-primary/10 scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300"></span>
+        <button class="nav-btn flex-1 mx-1 py-2 px-3 text-center font-medium bg-gray-100 hover:bg-gray-200 rounded-full transition-all duration-300" data-category="2">
+          产品2
         </button>
-        <button class="nav-btn flex-1 py-4 px-2 transition-all duration-300 text-center font-medium bg-gray-50 hover:bg-gray-100 flex items-center justify-center relative overflow-hidden group" data-category="3">
-          <span>产品3</span>
-          <span class="absolute inset-0 bg-primary/10 scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300"></span>
+        <button class="nav-btn flex-1 mx-1 py-2 px-3 text-center font-medium bg-gray-100 hover:bg-gray-200 rounded-full transition-all duration-300" data-category="3">
+          产品3
         </button>
-        <button class="nav-btn flex-1 py-4 px-2 transition-all duration-300 text-center font-medium bg-gray-50 hover:bg-gray-100 flex items-center justify-center relative overflow-hidden group" data-category="4">
-          <span>产品4</span>
-          <span class="absolute inset-0 bg-primary/10 scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300"></span>
+        <button class="nav-btn flex-1 mx-1 py-2 px-3 text-center font-medium bg-gray-100 hover:bg-gray-200 rounded-full transition-all duration-300" data-category="4">
+          产品4
         </button>
-        <button class="nav-btn flex-1 py-4 px-2 transition-all duration-300 text-center font-medium bg-gray-50 hover:bg-gray-100 flex items-center justify-center relative overflow-hidden group" data-category="5">
-          <span>产品5</span>
-          <span class="absolute inset-0 bg-primary/10 scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300"></span>
+        <button class="nav-btn flex-1 mx-1 py-2 px-3 text-center font-medium bg-gray-100 hover:bg-gray-200 rounded-full transition-all duration-300" data-category="5">
+          产品5
         </button>
       </nav>
     </div>
   </header>
 
-  <!-- 公告栏 -->
-  <div class="bg-blue-50 border-l-4 border-primary py-3 px-4">
+  <!-- 公告栏 - 黄色 -->
+  <div class="bg-notice border-l-4 border-noticeBorder py-3 px-4">
     <div class="container mx-auto flex items-center">
-      <i class="fa fa-bullhorn text-primary mr-3 text-lg"></i>
-      <p class="text-sm md:text-base text-gray-700">
+      <i class="fa fa-bullhorn text-noticeText mr-3 text-lg"></i>
+      <p class="text-sm md:text-base text-noticeText">
         <span class="font-medium">公告：</span>本店所有产品支持7天无理由退换，满299元免运费
       </p>
     </div>
@@ -244,7 +275,7 @@
   <!-- 付款窗口背景遮罩 -->
   <div id="payment-backdrop" class="modal-backdrop"></div>
   
-  <!-- 付款窗口 - 右上角添加明显关闭图标 -->
+  <!-- 付款窗口 -->
   <div id="payment-window" class="fixed bottom-0 left-0 right-0 bg-white shadow-2xl rounded-t-2xl max-w-md mx-auto z-50 hidden slide-up">
     <!-- 付款窗口头部 -->
     <div class="bg-primary text-white p-4 rounded-t-2xl flex items-center justify-between">
@@ -334,57 +365,47 @@
   <div id="contact-backdrop" class="modal-backdrop"></div>
 
   <script>
-    // 产品图片链接集中管理
+    // 产品图片链接集中管理 - 增加到12个产品图
     const productImages = {
       1: [
-        "https://picsum.photos/seed/prod1-1/400/300",  // 产品1-1
-        "https://picsum.photos/seed/prod1-2/400/300",  // 产品1-2
-        "https://picsum.photos/seed/prod1-3/400/300",  // 产品1-3
-        "https://picsum.photos/seed/prod1-4/400/300",  // 产品1-4
-        "https://picsum.photos/seed/prod1-5/400/300",  // 产品1-5
-        "https://picsum.photos/seed/prod1-6/400/300",  // 产品1-6
-        "https://picsum.photos/seed/prod1-7/400/300",  // 产品1-7
-        "https://picsum.photos/seed/prod1-8/400/300"   // 产品1-8
+        "https://picsum.photos/seed/prod1-1/400/300", "https://picsum.photos/seed/prod1-2/400/300", 
+        "https://picsum.photos/seed/prod1-3/400/300", "https://picsum.photos/seed/prod1-4/400/300", 
+        "https://picsum.photos/seed/prod1-5/400/300", "https://picsum.photos/seed/prod1-6/400/300", 
+        "https://picsum.photos/seed/prod1-7/400/300", "https://picsum.photos/seed/prod1-8/400/300",
+        "https://picsum.photos/seed/prod1-9/400/300", "https://picsum.photos/seed/prod1-10/400/300",
+        "https://picsum.photos/seed/prod1-11/400/300", "https://picsum.photos/seed/prod1-12/400/300"
       ],
       2: [
-        "https://picsum.photos/seed/prod2-1/400/300",  // 产品2-1
-        "https://picsum.photos/seed/prod2-2/400/300",  // 产品2-2
-        "https://picsum.photos/seed/prod2-3/400/300",  // 产品2-3
-        "https://picsum.photos/seed/prod2-4/400/300",  // 产品2-4
-        "https://picsum.photos/seed/prod2-5/400/300",  // 产品2-5
-        "https://picsum.photos/seed/prod2-6/400/300",  // 产品2-6
-        "https://picsum.photos/seed/prod2-7/400/300",  // 产品2-7
-        "https://picsum.photos/seed/prod2-8/400/300"   // 产品2-8
+        "https://picsum.photos/seed/prod2-1/400/300", "https://picsum.photos/seed/prod2-2/400/300", 
+        "https://picsum.photos/seed/prod2-3/400/300", "https://picsum.photos/seed/prod2-4/400/300", 
+        "https://picsum.photos/seed/prod2-5/400/300", "https://picsum.photos/seed/prod2-6/400/300", 
+        "https://picsum.photos/seed/prod2-7/400/300", "https://picsum.photos/seed/prod2-8/400/300",
+        "https://picsum.photos/seed/prod2-9/400/300", "https://picsum.photos/seed/prod2-10/400/300",
+        "https://picsum.photos/seed/prod2-11/400/300", "https://picsum.photos/seed/prod2-12/400/300"
       ],
       3: [
-        "https://picsum.photos/seed/prod3-1/400/300",  // 产品3-1
-        "https://picsum.photos/seed/prod3-2/400/300",  // 产品3-2
-        "https://picsum.photos/seed/prod3-3/400/300",  // 产品3-3
-        "https://picsum.photos/seed/prod3-4/400/300",  // 产品3-4
-        "https://picsum.photos/seed/prod3-5/400/300",  // 产品3-5
-        "https://picsum.photos/seed/prod3-6/400/300",  // 产品3-6
-        "https://picsum.photos/seed/prod3-7/400/300",  // 产品3-7
-        "https://picsum.photos/seed/prod3-8/400/300"   // 产品3-8
+        "https://picsum.photos/seed/prod3-1/400/300", "https://picsum.photos/seed/prod3-2/400/300", 
+        "https://picsum.photos/seed/prod3-3/400/300", "https://picsum.photos/seed/prod3-4/400/300", 
+        "https://picsum.photos/seed/prod3-5/400/300", "https://picsum.photos/seed/prod3-6/400/300", 
+        "https://picsum.photos/seed/prod3-7/400/300", "https://picsum.photos/seed/prod3-8/400/300",
+        "https://picsum.photos/seed/prod3-9/400/300", "https://picsum.photos/seed/prod3-10/400/300",
+        "https://picsum.photos/seed/prod3-11/400/300", "https://picsum.photos/seed/prod3-12/400/300"
       ],
       4: [
-        "https://picsum.photos/seed/prod4-1/400/300",  // 产品4-1
-        "https://picsum.photos/seed/prod4-2/400/300",  // 产品4-2
-        "https://picsum.photos/seed/prod4-3/400/300",  // 产品4-3
-        "https://picsum.photos/seed/prod4-4/400/300",  // 产品4-4
-        "https://picsum.photos/seed/prod4-5/400/300",  // 产品4-5
-        "https://picsum.photos/seed/prod4-6/400/300",  // 产品4-6
-        "https://picsum.photos/seed/prod4-7/400/300",  // 产品4-7
-        "https://picsum.photos/seed/prod4-8/400/300"   // 产品4-8
+        "https://picsum.photos/seed/prod4-1/400/300", "https://picsum.photos/seed/prod4-2/400/300", 
+        "https://picsum.photos/seed/prod4-3/400/300", "https://picsum.photos/seed/prod4-4/400/300", 
+        "https://picsum.photos/seed/prod4-5/400/300", "https://picsum.photos/seed/prod4-6/400/300", 
+        "https://picsum.photos/seed/prod4-7/400/300", "https://picsum.photos/seed/prod4-8/400/300",
+        "https://picsum.photos/seed/prod4-9/400/300", "https://picsum.photos/seed/prod4-10/400/300",
+        "https://picsum.photos/seed/prod4-11/400/300", "https://picsum.photos/seed/prod4-12/400/300"
       ],
       5: [
-        "https://picsum.photos/seed/prod5-1/400/300",  // 产品5-1
-        "https://picsum.photos/seed/prod5-2/400/300",  // 产品5-2
-        "https://picsum.photos/seed/prod5-3/400/300",  // 产品5-3
-        "https://picsum.photos/seed/prod5-4/400/300",  // 产品5-4
-        "https://picsum.photos/seed/prod5-5/400/300",  // 产品5-5
-        "https://picsum.photos/seed/prod5-6/400/300",  // 产品5-6
-        "https://picsum.photos/seed/prod5-7/400/300",  // 产品5-7
-        "https://picsum.photos/seed/prod5-8/400/300"   // 产品5-8
+        "https://picsum.photos/seed/prod5-1/400/300", "https://picsum.photos/seed/prod5-2/400/300", 
+        "https://picsum.photos/seed/prod5-3/400/300", "https://picsum.photos/seed/prod5-4/400/300", 
+        "https://picsum.photos/seed/prod5-5/400/300", "https://picsum.photos/seed/prod5-6/400/300", 
+        "https://picsum.photos/seed/prod5-7/400/300", "https://picsum.photos/seed/prod5-8/400/300",
+        "https://picsum.photos/seed/prod5-9/400/300", "https://picsum.photos/seed/prod5-10/400/300",
+        "https://picsum.photos/seed/prod5-11/400/300", "https://picsum.photos/seed/prod5-12/400/300"
       ]
     };
     
@@ -481,7 +502,7 @@
       };
     }
     
-    // 渲染产品网格
+    // 渲染产品网格 - 为产品2和产品5添加播放图标
     function renderProducts(category) {
       productGrid.innerHTML = '';
       const products = productData[category];
@@ -490,14 +511,25 @@
         const productCard = document.createElement('div');
         productCard.className = 'bg-white rounded-xl overflow-hidden shadow-md card-hover';
         
-        const productImage = document.createElement('div');
-        productImage.className = 'relative overflow-hidden bg-gray-100';
+        // 创建产品图片容器（用于容纳图片和播放图标）
+        const imageContainer = document.createElement('div');
+        imageContainer.className = 'product-image-container bg-gray-100';
         
         const img = document.createElement('img');
         img.className = 'w-full h-auto object-cover transition-transform duration-500 hover:scale-105 cursor-pointer product-img';
         img.alt = product.name;
         img.dataset.src = product.image;
-        productImage.appendChild(img);
+        imageContainer.appendChild(img);
+        
+        // 仅为产品2和产品5添加播放图标
+        if (category === 2 || category === 5) {
+          const playIcon = document.createElement('div');
+          playIcon.className = 'play-icon';
+          playIcon.innerHTML = '<i class="fa fa-play"></i>';
+          // 点击播放图标也打开产品详情
+          playIcon.addEventListener('click', () => openProductModal(product));
+          imageContainer.appendChild(playIcon);
+        }
         
         const productInfo = document.createElement('div');
         productInfo.className = 'p-4';
@@ -543,11 +575,18 @@
         productMeta.appendChild(viewsContainer);
         productInfo.appendChild(productName);
         productInfo.appendChild(productMeta);
-        productCard.appendChild(productImage);
+        productCard.appendChild(imageContainer);
         productCard.appendChild(productInfo);
         productGrid.appendChild(productCard);
         
-        productImage.addEventListener('click', () => openProductModal(product));
+        // 点击图片打开产品详情
+        imageContainer.addEventListener('click', (e) => {
+          // 防止事件冒泡导致重复打开
+          if (e.target === imageContainer || e.target === img) {
+            openProductModal(product);
+          }
+        });
+        
         lazyLoadImage(img, product.image);
       });
     }
@@ -612,10 +651,10 @@
           
           navButtons.forEach(btn => {
             btn.classList.remove('nav-active');
-            btn.classList.add('bg-gray-50', 'hover:bg-gray-100');
+            btn.classList.add('bg-gray-100', 'hover:bg-gray-200');
           });
           button.classList.add('nav-active');
-          button.classList.remove('bg-gray-50', 'hover:bg-gray-100');
+          button.classList.remove('bg-gray-100', 'hover:bg-gray-200');
           
           renderProducts(category);
           
