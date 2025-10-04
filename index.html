@@ -19,9 +19,11 @@
             accent: '#F97316',
             success: '#10B981',
             info: '#93C5FD',
-            notice: '#FFF3CD', // 公告栏黄色背景
-            noticeBorder: '#FFE69C', // 公告栏边框
-            noticeText: '#856404' // 公告栏文字
+            notice: '#FFF3CD',
+            noticeBorder: '#FFE69C',
+            noticeText: '#856404',
+            wechat: '#07C160',    // 微信绿色
+            alipay: '#1677FF'     // 支付宝蓝色
           }
         }
       }
@@ -115,7 +117,7 @@
       z-index: 999 !important;
     }
 
-    /* 播放图标样式 - 居中显示在产品图上 */
+    /* 播放图标样式 - 一直显示 */
     .play-icon {
       position: absolute;
       top: 50%;
@@ -130,22 +132,72 @@
       align-items: center;
       justify-content: center;
       font-size: 20px;
-      opacity: 0;
-      transition: opacity 0.3s ease, transform 0.3s ease;
+      opacity: 1;
+      transition: transform 0.3s ease;
       cursor: pointer;
       z-index: 10;
     }
     
-    /* 鼠标悬停时显示播放图标并添加缩放效果 */
     .product-image-container:hover .play-icon {
-      opacity: 1;
       transform: translate(-50%, -50%) scale(1.05);
     }
     
-    /* 产品图片容器样式调整 */
     .product-image-container {
       position: relative;
       overflow: hidden;
+    }
+
+    /* 产品详情弹窗样式 */
+    .small-product-modal {
+      max-width: 90%;
+      max-height: 80vh;
+      width: 500px;
+      margin: 0 auto;
+    }
+
+    /* 产品弹窗内的图片缩小 */
+    .small-modal-image {
+      max-height: 180px !important;
+      padding: 10px;
+    }
+
+    /* 付款窗口样式 - 高度充满导航栏下方空间 */
+    #payment-window {
+      max-height: calc(100vh - 64px);
+      top: 64px;
+      bottom: 0;
+      border-radius: 0;
+    }
+    
+    #payment-content {
+      max-height: calc(100vh - 128px);
+    }
+
+    /* 支付方式按钮样式 */
+    .payment-method-btn {
+      padding: 15px 0;
+      font-size: 16px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+    
+    .payment-method-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    /* 收款码弹窗样式 */
+    #qr-modal {
+      z-index: 1500 !important;
+    }
+    
+    #qr-backdrop {
+      z-index: 1499 !important;
+    }
+    
+    .qr-code-container {
+      max-width: 300px;
+      width: 90%;
     }
   </style>
 </head>
@@ -155,19 +207,17 @@
   <header class="sticky top-0 z-50 bg-white shadow-md py-3">
     <div class="container mx-auto px-2">
       <nav class="flex items-center justify-between">
-        <!-- 5个椭圆按钮 -->
         <button class="nav-btn nav-active flex-1 mx-1 py-2 px-3 text-center font-medium rounded-full transition-all duration-300" data-category="1">
           首页
         </button>
         <button class="nav-btn flex-1 mx-1 py-2 px-3 text-center font-medium bg-gray-100 hover:bg-gray-200 rounded-full transition-all duration-300" data-category="2">
-          真人
-        </button>
+          真人        
+	</button>
         <button class="nav-btn flex-1 mx-1 py-2 px-3 text-center font-medium bg-gray-100 hover:bg-gray-200 rounded-full transition-all duration-300" data-category="3">
           写真
         </button>
         <button class="nav-btn flex-1 mx-1 py-2 px-3 text-center font-medium bg-gray-100 hover:bg-gray-200 rounded-full transition-all duration-300" data-category="4">
-          漫画
-        </button>
+          动画        </button>
         <button class="nav-btn flex-1 mx-1 py-2 px-3 text-center font-medium bg-gray-100 hover:bg-gray-200 rounded-full transition-all duration-300" data-category="5">
           动漫
         </button>
@@ -180,14 +230,12 @@
     <div class="container mx-auto flex items-center">
       <i class="fa fa-bullhorn text-noticeText mr-3 text-lg"></i>
       <p class="text-sm md:text-base text-noticeText">
-        <span class="font-medium">公告：</span>本店所有产品支持7天无理由退换，满299元免运费
-      </p>
+        <span class="font-medium">公告：</span>整理不宜，本站全部内容3.99解锁      </p>
     </div>
   </div>
 
   <!-- 主内容区 -->
   <main class="container mx-auto px-4 py-8">
-    <!-- 产品展示标题 -->
     <div class="mb-8 text-center">
       <h1 class="text-[clamp(1.8rem,4vw,2.5rem)] font-bold mb-2">产品展示</h1>
       <p class="text-gray-600 max-w-2xl mx-auto">浏览我们的精选产品，点击图片查看详情</p>
@@ -198,7 +246,6 @@
       <!-- 产品卡片将通过JS动态生成 -->
     </div>
     
-    <!-- 加载更多按钮 -->
     <div class="mt-8 text-center">
       <button id="load-more" class="text-primary hover:text-primary/80 font-medium flex items-center justify-center mx-auto transition-colors">
         <span>加载更多</span>
@@ -216,30 +263,28 @@
 
   <!-- 产品详情弹窗 -->
   <div id="product-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4">
-    <div class="bg-white rounded-xl max-w-4xl w-full max-h-[90vh] overflow-auto modal-open">
+    <div class="bg-white rounded-xl small-product-modal overflow-auto modal-open">
       <div class="relative">
-        <!-- 关闭按钮 -->
         <button id="close-modal" class="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors z-10">
           <i class="fa fa-times"></i>
         </button>
         
-        <!-- 弹窗内容 -->
-        <div class="grid md:grid-cols-2 gap-6 p-4 md:p-6">
-          <div class="modal-image-container flex items-center justify-center p-4">
-            <img id="modal-image" src="" alt="产品详情图" class="w-full max-h-[300px] md:max-h-[400px] object-contain rounded-lg">
+        <div class="grid md:grid-cols-2 gap-4 p-4 md:p-5">
+          <div class="modal-image-container flex items-center justify-center p-2">
+            <img id="modal-image" src="" alt="产品详情图" class="w-full small-modal-image object-contain rounded-lg">
           </div>
           <div class="modal-content">
             <h2 id="modal-title" class="text-2xl font-bold mb-2"></h2>
-            <div class="flex items-center mb-4">
-              <div id="modal-rating" class="flex text-accent mr-4"></div>
+            <div class="flex items-center mb-3">
+              <div id="modal-rating" class="flex text-accent mr-3"></div>
               <div id="modal-views" class="text-gray-500 text-sm flex items-center">
                 <i class="fa fa-eye mr-1"></i> <span></span>
               </div>
             </div>
-            <div id="modal-description" class="text-gray-600 mb-6"></div>
+            <div id="modal-description" class="text-gray-600 mb-4"></div>
             <div class="flex">
               <button id="open-payment-from-product" class="bg-primary hover:bg-primary/90 text-white px-6 py-2 rounded-lg transition-colors btn-effect w-full">
-                加入购物车
+                立即解锁
               </button>
             </div>
           </div>
@@ -251,7 +296,6 @@
   <!-- 联系客服弹窗 -->
   <div id="contact-modal" class="fixed inset-0 hidden items-center justify-center p-4">
     <div class="bg-white rounded-xl max-w-md w-full max-h-[90vh] overflow-auto modal-open relative">
-      <!-- 关闭按钮 -->
       <button id="close-contact" class="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors z-10 shadow-md">
         <i class="fa fa-times"></i>
       </button>
@@ -261,7 +305,24 @@
         <div class="flex justify-center mb-4">
           <img src="https://picsum.photos/seed/service/300/200" alt="客服联系方式" class="max-w-full h-auto rounded-lg shadow-sm">
         </div>
-        <p class="text-center text-gray-600 text-sm">工作时间：周一至周日 9:00-21:00</p>
+        <p class="text-center text-gray-600 text-sm">工作时间：周一至周日</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 收款码弹窗 -->
+  <div id="qr-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4">
+    <div class="bg-white rounded-xl qr-code-container overflow-hidden modal-open shadow-2xl">
+      <div class="relative p-4 border-b">
+        <h3 class="text-lg font-semibold text-center" id="qr-title">微信支付</h3>
+        <button id="close-qr" class="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors">
+          <i class="fa fa-times"></i>
+        </button>
+      </div>
+      <div class="p-6 flex flex-col items-center">
+        <img id="qr-image" src="" alt="收款码" class="w-56 h-56 object-contain mb-4">
+        <p class="text-sm text-gray-500 text-center">保存或者截图，完成支付上传解锁</p>
+        <p class="text-xs text-gray-400 mt-2">支付完成后请上传付款凭证</p>
       </div>
     </div>
   </div>
@@ -269,51 +330,55 @@
   <!-- 底部悬浮付款按钮 -->
   <button id="payment-toggle" class="fixed bottom-6 left-1/2 transform -translate-x-1/2 bg-primary text-white px-10 py-3 rounded-full shadow-lg flex items-center justify-center z-40 hover:bg-primary/90 transition-colors btn-effect min-w-[200px]">
     <i class="fa fa-lock mr-2"></i>
-    <span>立即付款</span>
+    <span>立即支付3.88  自助解锁整站</span>
   </button>
 
   <!-- 付款窗口背景遮罩 -->
   <div id="payment-backdrop" class="modal-backdrop"></div>
   
-  <!-- 付款窗口 -->
-  <div id="payment-window" class="fixed bottom-0 left-0 right-0 bg-white shadow-2xl rounded-t-2xl max-w-md mx-auto z-50 hidden slide-up">
+  <!-- 付款窗口 - 高度充满导航栏下方空间 -->
+  <div id="payment-window" class="fixed left-0 right-0 bg-white shadow-2xl max-w-md mx-auto z-50 hidden slide-up">
     <!-- 付款窗口头部 -->
-    <div class="bg-primary text-white p-4 rounded-t-2xl flex items-center justify-between">
+    <div class="bg-primary text-white p-4 flex items-center justify-between">
       <h3 class="font-semibold text-lg">付款中心</h3>
-      <!-- 明显的关闭按钮 -->
       <button id="close-payment" class="w-8 h-8 flex items-center justify-center rounded-full bg-white/20 hover:bg-white/30 transition-colors">
         <i class="fa fa-times text-white"></i>
       </button>
     </div>
     
     <!-- 付款内容区域 -->
-    <div class="p-4 max-h-[70vh] overflow-y-auto" id="payment-content">
-      <!-- 介绍和收款码区域 -->
+    <div class="p-4 max-h-[calc(100vh-128px)] overflow-y-auto" id="payment-content">
+      <!-- 购买说明区域 - 更丰满的说明文字，移除图片，添加支付按钮 -->
       <div class="mb-6 bg-primary/5 border border-primary/20 rounded-xl p-4">
         <div class="flex items-start mb-3">
           <i class="fa fa-info-circle text-primary mt-0.5 mr-2"></i>
           <h4 class="font-medium text-gray-800">购买说明</h4>
         </div>
         <p class="text-gray-600 text-sm mb-4 pl-6">
-          感谢您的购买！请扫描下方二维码完成支付，支付成功后我们将尽快为您安排发货。
+          感谢您选择我们的产品！请选择以下支付方式完成购买，支付成功后我们将在24小时内为您安排发货。
+          所有交易均经过加密处理，保障您的支付安全。如有任何问题，请联系我们的在线客服获取帮助。
         </p>
         
-        <div class="flex justify-center mb-3">
-          <img src="https://picsum.photos/seed/payment/200/200" alt="收款二维码" class="w-40 h-40 object-cover border-2 border-white p-2 rounded-lg shadow-md">
+        <!-- 支付方式按钮 - 微信(绿色)和支付宝(蓝色) -->
+        <div class="space-y-3 pl-6">
+          <button id="wechat-pay" class="payment-method-btn w-full bg-wechat text-white rounded-lg flex items-center justify-center btn-effect">
+            <i class="fa fa-weixin mr-2 text-xl"></i>
+            <span>微信支付</span>
+          </button>
+          <button id="alipay" class="payment-method-btn w-full bg-alipay text-white rounded-lg flex items-center justify-center btn-effect">
+            <i class="fa fa-credit-card mr-2 text-xl"></i>
+            <span>支付宝</span>
+          </button>
         </div>
-        
-        <p class="text-gray-500 text-xs text-center">
-          请在支付后上传付款凭证以便我们快速确认
-        </p>
       </div>
       
       <!-- 上传图片区域 -->
       <div class="mb-6">
-        <h4 class="font-medium text-gray-800 mb-3">上传付款凭证</h4>
+        <h4 class="font-medium text-gray-800 mb-3">点击上传支付截图</h4>
         <label for="receipt-upload" class="block w-full border-2 border-dashed border-success rounded-lg p-3 text-center cursor-pointer hover:bg-success/5 transition-colors">
           <div class="inline-flex flex-col items-center">
             <i class="fa fa-cloud-upload text-success text-lg mb-1"></i>
-            <span class="text-gray-600 text-sm">点击上传或拖放图片</span>
+            <span class="text-gray-600 text-sm">付完直接截图既可，后台自动审核</span>
             <span class="text-gray-400 text-xs mt-0.5">支持JPG、PNG格式</span>
           </div>
           <input type="file" id="receipt-upload" accept="image/*" class="hidden">
@@ -330,21 +395,18 @@
             </h4>
           </div>
           
-          <!-- 固定的图片显示区域 -->
           <div class="p-3 bg-white">
             <img id="receipt-preview" src="https://picsum.photos/seed/receipt/400/300" alt="付款凭证" class="w-full h-auto rounded shadow-sm mb-4">
           </div>
           
           <div class="p-3 grid grid-cols-3 gap-2">
             <button class="bg-primary text-white py-2 px-3 rounded text-sm btn-effect" onclick="window.open('https://example.com/confirm', '_blank')">
-              <i class="fa fa-check mr-1"></i>确认
+              <i class="fa fa-check mr-1"></i>百度网盘
             </button>
             <button class="bg-accent text-white py-2 px-3 rounded text-sm btn-effect" onclick="window.open('https://example.com/reupload', '_blank')">
-              <i class="fa fa-refresh mr-1"></i>重新上传
-            </button>
+              <i class="fa fa-refresh mr-1"></i>UC网盘            </button>
             <button class="bg-info text-gray-800 py-2 px-3 rounded text-sm btn-effect" onclick="window.open('https://example.com/logistics', '_blank')">
-              <i class="fa fa-truck mr-1"></i>查物流
-            </button>
+              <i class="fa fa-truck mr-1"></i>夸克            </button>
           </div>
         </div>
       </div>
@@ -359,13 +421,13 @@
     </div>
   </div>
 
-  <!-- 产品弹窗背景遮罩 -->
+  <!-- 背景遮罩 -->
   <div id="product-backdrop" class="modal-backdrop"></div>
-  <!-- 联系客服弹窗背景遮罩 -->
   <div id="contact-backdrop" class="modal-backdrop"></div>
+  <div id="qr-backdrop" class="modal-backdrop"></div>
 
   <script>
-    // 产品图片链接集中管理 - 增加到12个产品图
+    // 产品图片链接
     const productImages = {
       1: [
         "https://picsum.photos/seed/prod1-1/400/300", "https://picsum.photos/seed/prod1-2/400/300", 
@@ -376,16 +438,16 @@
         "https://picsum.photos/seed/prod1-11/400/300", "https://picsum.photos/seed/prod1-12/400/300"
       ],
       2: [
-        "https://picsum.photos/seed/prod2-1/400/300", "https://picsum.photos/seed/prod2-2/400/300", 
-        "https://picsum.photos/seed/prod2-3/400/300", "https://picsum.photos/seed/prod2-4/400/300", 
+        "https://img12.360buyimg.com/ddimg/jfs/t1/300782/29/12573/94387/6875e873F4f5cca4f/dbcf24bdaaf7a947.jpg", "https://img14.360buyimg.com/ddimg/jfs/t1/318404/13/16239/63276/6875e877F463e208a/c1be48d6db5295a7.jpg", 
+        "https://img11.360buyimg.com/ddimg/jfs/t1/302232/9/19805/78332/6875e87aF76080926/30fa6e47234b66af.jpg", "https://img10.360buyimg.com/ddimg/jfs/t1/318601/28/16240/46118/6875e880F008d518e/5a4ef55371e17c0f.jpg", 
         "https://picsum.photos/seed/prod2-5/400/300", "https://picsum.photos/seed/prod2-6/400/300", 
         "https://picsum.photos/seed/prod2-7/400/300", "https://picsum.photos/seed/prod2-8/400/300",
         "https://picsum.photos/seed/prod2-9/400/300", "https://picsum.photos/seed/prod2-10/400/300",
         "https://picsum.photos/seed/prod2-11/400/300", "https://picsum.photos/seed/prod2-12/400/300"
       ],
       3: [
-        "https://picsum.photos/seed/prod3-1/400/300", "https://picsum.photos/seed/prod3-2/400/300", 
-        "https://picsum.photos/seed/prod3-3/400/300", "https://picsum.photos/seed/prod3-4/400/300", 
+        "https://img13.360buyimg.com/ddimg/jfs/t1/308486/23/17199/95314/6875e772F6971147b/77c82bf05c8a657e.jpg=", "https://img10.360buyimg.com/ddimg/jfs/t1/305150/38/18191/91358/6875e777F11a7df6e/e0d050cbef58caeb.jpg=", 
+        "https://img12.360buyimg.com/ddimg/jfs/t1/296924/12/20401/104118/6875e779Fee4f78d8/d5dc14661135b3ee.jpg", "https://img13.360buyimg.com/ddimg/jfs/t1/307775/31/17161/98018/6875e77bFbaeab7c6/b737c6eb1fd1530d.jpg", 
         "https://picsum.photos/seed/prod3-5/400/300", "https://picsum.photos/seed/prod3-6/400/300", 
         "https://picsum.photos/seed/prod3-7/400/300", "https://picsum.photos/seed/prod3-8/400/300",
         "https://picsum.photos/seed/prod3-9/400/300", "https://picsum.photos/seed/prod3-10/400/300",
@@ -409,16 +471,20 @@
       ]
     };
     
-    // 生成固定的评分（3.5-5星）和浏览量（9789-23255）
+    // 支付二维码图片
+    const paymentQRCodes = {
+      wechat: "https://img.cdn1.vip/i/68e0613294294_1759535410.webp",
+      alipay: "https://picsum.photos/seed/alipay/300/300"
+    };
+    
+    // 生成评分和浏览量
     function generateFixedRatingAndViews(category, index) {
       const seed = category * 100 + index;
       
-      // 生成3.5-5星的评分
       const ratingOptions = [3.5, 4, 4.5, 5];
       const ratingIndex = (seed % ratingOptions.length + ratingOptions.length) % ratingOptions.length;
       const rating = ratingOptions[ratingIndex];
       
-      // 生成9789-23255之间的浏览量
       const minViews = 9789;
       const maxViews = 23255;
       const range = maxViews - minViews;
@@ -433,7 +499,7 @@
       return { rating, views };
     }
     
-    // 产品数据生成函数
+    // 生成产品数据
     function generateProductData() {
       const data = {};
       
@@ -484,6 +550,15 @@
     const uploadedSection = document.getElementById('uploaded-section');
     const receiptPreview = document.getElementById('receipt-preview');
     const paymentBackdrop = document.getElementById('payment-backdrop');
+    const wechatPayBtn = document.getElementById('wechat-pay');
+    const alipayBtn = document.getElementById('alipay');
+    
+    // 收款码弹窗元素
+    const qrModal = document.getElementById('qr-modal');
+    const closeQr = document.getElementById('close-qr');
+    const qrImage = document.getElementById('qr-image');
+    const qrTitle = document.getElementById('qr-title');
+    const qrBackdrop = document.getElementById('qr-backdrop');
     
     // 联系客服相关元素
     const contactBtn = document.getElementById('contact-btn');
@@ -502,7 +577,7 @@
       };
     }
     
-    // 渲染产品网格 - 为产品2和产品5添加播放图标
+    // 渲染产品网格
     function renderProducts(category) {
       productGrid.innerHTML = '';
       const products = productData[category];
@@ -511,7 +586,6 @@
         const productCard = document.createElement('div');
         productCard.className = 'bg-white rounded-xl overflow-hidden shadow-md card-hover';
         
-        // 创建产品图片容器（用于容纳图片和播放图标）
         const imageContainer = document.createElement('div');
         imageContainer.className = 'product-image-container bg-gray-100';
         
@@ -521,12 +595,11 @@
         img.dataset.src = product.image;
         imageContainer.appendChild(img);
         
-        // 仅为产品2和产品5添加播放图标
+        // 为产品2和产品5添加播放图标
         if (category === 2 || category === 5) {
           const playIcon = document.createElement('div');
           playIcon.className = 'play-icon';
           playIcon.innerHTML = '<i class="fa fa-play"></i>';
-          // 点击播放图标也打开产品详情
           playIcon.addEventListener('click', () => openProductModal(product));
           imageContainer.appendChild(playIcon);
         }
@@ -579,9 +652,7 @@
         productCard.appendChild(productInfo);
         productGrid.appendChild(productCard);
         
-        // 点击图片打开产品详情
         imageContainer.addEventListener('click', (e) => {
-          // 防止事件冒泡导致重复打开
           if (e.target === imageContainer || e.target === img) {
             openProductModal(product);
           }
@@ -642,29 +713,25 @@
       document.body.style.overflow = paymentOpen ? 'hidden' : '';
     }
     
-    // 导航按钮点击事件
-    navButtons.forEach(button => {
-      button.addEventListener('click', () => {
-        const category = parseInt(button.getAttribute('data-category'));
-        if (category !== currentCategory) {
-          currentCategory = category;
-          
-          navButtons.forEach(btn => {
-            btn.classList.remove('nav-active');
-            btn.classList.add('bg-gray-100', 'hover:bg-gray-200');
-          });
-          button.classList.add('nav-active');
-          button.classList.remove('bg-gray-100', 'hover:bg-gray-200');
-          
-          renderProducts(category);
-          
-          window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-          });
-        }
-      });
-    });
+    // 打开收款码弹窗
+    function openQRModal(type) {
+      qrTitle.textContent = type === 'wechat' ? '微信支付' : '支付宝';
+      qrImage.src = paymentQRCodes[type];
+      qrImage.alt = type === 'wechat' ? '微信收款码' : '支付宝收款码';
+      
+      qrModal.classList.remove('hidden');
+      qrModal.classList.add('flex');
+      qrBackdrop.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    
+    // 关闭收款码弹窗
+    function closeQRModal() {
+      qrModal.classList.add('hidden');
+      qrModal.classList.remove('flex');
+      qrBackdrop.classList.remove('active');
+      document.body.style.overflow = paymentOpen ? 'hidden' : '';
+    }
     
     // 付款窗口控制
     function togglePaymentWindow() {
@@ -675,6 +742,7 @@
         paymentBackdrop.classList.add('active');
         document.body.style.overflow = 'hidden';
       } else {
+        closeQRModal(); // 关闭可能打开的收款码弹窗
         paymentWindow.classList.add('hidden');
         paymentToggle.classList.remove('hidden');
         paymentBackdrop.classList.remove('active');
@@ -724,6 +792,17 @@
     closePayment.addEventListener('click', togglePaymentWindow);
     paymentBackdrop.addEventListener('click', togglePaymentWindow);
     
+    // 支付方式按钮点击事件
+    wechatPayBtn.addEventListener('click', () => openQRModal('wechat'));
+    alipayBtn.addEventListener('click', () => openQRModal('alipay'));
+    
+    // 收款码弹窗关闭事件
+    closeQr.addEventListener('click', closeQRModal);
+    qrModal.addEventListener('click', (e) => {
+      if (e.target === qrModal) closeQRModal();
+    });
+    qrBackdrop.addEventListener('click', closeQRModal);
+    
     receiptUpload.addEventListener('change', (e) => {
       if (e.target.files && e.target.files[0] && e.target.files[0].type.startsWith('image/')) {
         handleReceiptUpload();
@@ -740,10 +819,35 @@
     // 键盘ESC关闭弹窗
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
-        if (!productModal.classList.contains('hidden')) closeProductModal();
+        if (!qrModal.classList.contains('hidden')) closeQRModal();
+        else if (!productModal.classList.contains('hidden')) closeProductModal();
         else if (!contactModal.classList.contains('hidden')) toggleContactModal(false);
         else if (paymentOpen) togglePaymentWindow();
       }
+    });
+    
+    // 导航按钮点击事件
+    navButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const category = parseInt(button.getAttribute('data-category'));
+        if (category !== currentCategory) {
+          currentCategory = category;
+          
+          navButtons.forEach(btn => {
+            btn.classList.remove('nav-active');
+            btn.classList.add('bg-gray-100', 'hover:bg-gray-200');
+          });
+          button.classList.add('nav-active');
+          button.classList.remove('bg-gray-100', 'hover:bg-gray-200');
+          
+          renderProducts(category);
+          
+          window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+          });
+        }
+      });
     });
     
     // 初始渲染
@@ -751,4 +855,3 @@
   </script>
 </body>
 </html>
-
