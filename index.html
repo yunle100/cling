@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>产品展示</title>
+    <title>高端产品展示系统</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -14,8 +14,8 @@
         }
         
         body {
-            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
-            color: #333;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #e0e0e0;
             line-height: 1.6;
             min-height: 100vh;
         }
@@ -28,12 +28,13 @@
         
         /* 导航栏样式 */
         nav {
-            background: rgba(255, 255, 255, 0.95);
-            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            background: rgba(26, 26, 46, 0.95);
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
             position: sticky;
             top: 0;
             z-index: 100;
             backdrop-filter: blur(10px);
+            border-bottom: 1px solid #333;
         }
         
         .nav-container {
@@ -54,7 +55,7 @@
         
         .nav-links a {
             text-decoration: none;
-            color: #2c3e50;
+            color: #e0e0e0;
             font-weight: 500;
             font-size: 1.1rem;
             transition: all 0.3s;
@@ -172,7 +173,7 @@
         
         h1 {
             font-size: 2.2rem;
-            color: #2c3e50;
+            color: #e0e0e0;
             margin-bottom: 10px;
             position: relative;
             display: inline-block;
@@ -199,17 +200,19 @@
         }
         
         .product-card {
-            background: white;
-            border-radius: 10px;
+            background: #2d3748;
+            border-radius: 15px;
             overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
             transition: all 0.3s ease;
             cursor: pointer;
+            border: 1px solid #3a4556;
         }
         
         .product-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+            border-color: #3498db;
         }
         
         .image-container {
@@ -218,7 +221,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: #f8f9fa;
+            background: #1a202c;
             padding: 0;
         }
         
@@ -240,7 +243,7 @@
         .product-title {
             font-size: 1.1rem;
             font-weight: 600;
-            color: #2c3e50;
+            color: #e0e0e0;
             margin-bottom: 10px;
             white-space: nowrap;
             overflow: hidden;
@@ -253,7 +256,7 @@
             justify-content: space-between;
             align-items: center;
             font-size: 0.9rem;
-            color: #7f8c8d;
+            color: #a0aec0;
         }
         
         .rating {
@@ -328,8 +331,8 @@
         }
         
         .modal-content {
-            background: white;
-            border-radius: 15px;
+            background: #2d3748;
+            border-radius: 20px;
             width: 90%;
             max-width: 500px;
             padding: 30px;
@@ -337,6 +340,8 @@
             transform: translateY(20px);
             transition: transform 0.3s;
             text-align: center;
+            border: 1px solid #3a4556;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
         }
         
         .modal.active .modal-content {
@@ -349,7 +354,7 @@
             right: 20px;
             font-size: 1.8rem;
             cursor: pointer;
-            color: #7f8c8d;
+            color: #a0aec0;
             transition: color 0.3s;
         }
         
@@ -359,12 +364,13 @@
         
         .modal-title {
             font-size: 1.8rem;
-            color: #2c3e50;
+            color: #e0e0e0;
             margin: 20px 0;
         }
         
         .modal-buttons {
             display: flex;
+            flex-direction: column;
             gap: 15px;
             justify-content: center;
             margin-top: 25px;
@@ -385,24 +391,39 @@
         }
         
         .btn-primary {
-            background: #3498db;
+            background: linear-gradient(135deg, #3498db, #2980b9);
             color: white;
+            box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
         }
         
         .btn-primary:hover {
-            background: #2980b9;
+            background: linear-gradient(135deg, #2980b9, #21618c);
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+            box-shadow: 0 6px 15px rgba(52, 152, 219, 0.4);
         }
         
         .btn-secondary {
-            background: #e4edf5;
-            color: #2c3e50;
+            background: linear-gradient(135deg, #4a5568, #3a4556);
+            color: #e0e0e0;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
         
         .btn-secondary:hover {
-            background: #d1deeb;
+            background: linear-gradient(135deg, #3a4556, #2d3748);
             transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-customer-service {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            color: white;
+            box-shadow: 0 4px 10px rgba(46, 204, 113, 0.3);
+        }
+        
+        .btn-customer-service:hover {
+            background: linear-gradient(135deg, #27ae60, #219653);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(46, 204, 113, 0.4);
         }
         
         .btn i {
@@ -421,19 +442,264 @@
         
         .page-title {
             font-size: 2rem;
-            color: #2c3e50;
+            color: #e0e0e0;
             margin-bottom: 20px;
             text-align: center;
         }
         
         .page-text {
-            background: white;
+            background: #2d3748;
             padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
             line-height: 1.8;
-            color: #555;
+            color: #a0aec0;
             margin-bottom: 30px;
+            border: 1px solid #3a4556;
+        }
+        
+        /* 新增客服聊天窗口样式 */
+        .customer-service-chat {
+            position: fixed;
+            top: 0;
+            right: -450px;
+            width: 450px;
+            height: 100vh;
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            box-shadow: -5px 0 25px rgba(0, 0, 0, 0.3);
+            z-index: 1001;
+            transition: right 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            flex-direction: column;
+            border-radius: 20px 0 0 20px;
+            overflow: hidden;
+        }
+        
+        .customer-service-chat.active {
+            right: 0;
+        }
+        
+        .chat-header {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 20px 0 0 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .chat-header h3 {
+            margin: 0;
+            font-size: 1.3rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+        }
+        
+        .chat-header h3 i {
+            margin-right: 10px;
+            font-size: 1.5rem;
+        }
+        
+        .close-chat {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        
+        .close-chat:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(90deg);
+        }
+        
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background: #ecf0f1;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .message {
+            display: flex;
+            max-width: 85%;
+        }
+        
+        .message.customer {
+            align-self: flex-end;
+        }
+        
+        .message.bot {
+            align-self: flex-start;
+        }
+        
+        .message-bubble {
+            padding: 15px 20px;
+            border-radius: 25px;
+            position: relative;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            word-wrap: break-word;
+        }
+        
+        .message.customer .message-bubble {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            border-bottom-right-radius: 8px;
+        }
+        
+        .message.bot .message-bubble {
+            background: white;
+            color: #333;
+            border: 1px solid #e1e4e8;
+            border-bottom-left-radius: 8px;
+        }
+        
+        .message-image {
+            max-width: 100%;
+            border-radius: 15px;
+            margin-top: 10px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .chat-input {
+            padding: 20px;
+            border-top: 1px solid #e1e4e8;
+            display: flex;
+            align-items: center;
+            background: white;
+        }
+        
+        .image-upload-label {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            margin-right: 10px;
+            transition: all 0.3s;
+            box-shadow: 0 3px 10px rgba(52, 152, 219, 0.3);
+            font-weight: 500;
+        }
+        
+        .image-upload-label:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+        }
+        
+        .image-upload-label i {
+            margin-right: 8px;
+            font-size: 1.2rem;
+        }
+        
+        .image-upload-input {
+            display: none;
+        }
+        
+        .tiktok-card {
+            background: white;
+            border-radius: 15px;
+            padding: 15px;
+            margin-top: 15px;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            border: 1px solid #e1e4e8;
+            transition: all 0.3s;
+        }
+        
+        .tiktok-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .tiktok-card img {
+            width: 50px;
+            height: 50px;
+            margin-right: 15px;
+            border-radius: 10px;
+        }
+        
+        .tiktok-card-content {
+            flex: 1;
+        }
+        
+        .tiktok-card-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #333;
+            font-size: 1.1rem;
+        }
+        
+        .tiktok-card-desc {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        /* 修改后的悬浮客服按钮样式 - 长条形 */
+        .customer-service-toggle {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 85%;
+            max-width: 600px;
+            height: 60px;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(52, 152, 219, 0.5);
+            z-index: 999;
+            transition: all 0.3s;
+            overflow: hidden;
+        }
+        
+        .customer-service-toggle:hover {
+            transform: translateX(-50%) scale(1.02);
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.7);
+        }
+        
+        .customer-service-toggle i {
+            color: white;
+            font-size: 1.5rem;
+            margin-right: 10px;
+        }
+        
+        .customer-service-toggle-text {
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-align: center;
+        }
+        
+        /* 无权限提示样式 */
+        .permission-message {
+            text-align: center;
+            margin-top: 15px;
+            padding: 10px;
+            background: rgba(231, 76, 60, 0.1);
+            border-radius: 8px;
+            color: #e74c3c;
+            font-weight: 500;
+            border: 1px solid rgba(231, 76, 60, 0.3);
         }
         
         /* 响应式设计 */
@@ -446,6 +712,10 @@
         @media (max-width: 992px) {
             .products-grid {
                 grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .customer-service-chat {
+                width: 400px;
             }
         }
         
@@ -483,6 +753,12 @@
             .announcement-text {
                 font-size: 1rem;
             }
+            
+            .customer-service-chat {
+                width: 100%;
+                right: -100%;
+                border-radius: 0;
+            }
         }
         
         @media (max-width: 576px) {
@@ -513,6 +789,20 @@
                 width: 80%;
                 max-width: 200px;
             }
+            
+            .customer-service-toggle {
+                width: 90%;
+                height: 50px;
+                bottom: 20px;
+            }
+            
+            .customer-service-toggle i {
+                font-size: 1.3rem;
+            }
+            
+            .customer-service-toggle-text {
+                font-size: 1rem;
+            }
         }
         
         @media (max-width: 400px) {
@@ -525,9 +815,28 @@
             text-align: center;
             margin-top: 50px;
             padding: 30px 0;
-            color: #7f8c8d;
+            color: #718096;
             font-size: 0.9rem;
-            border-top: 1px solid #eaeaea;
+            border-top: 1px solid #3a4556;
+        }
+        
+        /* 滚动条美化 */
+        .chat-messages::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .chat-messages::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        
+        .chat-messages::-webkit-scrollbar-thumb {
+            background: #3498db;
+            border-radius: 10px;
+        }
+        
+        .chat-messages::-webkit-scrollbar-thumb:hover {
+            background: #2980b9;
         }
     </style>
 </head>
@@ -537,9 +846,9 @@
         <div class="container nav-container">
             <ul class="nav-links">
                 <li><a href="#" class="nav-link active" data-page="home"><i class="fas fa-home"></i> 首页</a></li>
-                <li><a href="#" class="nav-link" data-page="products"><i class="fas fa-box-open"></i> 真人</a></li>
-                <li><a href="#" class="nav-link" data-page="about"><i class="fas fa-users"></i> 写真</a></li>
-                <li><a href="#" class="nav-link" data-page="contact"><i class="fas fa-envelope"></i> 动漫</a></li>
+                <li><a href="#" class="nav-link" data-page="products"><i class="fas fa-box-open"></i> 产品</a></li>
+                <li><a href="#" class="nav-link" data-page="product1">产品1</a></li>
+                <li><a href="#" class="nav-link" data-page="product2">产品2</a></li>
             </ul>
         </div>
     </nav>
@@ -567,235 +876,8 @@
             </header>
             
             <main>
-                <div class="products-grid">
-                    <!-- 产品1-12 -->
-                    <div class="product-card" data-id="1" data-title="高品质无线蓝牙降噪耳机">
-                        <div class="image-container">
-                            <img src="https://img10.360buyimg.com/ddimg/jfs/t1/320986/36/21234/113194/68909680F2322a161/160ec723c779202d.jpg" alt="产品图片" class="product-image">
-                        </div>
-                        <div class="product-info">
-                            <div class="product-title">高品质无线蓝牙降噪耳机</div>
-                            <div class="product-stats">
-                                <div class="rating">
-                                    <i class="fas fa-star"></i>
-                                    <span>4.8</span>
-                                </div>
-                                <div class="views">
-                                    <i class="fas fa-eye"></i>
-                                    <span>1.2k</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="product-card" data-id="2" data-title="专业全画幅单反相机">
-                        <div class="image-container">
-                            <img src="https://img11.360buyimg.com/ddimg/jfs/t1/317770/4/21935/33997/6890967fF03a40747/d23baf52dd64ed94.jpg" alt="产品图片" class="product-image">
-                        </div>
-                        <div class="product-info">
-                            <div class="product-title">专业全画幅单反相机</div>
-                            <div class="product-stats">
-                                <div class="rating">
-                                    <i class="fas fa-star"></i>
-                                    <span>4.9</span>
-                                </div>
-                                <div class="views">
-                                    <i class="fas fa-eye"></i>
-                                    <span>2.5k</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="product-card" data-id="3" data-title="多功能智能运动健康手表">
-                        <div class="image-container">
-                            <img src="https://img14.360buyimg.com/ddimg/jfs/t1/307231/40/22715/45951/6890967eFcc87a19d/6c61bc5173c51f6e.jpg" alt="产品图片" class="product-image">
-                        </div>
-                        <div class="product-info">
-                            <div class="product-title">多功能智能运动健康手表</div>
-                            <div class="product-stats">
-                                <div class="rating">
-                                    <i class="fas fa-star"></i>
-                                    <span>4.7</span>
-                                </div>
-                                <div class="views">
-                                    <i class="fas fa-eye"></i>
-                                    <span>1.8k</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="product-card" data-id="4" data-title="专业缓震透气跑步鞋">
-                        <div class="image-container">
-                            <img src="https://img13.360buyimg.com/ddimg/jfs/t1/324976/10/857/44815/6890967eFf90a7cde/af50a6f7c2da5324.jpg" alt="产品图片" class="product-image">
-                        </div>
-                        <div class="product-info">
-                            <div class="product-title">专业缓震透气跑步鞋</div>
-                            <div class="product-stats">
-                                <div class="rating">
-                                    <i class="fas fa-star"></i>
-                                    <span>4.6</span>
-                                </div>
-                                <div class="views">
-                                    <i class="fas fa-eye"></i>
-                                    <span>1.5k</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="product-card" data-id="5" data-title="经典商务休闲时尚腕表">
-                        <div class="image-container">
-                            <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="产品图片" class="product-image">
-                        </div>
-                        <div class="product-info">
-                            <div class="product-title">经典商务休闲时尚腕表</div>
-                            <div class="product-stats">
-                                <div class="rating">
-                                    <i class="fas fa-star"></i>
-                                    <span>4.8</span>
-                                </div>
-                                <div class="views">
-                                    <i class="fas fa-eye"></i>
-                                    <span>2.1k</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="product-card" data-id="6" data-title="360度环绕立体声音箱">
-                        <div class="image-container">
-                            <img src="https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="产品图片" class="product-image">
-                        </div>
-                        <div class="product-info">
-                            <div class="product-title">360度环绕立体声音箱</div>
-                            <div class="product-stats">
-                                <div class="rating">
-                                    <i class="fas fa-star"></i>
-                                    <span>4.5</span>
-                                </div>
-                                <div class="views">
-                                    <i class="fas fa-eye"></i>
-                                    <span>1.3k</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="product-card" data-id="7" data-title="智能家居控制中心">
-                        <div class="image-container">
-                            <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="产品图片" class="product-image">
-                        </div>
-                        <div class="product-info">
-                            <div class="product-title">智能家居控制中心</div>
-                            <div class="product-stats">
-                                <div class="rating">
-                                    <i class="fas fa-star"></i>
-                                    <span>4.7</span>
-                                </div>
-                                <div class="views">
-                                    <i class="fas fa-eye"></i>
-                                    <span>1.8k</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="product-card" data-id="8" data-title="便携式投影仪">
-                        <div class="image-container">
-                            <img src="https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="产品图片" class="product-image">
-                        </div>
-                        <div class="product-info">
-                            <div class="product-title">便携式投影仪</div>
-                            <div class="product-stats">
-                                <div class="rating">
-                                    <i class="fas fa-star"></i>
-                                    <span>4.4</span>
-                                </div>
-                                <div class="views">
-                                    <i class="fas fa-eye"></i>
-                                    <span>1.1k</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="product-card" data-id="9" data-title="专业运动跑鞋系列">
-                        <div class="image-container">
-                            <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="产品图片" class="product-image">
-                        </div>
-                        <div class="product-info">
-                            <div class="product-title">专业运动跑鞋系列</div>
-                            <div class="product-stats">
-                                <div class="rating">
-                                    <i class="fas fa-star"></i>
-                                    <span>4.7</span>
-                                </div>
-                                <div class="views">
-                                    <i class="fas fa-eye"></i>
-                                    <span>1.9k</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="product-card" data-id="10" data-title="多功能厨房料理机">
-                        <div class="image-container">
-                            <img src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="产品图片" class="product-image">
-                        </div>
-                        <div class="product-info">
-                            <div class="product-title">多功能厨房料理机</div>
-                            <div class="product-stats">
-                                <div class="rating">
-                                    <i class="fas fa-star"></i>
-                                    <span>4.8</span>
-                                </div>
-                                <div class="views">
-                                    <i class="fas fa-eye"></i>
-                                    <span>2.2k</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="product-card" data-id="11" data-title="高端电竞游戏键盘">
-                        <div class="image-container">
-                            <img src="https://images.unsplash.com/photo-1491553895911-0055eca6402d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="产品图片" class="product-image">
-                        </div>
-                        <div class="product-info">
-                            <div class="product-title">高端电竞游戏键盘</div>
-                            <div class="product-stats">
-                                <div class="rating">
-                                    <i class="fas fa-star"></i>
-                                    <span>4.9</span>
-                                </div>
-                                <div class="views">
-                                    <i class="fas fa-eye"></i>
-                                    <span>2.7k</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="product-card" data-id="12" data-title="专业摄影三脚架">
-                        <div class="image-container">
-                            <img src="https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="产品图片" class="product-image">
-                        </div>
-                        <div class="product-info">
-                            <div class="product-title">专业摄影三脚架</div>
-                            <div class="product-stats">
-                                <div class="rating">
-                                    <i class="fas fa-star"></i>
-                                    <span>4.5</span>
-                                </div>
-                                <div class="views">
-                                    <i class="fas fa-eye"></i>
-                                    <span>1.6k</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="products-grid" id="home-products">
+                    <!-- 产品将通过JS动态生成 -->
                 </div>
                 
                 <!-- 查看更多按钮 -->
@@ -814,235 +896,8 @@
             </header>
             
             <main>
-                <div class="products-grid">
-                    <!-- 产品1-12 -->
-                    <div class="product-card" data-id="1" data-title="智能空气净化器">
-                        <div class="image-container">
-                            <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="产品图片" class="product-image">
-                        </div>
-                        <div class="product-info">
-                            <div class="product-title">智能空气净化器</div>
-                            <div class="product-stats">
-                                <div class="rating">
-                                    <i class="fas fa-star"></i>
-                                    <span>4.7</span>
-                                </div>
-                                <div class="views">
-                                    <i class="fas fa-eye"></i>
-                                    <span>1.8k</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="product-card" data-id="2" data-title="便携式蓝牙音箱">
-                        <div class="image-container">
-                            <img src="https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="产品图片" class="product-image">
-                        </div>
-                        <div class="product-info">
-                            <div class="product-title">便携式蓝牙音箱</div>
-                            <div class="product-stats">
-                                <div class="rating">
-                                    <i class="fas fa-star"></i>
-                                    <span>4.5</span>
-                                </div>
-                                <div class="views">
-                                    <i class="fas fa-eye"></i>
-                                    <span>1.3k</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="product-card" data-id="3" data-title="无线充电设备套装">
-                        <div class="image-container">
-                            <img src="https://images.unsplash.com/photo-1484704849700-f032a568e944?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="产品图片" class="product-image">
-                        </div>
-                        <div class="product-info">
-                            <div class="product-title">无线充电设备套装</div>
-                            <div class="product-stats">
-                                <div class="rating">
-                                    <i class="fas fa-star"></i>
-                                    <span>4.6</span>
-                                </div>
-                                <div class="views">
-                                    <i class="fas fa-eye"></i>
-                                    <span>1.5k</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="product-card" data-id="4" data-title="超薄便携显示器">
-                        <div class="image-container">
-                            <img src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="产品图片" class="product-image">
-                        </div>
-                        <div class="product-info">
-                            <div class="product-title">超薄便携显示器</div>
-                            <div class="product-stats">
-                                <div class="rating">
-                                    <i class="fas fa-star"></i>
-                                    <span>4.4</span>
-                                </div>
-                                <div class="views">
-                                    <i class="fas fa-eye"></i>
-                                    <span>1.2k</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="product-card" data-id="5" data-title="智能体脂秤">
-                        <div class="image-container">
-                            <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="产品图片" class="product-image">
-                        </div>
-                        <div class="product-info">
-                            <div class="product-title">智能体脂秤</div>
-                            <div class="product-stats">
-                                <div class="rating">
-                                    <i class="fas fa-star"></i>
-                                    <span>4.3</span>
-                                </div>
-                                <div class="views">
-                                    <i class="fas fa-eye"></i>
-                                    <span>1.0k</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="product-card" data-id="6" data-title="便携式咖啡机">
-                        <div class="image-container">
-                            <img src="https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="产品图片" class="product-image">
-                        </div>
-                        <div class="product-info">
-                            <div class="product-title">便携式咖啡机</div>
-                            <div class="product-stats">
-                                <div class="rating">
-                                    <i class="fas fa-star"></i>
-                                    <span>4.7</span>
-                                </div>
-                                <div class="views">
-                                    <i class="fas fa-eye"></i>
-                                    <span>1.9k</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="product-card" data-id="7" data-title="智能门锁系统">
-                        <div class="image-container">
-                            <img src="https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="产品图片" class="product-image">
-                        </div>
-                        <div class="product-info">
-                            <div class="product-title">智能门锁系统</div>
-                            <div class="product-stats">
-                                <div class="rating">
-                                    <i class="fas fa-star"></i>
-                                    <span>4.8</span>
-                                </div>
-                                <div class="views">
-                                    <i class="fas fa-eye"></i>
-                                    <span>2.3k</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="product-card" data-id="8" data-title="便携式打印机">
-                        <div class="image-container">
-                            <img src="https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="产品图片" class="product-image">
-                        </div>
-                        <div class="product-info">
-                            <div class="product-title">便携式打印机</div>
-                            <div class="product-stats">
-                                <div class="rating">
-                                    <i class="fas fa-star"></i>
-                                    <span>4.4</span>
-                                </div>
-                                <div class="views">
-                                    <i class="fas fa-eye"></i>
-                                    <span>1.4k</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="product-card" data-id="9" data-title="智能扫地机器人">
-                        <div class="image-container">
-                            <img src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="产品图片" class="product-image">
-                        </div>
-                        <div class="product-info">
-                            <div class="product-title">智能扫地机器人</div>
-                            <div class="product-stats">
-                                <div class="rating">
-                                    <i class="fas fa-star"></i>
-                                    <span>4.6</span>
-                                </div>
-                                <div class="views">
-                                    <i class="fas fa-eye"></i>
-                                    <span>2.1k</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="product-card" data-id="10" data-title="多功能料理锅">
-                        <div class="image-container">
-                            <img src="https://images.unsplash.com/photo-1491553895911-0055eca6402d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="产品图片" class="product-image">
-                        </div>
-                        <div class="product-info">
-                            <div class="product-title">多功能料理锅</div>
-                            <div class="product-stats">
-                                <div class="rating">
-                                    <i class="fas fa-star"></i>
-                                    <span>4.7</span>
-                                </div>
-                                <div class="views">
-                                    <i class="fas fa-eye"></i>
-                                    <span>1.8k</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="product-card" data-id="11" data-title="智能监控摄像头">
-                        <div class="image-container">
-                            <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="产品图片" class="product-image">
-                        </div>
-                        <div class="product-info">
-                            <div class="product-title">智能监控摄像头</div>
-                            <div class="product-stats">
-                                <div class="rating">
-                                    <i class="fas fa-star"></i>
-                                    <span>4.5</span>
-                                </div>
-                                <div class="views">
-                                    <i class="fas fa-eye"></i>
-                                    <span>1.7k</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="product-card" data-id="12" data-title="便携式投影仪">
-                        <div class="image-container">
-                            <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="产品图片" class="product-image">
-                        </div>
-                        <div class="product-info">
-                            <div class="product-title">便携式投影仪</div>
-                            <div class="product-stats">
-                                <div class="rating">
-                                    <i class="fas fa-star"></i>
-                                    <span>4.4</span>
-                                </div>
-                                <div class="views">
-                                    <i class="fas fa-eye"></i>
-                                    <span>1.3k</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="products-grid" id="products-products">
+                    <!-- 产品将通过JS动态生成 -->
                 </div>
                 
                 <!-- 查看更多按钮 -->
@@ -1054,248 +909,15 @@
             </main>
         </div>
         
-        <!-- 关于我们页面 -->
-        <div id="about-page" class="page-content">
+        <!-- 产品1页面 -->
+        <div id="product1-page" class="page-content">
             <header>
-                <h1>关于我们</h1>
+                <h1>产品系列1</h1>
             </header>
             
             <main>
-                <div class="page-text">
-                    <p>我们是一家专注于高品质电子产品研发与销售的公司，成立于2013年。多年来，我们始终坚持以用户需求为导向，提供优质的产品和服务。</p>
-                    <p>我们的团队由行业资深专家和年轻创新人才组成，致力于将最新科技与用户需求完美结合。</p>
-                    <p>公司使命：让科技更好地服务生活，为每一位用户带来愉悦的产品体验。</p>
-                </div>
-                
-                <div class="products-grid">
-                    <!-- 产品1-12 -->
-                    <div class="product-card" data-id="1" data-title="智能空气净化器">
-                        <div class="image-container">
-                            <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="产品图片" class="product-image">
-                        </div>
-                        <div class="product-info">
-                            <div class="product-title">智能空气净化器</div>
-                            <div class="product-stats">
-                                <div class="rating">
-                                    <i class="fas fa-star"></i>
-                                    <span>4.7</span>
-                                </div>
-                                <div class="views">
-                                    <i class="fas fa-eye"></i>
-                                    <span>1.8k</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="product-card" data-id="2" data-title="便携式蓝牙音箱">
-                        <div class="image-container">
-                            <img src="https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="产品图片" class="product-image">
-                        </div>
-                        <div class="product-info">
-                            <div class="product-title">便携式蓝牙音箱</div>
-                            <div class="product-stats">
-                                <div class="rating">
-                                    <i class="fas fa-star"></i>
-                                    <span>4.5</span>
-                                </div>
-                                <div class="views">
-                                    <i class="fas fa-eye"></i>
-                                    <span>1.3k</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="product-card" data-id="3" data-title="无线充电设备套装">
-                        <div class="image-container">
-                            <img src="https://images.unsplash.com/photo-1484704849700-f032a568e944?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="产品图片" class="product-image">
-                        </div>
-                        <div class="product-info">
-                            <div class="product-title">无线充电设备套装</div>
-                            <div class="product-stats">
-                                <div class="rating">
-                                    <i class="fas fa-star"></i>
-                                    <span>4.6</span>
-                                </div>
-                                <div class="views">
-                                    <i class="fas fa-eye"></i>
-                                    <span>1.5k</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="product-card" data-id="4" data-title="超薄便携显示器">
-                        <div class="image-container">
-                            <img src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="产品图片" class="product-image">
-                        </div>
-                        <div class="product-info">
-                            <div class="product-title">超薄便携显示器</div>
-                            <div class="product-stats">
-                                <div class="rating">
-                                    <i class="fas fa-star"></i>
-                                    <span>4.4</span>
-                                </div>
-                                <div class="views">
-                                    <i class="fas fa-eye"></i>
-                                    <span>1.2k</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="product-card" data-id="5" data-title="智能体脂秤">
-                        <div class="image-container">
-                            <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="产品图片" class="product-image">
-                        </div>
-                        <div class="product-info">
-                            <div class="product-title">智能体脂秤</div>
-                            <div class="product-stats">
-                                <div class="rating">
-                                    <i class="fas fa-star"></i>
-                                    <span>4.3</span>
-                                </div>
-                                <div class="views">
-                                    <i class="fas fa-eye"></i>
-                                    <span>1.0k</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="product-card" data-id="6" data-title="便携式咖啡机">
-                        <div class="image-container">
-                            <img src="https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="产品图片" class="product-image">
-                        </div>
-                        <div class="product-info">
-                            <div class="product-title">便携式咖啡机</div>
-                            <div class="product-stats">
-                                <div class="rating">
-                                    <i class="fas fa-star"></i>
-                                    <span>4.7</span>
-                                </div>
-                                <div class="views">
-                                    <i class="fas fa-eye"></i>
-                                    <span>1.9k</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="product-card" data-id="7" data-title="智能门锁系统">
-                        <div class="image-container">
-                            <img src="https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="产品图片" class="product-image">
-                        </div>
-                        <div class="product-info">
-                            <div class="product-title">智能门锁系统</div>
-                            <div class="product-stats">
-                                <div class="rating">
-                                    <i class="fas fa-star"></i>
-                                    <span>4.8</span>
-                                </div>
-                                <div class="views">
-                                    <i class="fas fa-eye"></i>
-                                    <span>2.3k</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="product-card" data-id="8" data-title="便携式打印机">
-                        <div class="image-container">
-                            <img src="https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="产品图片" class="product-image">
-                        </div>
-                        <div class="product-info">
-                            <div class="product-title">便携式打印机</div>
-                            <div class="product-stats">
-                                <div class="rating">
-                                    <i class="fas fa-star"></i>
-                                    <span>4.4</span>
-                                </div>
-                                <div class="views">
-                                    <i class="fas fa-eye"></i>
-                                    <span>1.4k</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="product-card" data-id="9" data-title="智能扫地机器人">
-                        <div class="image-container">
-                            <img src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="产品图片" class="product-image">
-                        </div>
-                        <div class="product-info">
-                            <div class="product-title">智能扫地机器人</div>
-                            <div class="product-stats">
-                                <div class="rating">
-                                    <i class="fas fa-star"></i>
-                                    <span>4.6</span>
-                                </div>
-                                <div class="views">
-                                    <i class="fas fa-eye"></i>
-                                    <span>2.1k</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="product-card" data-id="10" data-title="多功能料理锅">
-                        <div class="image-container">
-                            <img src="https://images.unsplash.com/photo-1491553895911-0055eca6402d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="产品图片" class="product-image">
-                        </div>
-                        <div class="product-info">
-                            <div class="product-title">多功能料理锅</div>
-                            <div class="product-stats">
-                                <div class="rating">
-                                    <i class="fas fa-star"></i>
-                                    <span>4.7</span>
-                                </div>
-                                <div class="views">
-                                    <i class="fas fa-eye"></i>
-                                    <span>1.8k</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="product-card" data-id="11" data-title="智能监控摄像头">
-                        <div class="image-container">
-                            <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="产品图片" class="product-image">
-                        </div>
-                        <div class="product-info">
-                            <div class="product-title">智能监控摄像头</div>
-                            <div class="product-stats">
-                                <div class="rating">
-                                    <i class="fas fa-star"></i>
-                                    <span>4.5</span>
-                                </div>
-                                <div class="views">
-                                    <i class="fas fa-eye"></i>
-                                    <span>1.7k</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="product-card" data-id="12" data-title="便携式投影仪">
-                        <div class="image-container">
-                            <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="产品图片" class="product-image">
-                        </div>
-                        <div class="product-info">
-                            <div class="product-title">便携式投影仪</div>
-                            <div class="product-stats">
-                                <div class="rating">
-                                    <i class="fas fa-star"></i>
-                                    <span>4.4</span>
-                                </div>
-                                <div class="views">
-                                    <i class="fas fa-eye"></i>
-                                    <span>1.3k</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="products-grid" id="product1-products">
+                    <!-- 产品将通过JS动态生成 -->
                 </div>
                 
                 <!-- 查看更多按钮 -->
@@ -1307,250 +929,15 @@
             </main>
         </div>
         
-        <!-- 联系我们页面 -->
-        <div id="contact-page" class="page-content">
+        <!-- 产品2页面 -->
+        <div id="product2-page" class="page-content">
             <header>
-                <h1>联系我们</h1>
+                <h1>产品系列2</h1>
             </header>
             
             <main>
-                <div class="page-text">
-                    <p>如果您有任何问题或建议，欢迎通过以下方式联系我们：</p>
-                    <p><i class="fas fa-phone"></i> 客服热线：400-123-4567</p>
-                    <p><i class="fas fa-envelope"></i> 邮箱：contact@example.com</p>
-                    <p><i class="fas fa-map-marker-alt"></i> 地址：北京市朝阳区科技园区创新大厦A座10层</p>
-                    <p>工作时间：周一至周五 9:00-18:00</p>
-                </div>
-                
-                <div class="products-grid">
-                    <!-- 产品1-12 -->
-                    <div class="product-card" data-id="1" data-title="智能门锁系统">
-                        <div class="image-container">
-                            <img src="https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="产品图片" class="product-image">
-                        </div>
-                        <div class="product-info">
-                            <div class="product-title">智能门锁系统</div>
-                            <div class="product-stats">
-                                <div class="rating">
-                                    <i class="fas fa-star"></i>
-                                    <span>4.8</span>
-                                </div>
-                                <div class="views">
-                                    <i class="fas fa-eye"></i>
-                                    <span>2.3k</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="product-card" data-id="2" data-title="便携式打印机">
-                        <div class="image-container">
-                            <img src="https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="产品图片" class="product-image">
-                        </div>
-                        <div class="product-info">
-                            <div class="product-title">便携式打印机</div>
-                            <div class="product-stats">
-                                <div class="rating">
-                                    <i class="fas fa-star"></i>
-                                    <span>4.4</span>
-                                </div>
-                                <div class="views">
-                                    <i class="fas fa-eye"></i>
-                                    <span>1.4k</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="product-card" data-id="3" data-title="智能扫地机器人">
-                        <div class="image-container">
-                            <img src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="产品图片" class="product-image">
-                        </div>
-                        <div class="product-info">
-                            <div class="product-title">智能扫地机器人</div>
-                            <div class="product-stats">
-                                <div class="rating">
-                                    <i class="fas fa-star"></i>
-                                    <span>4.6</span>
-                                </div>
-                                <div class="views">
-                                    <i class="fas fa-eye"></i>
-                                    <span>2.1k</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="product-card" data-id="4" data-title="多功能料理锅">
-                        <div class="image-container">
-                            <img src="https://images.unsplash.com/photo-1491553895911-0055eca6402d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="产品图片" class="product-image">
-                        </div>
-                        <div class="product-info">
-                            <div class="product-title">多功能料理锅</div>
-                            <div class="product-stats">
-                                <div class="rating">
-                                    <i class="fas fa-star"></i>
-                                    <span>4.7</span>
-                                </div>
-                                <div class="views">
-                                    <i class="fas fa-eye"></i>
-                                    <span>1.8k</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="product-card" data-id="5" data-title="智能监控摄像头">
-                        <div class="image-container">
-                            <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="产品图片" class="product-image">
-                        </div>
-                        <div class="product-info">
-                            <div class="product-title">智能监控摄像头</div>
-                            <div class="product-stats">
-                                <div class="rating">
-                                    <i class="fas fa-star"></i>
-                                    <span>4.5</span>
-                                </div>
-                                <div class="views">
-                                    <i class="fas fa-eye"></i>
-                                    <span>1.7k</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="product-card" data-id="6" data-title="便携式投影仪">
-                        <div class="image-container">
-                            <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="产品图片" class="product-image">
-                        </div>
-                        <div class="product-info">
-                            <div class="product-title">便携式投影仪</div>
-                            <div class="product-stats">
-                                <div class="rating">
-                                    <i class="fas fa-star"></i>
-                                    <span>4.4</span>
-                                </div>
-                                <div class="views">
-                                    <i class="fas fa-eye"></i>
-                                    <span>1.3k</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="product-card" data-id="7" data-title="智能空气净化器">
-                        <div class="image-container">
-                            <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="产品图片" class="product-image">
-                        </div>
-                        <div class="product-info">
-                            <div class="product-title">智能空气净化器</div>
-                            <div class="product-stats">
-                                <div class="rating">
-                                    <i class="fas fa-star"></i>
-                                    <span>4.7</span>
-                                </div>
-                                <div class="views">
-                                    <i class="fas fa-eye"></i>
-                                    <span>1.8k</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="product-card" data-id="8" data-title="便携式蓝牙音箱">
-                        <div class="image-container">
-                            <img src="https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="产品图片" class="product-image">
-                        </div>
-                        <div class="product-info">
-                            <div class="product-title">便携式蓝牙音箱</div>
-                            <div class="product-stats">
-                                <div class="rating">
-                                    <i class="fas fa-star"></i>
-                                    <span>4.5</span>
-                                </div>
-                                <div class="views">
-                                    <i class="fas fa-eye"></i>
-                                    <span>1.3k</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="product-card" data-id="9" data-title="无线充电设备套装">
-                        <div class="image-container">
-                            <img src="https://images.unsplash.com/photo-1484704849700-f032a568e944?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="产品图片" class="product-image">
-                        </div>
-                        <div class="product-info">
-                            <div class="product-title">无线充电设备套装</div>
-                            <div class="product-stats">
-                                <div class="rating">
-                                    <i class="fas fa-star"></i>
-                                    <span>4.6</span>
-                                </div>
-                                <div class="views">
-                                    <i class="fas fa-eye"></i>
-                                    <span>1.5k</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="product-card" data-id="10" data-title="超薄便携显示器">
-                        <div class="image-container">
-                            <img src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="产品图片" class="product-image">
-                        </div>
-                        <div class="product-info">
-                            <div class="product-title">超薄便携显示器</div>
-                            <div class="product-stats">
-                                <div class="rating">
-                                    <i class="fas fa-star"></i>
-                                    <span>4.4</span>
-                                </div>
-                                <div class="views">
-                                    <i class="fas fa-eye"></i>
-                                    <span>1.2k</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="product-card" data-id="11" data-title="智能体脂秤">
-                        <div class="image-container">
-                            <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="产品图片" class="product-image">
-                        </div>
-                        <div class="product-info">
-                            <div class="product-title">智能体脂秤</div>
-                            <div class="product-stats">
-                                <div class="rating">
-                                    <i class="fas fa-star"></i>
-                                    <span>4.3</span>
-                                </div>
-                                <div class="views">
-                                    <i class="fas fa-eye"></i>
-                                    <span>1.0k</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="product-card" data-id="12" data-title="便携式咖啡机">
-                        <div class="image-container">
-                            <img src="https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="产品图片" class="product-image">
-                        </div>
-                        <div class="product-info">
-                            <div class="product-title">便携式咖啡机</div>
-                            <div class="product-stats">
-                                <div class="rating">
-                                    <i class="fas fa-star"></i>
-                                    <span>4.7</span>
-                                </div>
-                                <div class="views">
-                                    <i class="fas fa-eye"></i>
-                                    <span>1.9k</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="products-grid" id="product2-products">
+                    <!-- 产品将通过JS动态生成 -->
                 </div>
                 
                 <!-- 查看更多按钮 -->
@@ -1561,148 +948,376 @@
                 </div>
             </main>
         </div>
-        
-        <footer>
-            <p>© 2023 品牌名称 版权所有</p>
-        </footer>
     </div>
     
-    <!-- 弹窗 -->
+    <!-- 产品详情弹窗 -->
     <div class="modal" id="productModal">
         <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <h2 class="modal-title" id="modalProductTitle">产品详情</h2>
+            <span class="close-modal" id="closeModal">&times;</span>
+            <h2 class="modal-title" id="modalProductTitle">产品名称</h2>
             <div class="modal-buttons">
-                <button class="btn btn-primary" id="detailBtn"><i class="fas fa-info-circle"></i> 查看详情</button>
-                <button class="btn btn-secondary" id="buyBtn"><i class="fas fa-shopping-cart"></i> 立即购买</button>
+                <button class="btn btn-primary" id="viewNowBtn">
+                    <i class="fas fa-eye"></i> 立即查看
+                </button>
+                <button class="btn btn-customer-service" id="customerServiceBtn">
+                    <i class="fas fa-headset"></i> 在线客服
+                </button>
+                <button class="btn btn-secondary" id="closeModalBtn">
+                    <i class="fas fa-times"></i> 关闭
+                </button>
+            </div>
+            <!-- 无权限提示 -->
+            <div class="permission-message" id="permissionMessage" style="display: none;">
+                当前无权限查看此产品详情
             </div>
         </div>
     </div>
     
-    <!-- 公告弹窗 -->
-    <div class="modal" id="announcementModal">
-        <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <h2 class="modal-title">限时特惠活动</h2>
-            <div class="page-text" style="text-align: left; margin: 20px 0;">
-                <p>感谢您参与我们的10周年庆典活动！</p>
-                <p>活动详情：</p>
-                <ul style="margin-left: 20px; margin-top: 10px;">
-                    <li>全场产品8折优惠</li>
-                    <li>新用户注册即送100元优惠券</li>
-                    <li>满500元包邮</li>
-                    <li>活动时间：即日起至本月底</li>
-                </ul>
+    <!-- 客服聊天窗口 -->
+    <div class="customer-service-chat" id="customerServiceChat">
+        <div class="chat-header">
+            <h3><i class="fas fa-headset"></i> 在线客服</h3>
+            <button class="close-chat" id="closeChat">&times;</button>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <!-- 初始客服消息 -->
+            <div class="message bot">
+                <div class="message-bubble">
+                    <p>您好！欢迎咨询我们的产品，很高兴为您服务！</p>
+                </div>
             </div>
-            <div class="modal-buttons">
-                <button class="btn btn-primary" id="registerBtn"><i class="fas fa-user-plus"></i> 立即注册</button>
-                <button class="btn btn-secondary" id="closeAnnouncementBtn">稍后参与</button>
+            <div class="message bot">
+                <div class="message-bubble">
+                    <p>请扫描下方二维码完成支付：</p>
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://example.com/payment" alt="收款二维码" class="message-image">
+                </div>
             </div>
         </div>
+        <div class="chat-input">
+            <label for="imageUpload" class="image-upload-label">
+                <i class="fas fa-image"></i> 上传图片
+            </label>
+            <input type="file" id="imageUpload" class="image-upload-input" accept="image/*">
+        </div>
     </div>
+    
+    <!-- 悬浮客服按钮 -->
+    <div class="customer-service-toggle" id="customerServiceToggle">
+        <i class="fas fa-headset"></i>
+        <div class="customer-service-toggle-text">在线客服</div>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 高端产品展示系统. 保留所有权利.</p>
+        </div>
+    </footer>
     
     <script>
-        // 导航功能
+        // 产品数据 - 48个不同的产品
+        const products = [
+            // 热门产品推荐 - 12个产品
+            { id: 1, title: "高品质无线蓝牙降噪耳机", image: "https://img10.360buyimg.com/ddimg/jfs/t1/320986/36/21234/113194/68909680F2322a161/160ec723c779202d.jpg", rating: 4.8, views: 1200 },
+            { id: 2, title: "专业全画幅单反相机", image: "https://img11.360buyimg.com/ddimg/jfs/t1/317770/4/21935/33997/6890967fF03a40747/d23baf52dd64ed94.jpg", rating: 4.9, views: 2500 },
+            { id: 3, title: "多功能智能运动健康手表", image: "https://img14.360buyimg.com/ddimg/jfs/t1/307231/40/22715/45951/6890967eFcc87a19d/6c61bc5173c51f6e.jpg", rating: 4.7, views: 1800 },
+            { id: 4, title: "专业缓震透气跑步鞋", image: "https://img13.360buyimg.com/ddimg/jfs/t1/324976/10/857/44815/6890967eFf90a7cde/af50a6f7c2da5324.jpg", rating: 4.6, views: 1500 },
+            { id: 5, title: "经典商务休闲时尚腕表", image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.8, views: 2100 },
+            { id: 6, title: "360度环绕立体声音箱", image: "https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.5, views: 1300 },
+            { id: 7, title: "智能家居控制中心", image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.7, views: 1800 },
+            { id: 8, title: "便携式投影仪", image: "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.4, views: 1100 },
+            { id: 9, title: "专业运动跑鞋系列", image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.7, views: 1900 },
+            { id: 10, title: "多功能厨房料理机", image: "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.8, views: 2200 },
+            { id: 11, title: "高端电竞游戏键盘", image: "https://images.unsplash.com/photo-1541140532154-b024d705b90a?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.9, views: 2700 },
+            { id: 12, title: "专业摄影三脚架", image: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.5, views: 1600 },
+            
+            // 全部产品 - 12个产品
+            { id: 13, title: "智能空气净化器", image: "https://img12.360buyimg.com/ddimg/jfs/t1/300782/29/12573/94387/6875e873F4f5cca4f/dbcf24bdaaf7a947.jpg", rating: 4.7, views: 1800 },
+            { id: 14, title: "便携式蓝牙音箱", image: "https://img14.360buyimg.com/ddimg/jfs/t1/318404/13/16239/63276/6875e877F463e208a/c1be48d6db5295a7.jpg", rating: 4.5, views: 1300 },
+            { id: 15, title: "智能体重秤", image: "https://img11.360buyimg.com/ddimg/jfs/t1/302232/9/19805/78332/6875e87aF76080926/30fa6e47234b66af.jpg", rating: 4.6, views: 1500 },
+            { id: 16, title: "无线充电器", image: "https://img10.360buyimg.com/ddimg/jfs/t1/318601/28/16240/46118/6875e880F008d518e/5a4ef55371e17c0f.jpg", rating: 4.4, views: 1200 },
+            { id: 17, title: "智能扫地机器人", image: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.6, views: 2100 },
+            { id: 18, title: "多功能料理锅", image: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.7, views: 1800 },
+            { id: 19, title: "智能监控摄像头", image: "https://images.unsplash.com/photo-1557597774-9d273605dfa9?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.5, views: 1700 },
+            { id: 20, title: "便携式咖啡机", image: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.4, views: 1300 },
+            { id: 21, title: "智能门锁系统", image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.8, views: 2300 },
+            { id: 22, title: "便携式打印机", image: "https://images.unsplash.com/photo-1499954347927-6f41283e0e4e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.4, views: 1400 },
+            { id: 23, title: "超薄便携显示器", image: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.4, views: 1200 },
+            { id: 24, title: "智能体脂秤", image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.3, views: 1000 },
+            
+            // 产品系列1 - 12个产品
+            { id: 25, title: "高端游戏笔记本电脑", image: "https://img13.360buyimg.com/ddimg/jfs/t1/308486/23/17199/95314/6875e772F6971147b/77c82bf05c8a657e.jpg", rating: 4.9, views: 2800 },
+            { id: 26, title: "无线降噪头戴式耳机", image: "https://img10.360buyimg.com/ddimg/jfs/t1/305150/38/18191/91358/6875e777F11a7df6e/e0d050cbef58caeb.jpg", rating: 4.7, views: 1900 },
+            { id: 27, title: "智能电动牙刷", image: "https://img12.360buyimg.com/ddimg/jfs/t1/296924/12/20401/104118/6875e779Fee4f78d8/d5dc14661135b3ee.jpg", rating: 4.5, views: 1600 },
+            { id: 28, title: "高清行车记录仪", image: "https://img13.360buyimg.com/ddimg/jfs/t1/307775/31/17161/98018/6875e77bFbaeab7c6/b737c6eb1fd1530d.jpg", rating: 4.6, views: 1700 },
+            { id: 29, title: "便携式电动滑板车", image: "https://images.unsplash.com/photo-1571068316344-75bc76f77890?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.4, views: 1400 },
+            { id: 30, title: "智能温湿度计", image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.3, views: 1100 },
+            { id: 31, title: "多功能电动工具套装", image: "https://images.unsplash.com/photo-1572981779307-38f8b0456220?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.7, views: 1800 },
+            { id: 32, title: "高清无人机航拍器", image: "https://images.unsplash.com/photo-1473968512647-3e447244af8f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.8, views: 2200 },
+            { id: 33, title: "智能床头灯", image: "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.4, views: 1300 },
+            { id: 34, title: "便携式照片打印机", image: "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.5, views: 1500 },
+            { id: 35, title: "智能水杯", image: "https://images.unsplash.com/photo-1544145945-f90425340c7e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.3, views: 1200 },
+            { id: 36, title: "无线充电鼠标垫", image: "https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.4, views: 1400 },
+            
+            // 产品系列2 - 12个产品
+            { id: 37, title: "智能健身镜", image: "https://img13.360buyimg.com/ddimg/jfs/t1/290701/29/19401/90833/6878e13bF6ae1a60c/b498c05f12fa3b78.jpg", rating: 4.6, views: 1900 },
+            { id: 38, title: "便携式空调扇", image: "https://img11.360buyimg.com/ddimg/jfs/t1/289929/18/18115/67306/68756398F082a3b05/fde24cae71bea707.jpg", rating: 4.3, views: 1100 },
+            { id: 39, title: "智能枕头", image: "https://img14.360buyimg.com/ddimg/jfs/t1/308161/30/16818/56360/68756396Fd66591d1/cad181df5938d677.jpg", rating: 4.5, views: 1600 },
+            { id: 40, title: "高清运动相机", image: "https://img11.360buyimg.com/ddimg/jfs/t1/318812/16/16582/119200/68756393F8f36d8f7/8045b77026040f78.jpg", rating: 4.7, views: 2000 },
+            { id: 41, title: "智能花盆", image: "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.2, views: 900 },
+            { id: 42, title: "便携式按摩器", image: "https://images.unsplash.com/photo-1546435770-a3e426bf472b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.6, views: 1700 },
+            { id: 43, title: "智能闹钟", image: "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.4, views: 1300 },
+            { id: 44, title: "无线充电宝", image: "https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.5, views: 1500 },
+            { id: 45, title: "智能窗帘", image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.3, views: 1200 },
+            { id: 46, title: "便携式加湿器", image: "https://images.unsplash.com/photo-1587334985589-80abfadca6c8?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.4, views: 1400 },
+            { id: 47, title: "智能鞋柜", image: "https://images.unsplash.com/photo-1499954347927-6f41283e0e4e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.2, views: 1000 },
+            { id: 48, title: "无线游戏手柄", image: "https://images.unsplash.com/photo-1593305841991-05c297ba4575?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.7, views: 1800 }
+        ];
+
+        // 页面切换功能
         document.querySelectorAll('.nav-link').forEach(link => {
             link.addEventListener('click', function(e) {
                 e.preventDefault();
                 
-                // 移除所有active类
+                // 更新导航栏活动状态
                 document.querySelectorAll('.nav-link').forEach(item => {
                     item.classList.remove('active');
                 });
-                document.querySelectorAll('.page-content').forEach(page => {
-                    page.classList.remove('active');
-                });
-                
-                // 添加active类到当前链接
                 this.classList.add('active');
                 
                 // 显示对应页面
                 const pageId = this.getAttribute('data-page') + '-page';
+                document.querySelectorAll('.page-content').forEach(page => {
+                    page.classList.remove('active');
+                });
                 document.getElementById(pageId).classList.add('active');
+                
+                // 动态生成产品
+                generateProducts(pageId);
+                
+                // 页面回到顶部
+                window.scrollTo(0, 0);
             });
         });
-        
-        // 弹窗功能
-        const modal = document.getElementById('productModal');
-        const announcementModal = document.getElementById('announcementModal');
-        const closeModal = document.querySelectorAll('.close-modal');
-        const viewMoreBtn1 = document.getElementById('viewMoreBtn1');
-        const viewMoreBtn2 = document.getElementById('viewMoreBtn2');
-        const viewMoreBtn3 = document.getElementById('viewMoreBtn3');
-        const viewMoreBtn4 = document.getElementById('viewMoreBtn4');
-        const announcementBtn = document.getElementById('announcementBtn');
-        const modalProductTitle = document.getElementById('modalProductTitle');
-        
-        // 为每个产品卡片添加点击事件
-        document.querySelectorAll('.product-card').forEach(card => {
-            card.addEventListener('click', () => {
-                const productTitle = card.getAttribute('data-title');
-                modalProductTitle.textContent = productTitle;
-                modal.classList.add('active');
-                document.body.style.overflow = 'hidden';
+
+        // 动态生成产品
+        function generateProducts(pageId) {
+            const containerId = pageId.replace('-page', '-products');
+            const container = document.getElementById(containerId);
+            
+            if (!container) return;
+            
+            // 清空容器
+            container.innerHTML = '';
+            
+            // 根据页面ID选择不同的产品范围
+            let startIndex = 0;
+            let endIndex = 12;
+            
+            if (pageId === 'products-page') {
+                startIndex = 12;
+                endIndex = 24;
+            } else if (pageId === 'product1-page') {
+                startIndex = 24;
+                endIndex = 36;
+            } else if (pageId === 'product2-page') {
+                startIndex = 36;
+                endIndex = 48;
+            }
+            
+            // 为各页面生成产品
+            for (let i = startIndex; i < endIndex; i++) {
+                const product = products[i];
+                const productCard = createProductCard(product);
+                container.appendChild(productCard);
+            }
+        }
+
+        // 创建产品卡片
+        function createProductCard(product) {
+            const card = document.createElement('div');
+            card.className = 'product-card';
+            card.setAttribute('data-id', product.id);
+            card.setAttribute('data-title', product.title);
+            
+            card.innerHTML = `
+                <div class="image-container">
+                    <img src="${product.image}" alt="${product.title}" class="product-image">
+                </div>
+                <div class="product-info">
+                    <div class="product-title">${product.title}</div>
+                    <div class="product-stats">
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <span>${product.rating}</span>
+                        </div>
+                        <div class="views">
+                            <i class="fas fa-eye"></i>
+                            <span>${(product.views / 1000).toFixed(1)}k</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // 添加点击事件
+            card.addEventListener('click', function() {
+                const productId = this.getAttribute('data-id');
+                const productTitle = this.getAttribute('data-title');
+                
+                document.getElementById('modalProductTitle').textContent = productTitle;
+                document.getElementById('productModal').classList.add('active');
+                document.getElementById('permissionMessage').style.display = 'none';
             });
+            
+            return card;
+        }
+
+        // 初始化首页产品
+        generateProducts('home-page');
+
+        // 关闭弹窗
+        document.getElementById('closeModal').addEventListener('click', function() {
+            document.getElementById('productModal').classList.remove('active');
+        });
+        
+        document.getElementById('closeModalBtn').addEventListener('click', function() {
+            document.getElementById('productModal').classList.remove('active');
+        });
+        
+        // 立即查看按钮事件
+        document.getElementById('viewNowBtn').addEventListener('click', function() {
+            document.getElementById('permissionMessage').style.display = 'block';
         });
         
         // 查看更多按钮点击事件
-        const viewMoreBtns = [viewMoreBtn1, viewMoreBtn2, viewMoreBtn3, viewMoreBtn4];
-        viewMoreBtns.forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.preventDefault();
-                modalProductTitle.textContent = "更多产品详情";
-                modal.classList.add('active');
-                document.body.style.overflow = 'hidden';
+        document.getElementById('viewMoreBtn1').addEventListener('click', function() {
+            document.querySelectorAll('.nav-link').forEach(item => {
+                item.classList.remove('active');
             });
+            document.querySelector('[data-page="products"]').classList.add('active');
+            
+            document.querySelectorAll('.page-content').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById('products-page').classList.add('active');
+            
+            generateProducts('products-page');
+            window.scrollTo(0, 0);
+        });
+        
+        document.getElementById('viewMoreBtn2').addEventListener('click', function() {
+            alert('更多产品正在加载中...');
+        });
+        
+        document.getElementById('viewMoreBtn3').addEventListener('click', function() {
+            alert('更多产品正在加载中...');
+        });
+        
+        document.getElementById('viewMoreBtn4').addEventListener('click', function() {
+            alert('更多产品正在加载中...');
         });
         
         // 公告按钮点击事件
-        announcementBtn.addEventListener('click', () => {
-            announcementModal.classList.add('active');
-            document.body.style.overflow = 'hidden';
+        document.getElementById('announcementBtn').addEventListener('click', function() {
+            alert('感谢您的参与！请填写相关信息以领取优惠。');
         });
         
-        // 关闭弹窗
-        closeModal.forEach(closeBtn => {
-            closeBtn.addEventListener('click', () => {
-                modal.classList.remove('active');
-                announcementModal.classList.remove('active');
-                document.body.style.overflow = 'auto';
-            });
+        // 在线客服按钮点击事件
+        document.getElementById('customerServiceBtn').addEventListener('click', function() {
+            // 关闭产品弹窗
+            document.getElementById('productModal').classList.remove('active');
+            // 打开客服聊天窗口
+            document.getElementById('customerServiceChat').classList.add('active');
         });
         
-        // 点击弹窗外部关闭
-        document.querySelectorAll('.modal').forEach(modalElement => {
-            modalElement.addEventListener('click', (e) => {
-                if (e.target === modalElement) {
-                    modalElement.classList.remove('active');
-                    document.body.style.overflow = 'auto';
+        // 客服聊天窗口功能
+        document.getElementById('customerServiceToggle').addEventListener('click', function() {
+            document.getElementById('customerServiceChat').classList.add('active');
+        });
+        
+        document.getElementById('closeChat').addEventListener('click', function() {
+            document.getElementById('customerServiceChat').classList.remove('active');
+        });
+        
+        // 图片上传功能
+        document.getElementById('imageUpload').addEventListener('change', function(e) {
+            if (e.target.files && e.target.files[0]) {
+                const file = e.target.files[0];
+                
+                // 检查是否为图片文件
+                if (!file.type.match('image.*')) {
+                    alert('请上传图片文件！');
+                    return;
                 }
-            });
+                
+                const reader = new FileReader();
+                
+                reader.onload = function(event) {
+                    // 添加用户上传的图片消息
+                    const chatMessages = document.getElementById('chatMessages');
+                    const userMessage = document.createElement('div');
+                    userMessage.className = 'message customer';
+                    userMessage.innerHTML = `
+                        <div class="message-bubble">
+                            <img src="${event.target.result}" alt="上传的图片" class="message-image">
+                        </div>
+                    `;
+                    chatMessages.appendChild(userMessage);
+                    
+                    // 添加客服回复消息
+                    const botMessage1 = document.createElement('div');
+                    botMessage1.className = 'message bot';
+                    botMessage1.innerHTML = `
+                        <div class="message-bubble">
+                            <p>图片已收到，正在审核中...</p>
+                        </div>
+                    `;
+                    chatMessages.appendChild(botMessage1);
+                    
+                    // 滚动到最新消息
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                    
+                    // 4秒后自动回复抖音卡片
+                    setTimeout(function() {
+                        const botMessage2 = document.createElement('div');
+                        botMessage2.className = 'message bot';
+                        botMessage2.innerHTML = `
+                            <div class="message-bubble">
+                                <p>图片审核通过！了解更多产品信息，请关注我们的抖音账号：</p>
+                                <div class="tiktok-card" id="tiktokCard">
+                                    <img src="https://sf16-scmcdn-va.ibytedtos.com/goofy/tiktok/web/node/_next/static/images/douyin-64c34bf5065c4c2d8c8c6c8c6c8c6c8c.png" alt="抖音图标">
+                                    <div class="tiktok-card-content">
+                                        <div class="tiktok-card-title">官方抖音账号</div>
+                                        <div class="tiktok-card-desc">点击查看最新产品视频</div>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        chatMessages.appendChild(botMessage2);
+                        
+                        // 滚动到最新消息
+                        chatMessages.scrollTop = chatMessages.scrollHeight;
+                        
+                        // 添加抖音卡片点击事件
+                        document.getElementById('tiktokCard').addEventListener('click', function() {
+                            window.open('https://www.douyin.com/', '_blank');
+                        });
+                    }, 4000);
+                };
+                
+                reader.readAsDataURL(file);
+                
+                // 重置文件输入
+                e.target.value = '';
+            }
         });
         
-        // 弹窗内按钮事件
-        document.getElementById('detailBtn').addEventListener('click', () => {
-            alert('产品详情功能开发中...');
-        });
-        
-        document.getElementById('buyBtn').addEventListener('click', () => {
-            alert('购买功能开发中...');
-        });
-        
-        document.getElementById('registerBtn').addEventListener('click', () => {
-            alert('注册功能开发中...');
-        });
-        
-        document.getElementById('closeAnnouncementBtn').addEventListener('click', () => {
-            announcementModal.classList.remove('active');
-            document.body.style.overflow = 'auto';
-        });
-        
-        // 文本截断功能
-        document.querySelectorAll('.product-title').forEach(title => {
-            if (title.textContent.length > 15) {
-                title.textContent = title.textContent.substring(0, 15) + '...';
+        // 点击页面其他地方关闭客服聊天窗口
+        document.addEventListener('click', function(e) {
+            const chatWindow = document.getElementById('customerServiceChat');
+            const toggleButton = document.getElementById('customerServiceToggle');
+            
+            if (!chatWindow.contains(e.target) && !toggleButton.contains(e.target) && chatWindow.classList.contains('active')) {
+                chatWindow.classList.remove('active');
             }
         });
     </script>
