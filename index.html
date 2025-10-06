@@ -1422,7 +1422,7 @@
             alert('感谢您的参与！请填写相关信息以领取优惠。');
         });
         
-        // 在线客服按钮点击事件 - 修复：点击绿色按钮打开聊天窗口
+        // 修复：绿色在线客服按钮点击事件
         document.getElementById('customerServiceBtn').addEventListener('click', function() {
             // 关闭产品弹窗
             document.getElementById('productModal').classList.remove('active');
@@ -1538,7 +1538,7 @@
             botMessage.innerHTML = `
                 <div class="message-bubble">
                     <p>您好！欢迎咨询我们的产品，很高兴为您服务！</p>
-                    <img src="https://img.alicdn.com/imgextra/i4/O1CN0170Cu4o1u13yyLplX7_!!4611686018427381912-0-amp.jpg" alt="客服问候" class="message-image">
+                    <img src="https://images.unsplash.com/photo-1551836026-d5c88ac5d4d9?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="客服问候" class="message-image">
                 </div>
             `;
             chatMessages.appendChild(botMessage);
