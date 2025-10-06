@@ -1,38 +1,1767 @@
-        // ... 您现有的所有JavaScript代码 ...
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>高端产品展示系统</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #e0e0e0;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        /* 添加聊天窗口打开时的body锁定 */
+        body.chat-open {
+            overflow: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* 导航栏样式 */
+        nav {
+            background: rgba(26, 26, 46, 0.95);
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #333;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px 0;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin: 0 15px;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: #e0e0e0;
+            font-weight: 500;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            position: relative;
+            padding: 10px 20px;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .nav-links a i {
+            margin-right: 8px;
+            font-size: 1.2rem;
+        }
+        
+        .nav-links a:hover {
+            background: #3498db;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+        }
+        
+        .nav-links a.active {
+            background: #3498db;
+            color: white;
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+        }
+        
+        /* 公告栏样式 */
+        .announcement {
+            background: linear-gradient(135deg, #3498db, #2ecc71);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 25px 0;
+            box-shadow: 0 5px 20px rgba(52, 152, 219, 0.3);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .announcement:before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 200%;
+            background: rgba(255, 255, 255, 0.1);
+            transform: rotate(30deg);
+        }
+        
+        .announcement-content {
+            flex: 1;
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .announcement-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+        }
+        
+        .announcement-title i {
+            margin-right: 10px;
+            font-size: 1.8rem;
+        }
+        
+        .announcement-text {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            opacity: 0.95;
+            max-width: 800px;
+            font-weight: 500;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+            line-height: 1.7;
+        }
+        
+        .announcement-btn {
+            background: white;
+            color: #3498db;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 10px;
+            font-size: 1.1rem;
+        }
+        
+        .announcement-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* 头部样式 */
+        header {
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px 0;
+        }
+        
+        h1 {
+            font-size: 2.2rem;
+            color: #e0e0e0;
+            margin-bottom: 10px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        h1:after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(to right, #3498db, #2ecc71);
+            border-radius: 2px;
+        }
+        
+        /* 产品网格样式 */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 50px;
+        }
+        
+        .product-card {
+            background: #2d3748;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 1px solid #3a4556;
+            position: relative;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+            border-color: #3498db;
+        }
+        
+        .image-container {
+            width: 100%;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #1a202c;
+            padding: 0;
+            position: relative;
+        }
+        
+        .product-image {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+        
+        .product-card:hover .product-image {
+            transform: scale(1.05);
+        }
+        
+        /* 产品播放图标 - 只在产品1和产品2页面显示 */
+        .product-play-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+        }
+        
+        .product-play-icon i {
+            color: white;
+            font-size: 24px;
+            margin-left: 5px;
+        }
+        
+        .product-info {
+            padding: 15px;
+        }
+        
+        .product-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #e0e0e0;
+            margin-bottom: 10px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
+        }
+        
+        .product-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+            color: #a0aec0;
+        }
+        
+        .rating {
+            display: flex;
+            align-items: center;
+        }
+        
+        .rating i {
+            color: #f39c12;
+            margin-right: 5px;
+        }
+        
+        .views {
+            display: flex;
+            align-items: center;
+        }
+        
+        .views i {
+            color: #3498db;
+            margin-right: 5px;
+        }
+        
+        /* 查看更多按钮 */
+        .view-more {
+            text-align: center;
+            margin: 40px 0;
+        }
+        
+        .view-more-btn {
+            display: inline-block;
+            padding: 14px 35px;
+            background: #3498db;
+            color: white;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+            cursor: pointer;
+        }
+        
+        .view-more-btn:hover {
+            background: #2980b9;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(52, 152, 219, 0.4);
+        }
+        
+        .view-more-btn i {
+            margin-left: 8px;
+        }
+        
+        /* 弹窗样式 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .modal.active {
+            display: flex;
+            opacity: 1;
+        }
+        
+        .modal-content {
+            background: #2d3748;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 500px;
+            padding: 30px;
+            position: relative;
+            transform: translateY(20px);
+            transition: transform 0.3s;
+            text-align: center;
+            border: 1px solid #3a4556;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        .modal.active .modal-content {
+            transform: translateY(0);
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: #a0aec0;
+            transition: color 0.3s;
+        }
+        
+        .close-modal:hover {
+            color: #e74c3c;
+        }
+        
+        .modal-title {
+            font-size: 1.8rem;
+            color: #e0e0e0;
+            margin: 20px 0;
+        }
+        
+        .modal-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 25px;
+        }
+        
+        .btn {
+            padding: 12px 25px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: none;
+            font-size: 1rem;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #2980b9, #21618c);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(52, 152, 219, 0.4);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, #4a5568, #3a4556);
+            color: #e0e0e0;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-secondary:hover {
+            background: linear-gradient(135deg, #3a4556, #2d3748);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+        }
 
-        // 添加iOS键盘事件处理 - 将这段代码添加到现有script标签的末尾
-        function handleIOSKeyboard() {
-            if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) {
-                const messageInput = document.getElementById('messageInput');
-                const chatMessages = document.getElementById('chatMessages');
+        .btn-customer-service {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            color: white;
+            box-shadow: 0 4px 10px rgba(46, 204, 113, 0.3);
+        }
+        
+        .btn-customer-service:hover {
+            background: linear-gradient(135deg, #27ae60, #219653);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(46, 204, 113, 0.4);
+        }
+        
+        .btn i {
+            margin-right: 8px;
+        }
+        
+        /* 页面内容样式 */
+        .page-content {
+            display: none;
+            padding: 30px 0;
+        }
+        
+        .page-content.active {
+            display: block;
+        }
+        
+        .page-title {
+            font-size: 2rem;
+            color: #e0e0e0;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .page-text {
+            background: #2d3748;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            line-height: 1.8;
+            color: #a0aec0;
+            margin-bottom: 30px;
+            border: 1px solid #3a4556;
+        }
+        
+        /* 新增客服聊天窗口样式 */
+        .customer-service-chat {
+            position: fixed;
+            top: 0;
+            right: -450px;
+            width: 450px;
+            height: 100vh;
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            box-shadow: -5px 0 25px rgba(0, 0, 0, 0.3);
+            z-index: 1001;
+            transition: right 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            flex-direction: column;
+            border-radius: 20px 0 0 20px;
+            overflow: hidden;
+        }
+        
+        .customer-service-chat.active {
+            right: 0;
+        }
+        
+        .chat-header {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 20px 0 0 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .chat-header h3 {
+            margin: 0;
+            font-size: 1.3rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+        }
+        
+        .chat-header h3 i {
+            margin-right: 10px;
+            font-size: 1.5rem;
+        }
+        
+        /* 在线状态标识 */
+        .online-status {
+            display: inline-block;
+            padding: 2px 8px;
+            background: #2ecc71;
+            color: white;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            margin-left: 8px;
+            vertical-align: middle;
+        }
+        
+        .close-chat {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        
+        .close-chat:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(90deg);
+        }
+        
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background: #ecf0f1;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .message {
+            display: flex;
+            max-width: 85%;
+        }
+        
+        .message.customer {
+            align-self: flex-end;
+        }
+        
+        .message.bot {
+            align-self: flex-start;
+        }
+        
+        .message-bubble {
+            padding: 15px 20px;
+            border-radius: 25px;
+            position: relative;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            word-wrap: break-word;
+        }
+        
+        .message.customer .message-bubble {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            border-bottom-right-radius: 8px;
+        }
+        
+        .message.bot .message-bubble {
+            background: white;
+            color: #333;
+            border: 1px solid #e1e4e8;
+            border-bottom-left-radius: 8px;
+        }
+        
+        .message-image {
+            max-width: 100%;
+            border-radius: 15px;
+            margin-top: 10px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .chat-input {
+    padding: 10px 15px 5px 15px;  /* 上 右 下 左 */
+    border-top: 1px solid #e1e4e8;
+    display: flex;
+    flex-direction: column;
+    background: white;
+    gap: 10px;
+}
+        
+        .contact-buttons {
+            display: flex;
+            gap: 10px;
+            width: 100%;
+        }
+        
+        .contact-text {
+            font-size: 0.8rem;
+            color: #666;
+            text-align: center;
+            margin-top: 5px;
+        }
+        
+        .image-upload-label {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s;
+            box-shadow: 0 3px 10px rgba(52, 152, 219, 0.3);
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+        
+        .image-upload-label:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+        }
+        
+        .image-upload-label i {
+            margin-right: 8px;
+            font-size: 1rem;
+        }
+        
+        .image-upload-input {
+            display: none;
+        }
+        
+        /* QQ联系按钮样式 */
+        .qq-contact-btn {
+            background: linear-gradient(135deg, #12b7f5, #0084ff);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s;
+            box-shadow: 0 3px 10px rgba(18, 183, 245, 0.3);
+            font-weight: 500;
+            border: none;
+            font-size: 0.9rem;
+        }
+        
+        .qq-contact-btn:hover {
+            background: linear-gradient(135deg, #0084ff, #0066cc);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(18, 183, 245, 0.4);
+        }
+        
+        .qq-contact-btn i {
+            margin-right: 8px;
+            font-size: 1rem;
+        }
+/* 隐藏QQ联系按钮 */
+.qq-contact-btn {
+    display: none !important;
+}
+        
+        /* 微信联系按钮样式 */
+        .wechat-contact-btn {
+    background: #fff9c4 !important;
+    color: #333 !important;
+    box-shadow: 0 3px 10px rgba(255, 255, 255, 0.5) !important;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s;
+            box-shadow: 0 3px 10px rgba(26, 173, 25, 0.3);
+            font-weight: 500;
+            border: none;
+            font-size: 0.9rem;
+        }
+        
+        .wechat-contact-btn:hover {
+            background: linear-gradient(135deg, #0d8c0d, #0a6e0a);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(26, 173, 25, 0.4);
+        }
+        
+        .wechat-contact-btn i {
+            margin-right: 8px;
+            font-size: 1rem;
+        }
+        
+        /* 输入框和发送按钮 */
+        .input-area {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        
+        .message-input {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            background: #f5f5f5;
+            color: #666;
+        }
+        
+        .message-input:disabled {
+            background: #f0f0f0;
+            color: #999;
+            cursor: not-allowed;
+        }
+        
+        .send-btn {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 8px 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .send-btn:hover {
+            background: linear-gradient(135deg, #2980b9, #21618c);
+            transform: translateY(-2px);
+            box-shadow: 0 3px 10px rgba(52, 152, 219, 0.4);
+        }
+        
+        .send-btn:active {
+            transform: scale(0.95);
+        }
+        
+        /* 联系图片弹窗 */
+        .contact-image-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1002;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .contact-image-modal.active {
+            display: flex;
+        }
+        
+        .contact-image-content {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            position: relative;
+            max-width: 300px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .contact-image {
+            max-width: 100%;
+            border-radius: 10px;
+        }
+        
+        .close-contact-image {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+            background: rgba(255, 255, 255, 0.8);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .close-contact-image:hover {
+            background: rgba(255, 255, 255, 1);
+            color: #333;
+        }
+        
+        .tiktok-card {
+            background: white;
+            border-radius: 15px;
+            padding: 15px;
+            margin-top: 15px;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            border: 1px solid #e1e4e8;
+            transition: all 0.3s;
+        }
+        
+        .tiktok-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .tiktok-card img {
+            width: 50px;
+            height: 50px;
+            margin-right: 15px;
+            border-radius: 10px;
+        }
+        
+        .tiktok-card-content {
+            flex: 1;
+        }
+        
+        .tiktok-card-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #333;
+            font-size: 1.1rem;
+        }
+        
+        .tiktok-card-desc {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        /* 修改后的悬浮客服按钮样式 - 长条形，去掉图标 */
+        .customer-service-toggle {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 85%;
+            max-width: 600px;
+            height: 60px;
+            background: linear-gradient(135deg, #00cec9, #0984e3);
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(52, 152, 219, 0.5);
+            z-index: 999;
+            transition: all 0.3s;
+            overflow: hidden;
+        }
+        
+        .customer-service-toggle:hover {
+            transform: translateX(-50%) scale(1.02);
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.7);
+        }
+        
+        .customer-service-toggle-text {
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-align: center;
+        }
+        
+        /* 无权限提示样式 */
+        .permission-message {
+            text-align: center;
+            margin-top: 15px;
+            padding: 10px;
+            background: rgba(231, 76, 60, 0.1);
+            border-radius: 8px;
+            color: #e74c3c;
+            font-weight: 500;
+            border: 1px solid rgba(231, 76, 60, 0.3);
+        }
+        
+        /* 客服聊天窗口底部页尾 - 改为白色 */
+        .chat-footer {
+            padding: 15px;
+            background: white;
+            color: #333;
+            text-align: center;
+            border-top: 1px solid #e1e4e8;
+            font-size: 0.8rem;
+        }
+        
+        /* 响应式设计 - 修正移动端布局 */
+        @media (max-width: 768px) {
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 15px;
+            }
+            
+            /* 确保每页显示12个产品，形成横2竖6布局 */
+            #home-products,
+            #products-products,
+            #product1-products,
+            #product2-products {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+            }
+            
+            .product-card {
+                aspect-ratio: auto;
+            }
+            
+            .product-image {
+                width: 100%;
+                height: auto;
+            }
+            
+            .product-title {
+                font-size: 0.9rem;
+                white-space: normal;
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .nav-links li {
+                margin: 5px 8px;
+            }
+            
+            .nav-links a {
+                font-size: 1rem;
+                padding: 8px 15px;
+            }
+            
+            .announcement {
+                padding: 15px;
+            }
+            
+            .announcement-title {
+                font-size: 1.4rem;
+            }
+            
+            .announcement-text {
+                font-size: 1rem;
+            }
+            
+            .customer-service-chat {
+                width: 100%;
+                right: -100%;
+                border-radius: 0;
+            }
+            
+            .chat-input {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .contact-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .qq-contact-btn, .wechat-contact-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 10px;
+            }
+            
+            .product-card {
+                aspect-ratio: auto;
+            }
+            
+            .product-image {
+                width: 100%;
+                height: auto;
+            }
+            
+            .product-info {
+                padding: 10px;
+            }
+            
+            .product-title {
+                font-size: 0.8rem;
+                -webkit-line-clamp: 2;
+            }
+            
+            .product-stats {
+                font-size: 0.8rem;
+            }
+            
+            .customer-service-toggle {
+                width: 90%;
+                height: 50px;
+                bottom: 20px;
+            }
+            
+            .customer-service-toggle-text {
+                font-size: 1rem;
+            }
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 30px 0;
+            color: #718096;
+            font-size: 0.9rem;
+            border-top: 1px solid #3a4556;
+        }
+        
+        /* 滚动条美化 */
+        .chat-messages::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .chat-messages::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        
+        .chat-messages::-webkit-scrollbar-thumb {
+            background: #3498db;
+            border-radius: 10px;
+        }
+        
+        .chat-messages::-webkit-scrollbar-thumb:hover {
+            background: #2980b9;
+        }
+        
+        /* 修复iOS输入框遮挡 */
+        @supports (-webkit-touch-callout: none) {
+            .chat-input {
+                padding-bottom: 60px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav>
+        <div class="container nav-container">
+            <ul class="nav-links">
+                <li><a href="#" class="nav-link active" data-page="home"><i class="fas fa-home"></i> 首页</a></li>
+                <li><a href="#" class="nav-link" data-page="products"><i class="fas fa-box-open"></i> 产品</a></li>
+                <li><a href="#" class="nav-link" data-page="product1">产品1</a></li>
+                <li><a href="#" class="nav-link" data-page="product2">产品2</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <!-- 公告栏 -->
+        <div class="announcement">
+            <div class="announcement-content">
+                <div class="announcement-title">
+                    <i class="fas fa-gift"></i>
+                    <span>限时特惠活动</span>
+                </div>
+                <div class="announcement-text">
+                    🎉 庆祝公司成立10周年，全场产品享受<span style="font-weight:700;color:#ffeb3b;">8折优惠</span>！<br>
+                    🎁 新用户注册即送<span style="font-weight:700;color:#ffeb3b;">100元优惠券</span>，活动截止至本月底，赶快参与吧！
+                </div>
+            </div>
+        </div>
+        
+        <!-- 首页内容 -->
+        <div id="home-page" class="page-content active">
+            
+            
+            <main>
+                <div class="products-grid" id="home-products">
+                    <!-- 产品将通过JS动态生成 -->
+                </div>
                 
-                messageInput.addEventListener('focus', function() {
-                    // 短暂延迟后滚动到底部
-                    setTimeout(() => {
-                        chatMessages.scrollTop = chatMessages.scrollHeight;
-                    }, 300);
-                });
+                <!-- 查看更多按钮 -->
+                <div class="view-more">
+                    <a class="view-more-btn" id="viewMoreBtn1">
+                        查看更多产品 <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </main>
+        </div>
+        
+        <!-- 产品页面 -->
+        <div id="products-page" class="page-content">
+
+            
+            <main>
+                <div class="products-grid" id="products-products">
+                    <!-- 产品将通过JS动态生成 -->
+                </div>
                 
-                messageInput.addEventListener('blur', function() {
-                    // 输入框失去焦点时，确保布局恢复正常
-                    setTimeout(() => {
-                        chatMessages.scrollTop = chatMessages.scrollHeight;
-                    }, 100);
+                <!-- 查看更多按钮 -->
+                <div class="view-more">
+                    <a class="view-more-btn" id="viewMoreBtn2">
+                        查看更多产品 <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </main>
+        </div>
+        
+        <!-- 产品1页面 -->
+        <div id="product1-page" class="page-content">
+ 
+            
+            <main>
+                <div class="products-grid" id="product1-products">
+                    <!-- 产品将通过JS动态生成 -->
+                </div>
+                
+                <!-- 查看更多按钮 -->
+                <div class="view-more">
+                    <a class="view-more-btn" id="viewMoreBtn3">
+                        查看更多产品 <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </main>
+        </div>
+        
+        <!-- 产品2页面 -->
+        <div id="product2-page" class="page-content">
+            
+            <main>
+                <div class="products-grid" id="product2-products">
+                    <!-- 产品将通过JS动态生成 -->
+                </div>
+                
+                <!-- 查看更多按钮 -->
+                <div class="view-more">
+                    <a class="view-more-btn" id="viewMoreBtn4">
+                        查看更多产品 <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    
+    <!-- 产品详情弹窗 -->
+    <div class="modal" id="productModal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeModal">&times;</span>
+            <h2 class="modal-title" id="modalProductTitle">产品名称</h2>
+            <div class="modal-buttons">
+                <button class="btn btn-primary" id="viewNowBtn">
+                    <i class="fas fa-eye"></i> 立即查看
+                </button>
+                <button class="btn btn-customer-service" id="customerServiceBtn">
+                    <i class="fas fa-headset"></i> 在线客服
+                </button>
+                <button class="btn btn-secondary" id="closeModalBtn">
+                    <i class="fas fa-times"></i> 关闭
+                </button>
+            </div>
+            <!-- 无权限提示 -->
+            <div class="permission-message" id="permissionMessage" style="display: none;">
+                当前无权限查看此产品详情
+            </div>
+        </div>
+    </div>
+    
+    <!-- 客服聊天窗口 -->
+    <div class="customer-service-chat" id="customerServiceChat">
+        <div class="chat-header">
+            <h3><i class="fas fa-headset"></i> 在线客服 <span class="online-status">在线中</span></h3>
+            <button class="close-chat" id="closeChat">&times;</button>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <!-- 初始客服消息 -->
+            <div class="message bot">
+                <div class="message-bubble">
+                    <p>您好！欢迎咨询我们的产品，很高兴为您服务！</p>
+                </div>
+            </div>
+            <div class="message bot">
+                <div class="message-bubble">
+                    <p style="color: #2ecc71;">请扫描下方二维码完成支付：</p>
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://example.com/payment" alt="收款二维码" class="message-image">
+                </div>
+            </div>
+            <!-- 上传图片按钮消息 -->
+            <div class="message bot">
+                <div class="message-bubble">
+                    <p>您可以上传图片向我们展示您的问题：</p>
+                    <label for="imageUpload" class="image-upload-label" style="margin-top: 10px; display: inline-flex;">
+                        <i class="fas fa-image"></i> 上传图片
+                    </label>
+                    <input type="file" id="imageUpload" class="image-upload-input" accept="image/*">
+                </div>
+            </div>
+        </div>
+        <div class="chat-input">
+            <div class="contact-buttons">
+                <button class="qq-contact-btn" id="qqContactBtn">
+                    <i class="fab fa-qq"></i> QQ联系
+                </button>
+                <button class="wechat-contact-btn" id="wechatContactBtn">
+    联系人工
+</button>
+            </div>
+            <div class="input-area">
+                <input type="text" class="message-input" id="messageInput" placeholder="请输入消息...">
+                <button class="send-btn" id="sendMessageBtn">
+                    <i class="fas fa-paper-plane"></i> 发送
+                </button>
+            </div>
+            <div class="contact-text">@2025</div>
+        </div>
+     </div>
+    
+    <!-- 联系图片弹窗 -->
+    <div class="contact-image-modal" id="contactImageModal">
+        <div class="contact-image-content">
+            <span class="close-contact-image" id="closeContactImage">&times;</span>
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=contact-info" alt="联系二维码" class="contact-image">
+        </div>
+    </div>
+    
+    <!-- 悬浮客服按钮 - 去掉图标 -->
+    <div class="customer-service-toggle" id="customerServiceToggle">
+        <div class="customer-service-toggle-text">在线客服</div>
+    </div>
+    
+    <script>
+        // 禁止缩放功能
+        document.addEventListener('touchstart', function(event) {
+            if (event.touches.length > 1) {
+                event.preventDefault();
+            }
+        }, { passive: false });
+        
+        document.addEventListener('gesturestart', function(event) {
+            event.preventDefault();
+        });
+        
+        document.addEventListener('gesturechange', function(event) {
+            event.preventDefault();
+        });
+        
+        document.addEventListener('gestureend', function(event) {
+            event.preventDefault();
+        });
+
+        // 产品数据 - 48个不同的产品
+        const products = [
+            // 热门产品推荐 - 12个产品
+            { id: 1, title: "高品质无线蓝牙降噪耳机", image: "https://img.alicdn.com/imgextra/i4/O1CN0170Cu4o1u13yyLplX7_!!4611686018427381912-0-amp.jpg", rating: 4.8, views: 1200 },
+            { id: 2, title: "专业全画幅单反相机", image: "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.9, views: 2500 },
+            { id: 3, title: "多功能智能运动健康手表", image: "https://images.unsplash.com/photo-1546868871-7041f2a55e12?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.7, views: 1800 },
+            // ... 其他产品数据保持不变
+            { id: 4, title: "专业缓震透气跑步鞋", image: "https://images.unsplash.com/photo-1491553895911-0055eca6402d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.6, views: 1500 },
+            { id: 5, title: "经典商务休闲时尚腕表", image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.8, views: 2100 },
+            { id: 6, title: "360度环绕立体声音箱", image: "https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.5, views: 1300 },
+            { id: 7, title: "智能家居控制中心", image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.7, views: 1800 },
+            { id: 8, title: "便携式投影仪", image: "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.4, views: 1100 },
+            { id: 9, title: "专业运动跑鞋系列", image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.7, views: 1900 },
+            { id: 10, title: "多功能厨房料理机", image: "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.8, views: 2200 },
+            { id: 11, title: "高端电竞游戏键盘", image: "https://images.unsplash.com/photo-1541140532154-b024d705b90a?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.9, views: 2700 },
+            { id: 12, title: "专业摄影三脚架", image: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.5, views: 1600 },
+            
+            // ... 其他产品数据保持不变
+            { id: 13, title: "智能空气净化器", image: "https://images.unsplash.com/photo-1587334985589-80abfadca6c8?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.7, views: 1800 },
+            { id: 14, title: "便携式蓝牙音箱", image: "https://images.unsplash.com/photo-1546435770-a3e426bf472b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.5, views: 1300 },
+            { id: 15, title: "智能体重秤", image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.6, views: 1500 },
+            { id: 16, title: "无线充电器", image: "https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.4, views: 1200 },
+            { id: 17, title: "智能扫地机器人", image: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.6, views: 2100 },
+            { id: 18, title: "多功能料理锅", image: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.7, views: 1800 },
+            { id: 19, title: "智能监控摄像头", image: "https://images.unsplash.com/photo-1557597774-9d273605dfa9?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.5, views: 1700 },
+            { id: 20, title: "便携式咖啡机", image: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.4, views: 1300 },
+            { id: 21, title: "智能门锁系统", image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.8, views: 2300 },
+            { id: 22, title: "便携式打印机", image: "https://images.unsplash.com/photo-1499954347927-6f41283e0e4e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.4, views: 1400 },
+            { id: 23, title: "超薄便携显示器", image: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.4, views: 1200 },
+            { id: 24, title: "智能体脂秤", image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.3, views: 1000 },
+            
+            // ... 剩余产品数据保持不变
+            { id: 25, title: "高端游戏笔记本电脑", image: "https://images.unsplash.com/photo-1593640408182-31c70c8268f5?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.9, views: 2800 },
+            { id: 26, title: "无线降噪头戴式耳机", image: "https://images.unsplash.com/photo-1484704849700-f032a568e944?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.7, views: 1900 },
+            { id: 27, title: "智能电动牙刷", image: "https://images.unsplash.com/photo-1505751172876-fa1923c5c528?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.5, views: 1600 },
+            { id: 28, title: "高清行车记录仪", image: "https://images.unsplash.com/photo-1553440569-bcc63803a83d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.6, views: 1700 },
+            { id: 29, title: "便携式电动滑板车", image: "https://images.unsplash.com/photo-1571068316344-75bc76f77890?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.4, views: 1400 },
+            { id: 30, title: "智能温湿度计", image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.3, views: 1100 },
+            { id: 31, title: "多功能电动工具套装", image: "https://images.unsplash.com/photo-1572981779307-38f8b0456220?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.7, views: 1800 },
+            { id: 32, title: "高清无人机航拍器", image: "https://images.unsplash.com/photo-1473968512647-3e447244af8f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.8, views: 2200 },
+            { id: 33, title: "智能床头灯", image: "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.4, views: 1300 },
+            { id: 34, title: "便携式照片打印机", image: "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.5, views: 1500 },
+            { id: 35, title: "智能水杯", image: "https://images.unsplash.com/photo-1544145945-f90425340c7e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.3, views: 1200 },
+            { id: 36, title: "无线充电鼠标垫", image: "https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.4, views: 1400 },
+            
+            // 产品系列2 - 12个产品
+            { id: 37, title: "智能健身镜", image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.6, views: 1900 },
+            { id: 38, title: "便携式空调扇", image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.3, views: 1100 },
+            { id: 39, title: "智能枕头", image: "https://images.unsplash.com/photo-1587334985589-80abfadca6c8?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.5, views: 1600 },
+            { id: 40, title: "高清运动相机", image: "https://images.unsplash.com/photo-1552168324-d612d77725e3?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.7, views: 2000 },
+            { id: 41, title: "智能花盆", image: "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.2, views: 900 },
+            { id: 42, title: "便携式按摩器", image: "https://images.unsplash.com/photo-1546435770-a3e426bf472b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.6, views: 1700 },
+            { id: 43, title: "智能闹钟", image: "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.4, views: 1300 },
+            { id: 44, title: "无线充电宝", image: "https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.5, views: 1500 },
+            { id: 45, title: "智能窗帘", image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.3, views: 1200 },
+            { id: 46, title: "便携式加湿器", image: "https://images.unsplash.com/photo-1587334985589-80abfadca6c8?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.4, views: 1400 },
+            { id: 47, title: "智能鞋柜", image: "https://images.unsplash.com/photo-1499954347927-6f41283e0e4e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.2, views: 1000 },
+            { id: 48, title: "无线游戏手柄", image: "https://images.unsplash.com/photo-1593305841991-05c297ba4575?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.7, views: 1800 }
+        ];
+
+        // 页面切换功能
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // 更新导航栏活动状态
+                document.querySelectorAll('.nav-link').forEach(item => {
+                    item.classList.remove('active');
                 });
+                this.classList.add('active');
+                
+                // 显示对应页面
+                const pageId = this.getAttribute('data-page') + '-page';
+                document.querySelectorAll('.page-content').forEach(page => {
+                    page.classList.remove('active');
+                });
+                document.getElementById(pageId).classList.add('active');
+                
+                // 动态生成产品
+                generateProducts(pageId);
+                
+                // 页面回到顶部
+                window.scrollTo(0, 0);
+            });
+        });
+
+        // 动态生成产品 - 修正移动端布局
+        function generateProducts(pageId) {
+            const containerId = pageId.replace('-page', '-products');
+            const container = document.getElementById(containerId);
+            
+            if (!container) return;
+            
+            // 清空容器
+            container.innerHTML = '';
+            
+            // 根据页面ID选择不同的产品范围
+            let startIndex = 0;
+            let endIndex = 12;
+            
+            if (pageId === 'products-page') {
+                startIndex = 12;
+                endIndex = 24;
+            } else if (pageId === 'product1-page') {
+                startIndex = 24;
+                endIndex = 36;
+            } else if (pageId === 'product2-page') {
+                startIndex = 36;
+                endIndex = 48;
+            }
+            
+            // 在移动端，每页只显示12个产品（横2竖6）
+            const isMobile = window.innerWidth <= 768;
+            if (isMobile) {
+                endIndex = Math.min(startIndex + 12, products.length);
+            }
+            
+            // 为各页面生成产品
+            for (let i = startIndex; i < endIndex; i++) {
+                const product = products[i];
+                const productCard = createProductCard(product, pageId);
+                container.appendChild(productCard);
             }
         }
 
-        // 在页面加载完成后调用
-        document.addEventListener('DOMContentLoaded', function() {
-            handleIOSKeyboard();
+        // 创建产品卡片
+        function createProductCard(product, pageId) {
+            const card = document.createElement('div');
+            card.className = 'product-card';
+            card.setAttribute('data-id', product.id);
+            card.setAttribute('data-title', product.title);
+            
+            // 只在产品1和产品2页面添加播放图标
+            const playIcon = (pageId === 'product1-page' || pageId === 'product2-page') ? 
+                `<div class="product-play-icon">
+                    <i class="fas fa-play"></i>
+                </div>` : '';
+            
+            card.innerHTML = `
+                <div class="image-container">
+                    <img src="${product.image}" alt="${product.title}" class="product-image">
+                    ${playIcon}
+                </div>
+                <div class="product-info">
+                    <div class="product-title">${product.title}</div>
+                    <div class="product-stats">
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <span>${product.rating}</span>
+                        </div>
+                        <div class="views">
+                            <i class="fas fa-eye"></i>
+                            <span>${(product.views / 1000).toFixed(1)}k</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // 添加点击事件
+            card.addEventListener('click', function() {
+                const productId = this.getAttribute('data-id');
+                const productTitle = this.getAttribute('data-title');
+                
+                document.getElementById('modalProductTitle').textContent = productTitle;
+                document.getElementById('productModal').classList.add('active');
+                document.getElementById('permissionMessage').style.display = 'none';
+            });
+            
+            return card;
+        }
+
+        // 初始化首页产品
+        generateProducts('home-page');
+
+        // 添加窗口大小变化监听，确保布局正确
+        window.addEventListener('resize', function() {
+            const activePage = document.querySelector('.page-content.active');
+            if (activePage) {
+                generateProducts(activePage.id);
+            }
         });
 
-        // 如果DOMContentLoaded已经触发，也直接调用
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', handleIOSKeyboard);
-        } else {
-            handleIOSKeyboard();
+        // 聊天窗口滑动控制
+        const customerServiceChat = document.getElementById('customerServiceChat');
+        const customerServiceToggle = document.getElementById('customerServiceToggle');
+        const closeChat = document.getElementById('closeChat');
+
+        function openChat() {
+            customerServiceChat.classList.add('active');
+            document.body.classList.add('chat-open');
         }
+
+        function closeChatWindow() {
+            customerServiceChat.classList.remove('active');
+            document.body.classList.remove('chat-open');
+        }
+
+        customerServiceToggle.addEventListener('click', openChat);
+        closeChat.addEventListener('click', closeChatWindow);
+
+        // 关闭弹窗
+        document.getElementById('closeModal').addEventListener('click', function() {
+            document.getElementById('productModal').classList.remove('active');
+        });
+        
+        document.getElementById('closeModalBtn').addEventListener('click', function() {
+            document.getElementById('productModal').classList.remove('active');
+        });
+        
+        // 立即查看按钮事件
+        document.getElementById('viewNowBtn').addEventListener('click', function() {
+            document.getElementById('permissionMessage').style.display = 'block';
+        });
+        
+        // 查看更多按钮点击事件
+        document.getElementById('viewMoreBtn1').addEventListener('click', function() {
+            document.querySelectorAll('.nav-link').forEach(item => {
+                item.classList.remove('active');
+            });
+            document.querySelector('[data-page="products"]').classList.add('active');
+            
+            document.querySelectorAll('.page-content').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById('products-page').classList.add('active');
+            
+            generateProducts('products-page');
+            window.scrollTo(0, 0);
+        });
+        
+        document.getElementById('viewMoreBtn2').addEventListener('click', function() {
+            alert('更多产品正在加载中...');
+        });
+        
+        document.getElementById('viewMoreBtn3').addEventListener('click', function() {
+            alert('更多产品正在加载中...');
+        });
+        
+        document.getElementById('viewMoreBtn4').addEventListener('click', function() {
+            alert('更多产品正在加载中...');
+        });
+        
+
+        
+        // 在线客服按钮点击事件
+        document.getElementById('customerServiceBtn').addEventListener('click', function() {
+            console.log('客服按钮被点击了');
+            // 关闭产品弹窗
+            document.getElementById('productModal').classList.remove('active');
+            // 直接打开客服聊天窗口
+            setTimeout(function() {
+                document.getElementById('customerServiceChat').classList.add('active');
+                document.body.classList.add('chat-open');
+            }, 300);
+        });
+        
+        // QQ联系按钮点击事件
+        document.getElementById('qqContactBtn').addEventListener('click', function() {
+            document.getElementById('contactImageModal').classList.add('active');
+            
+            // 自动回复QQ联系消息
+            setTimeout(function() {
+                const chatMessages = document.getElementById('chatMessages');
+                const botMessage = document.createElement('div');
+                botMessage.className = 'message bot';
+                botMessage.innerHTML = `
+                    <div class="message-bubble">
+                        <p>已收到您的QQ联系请求，请扫描上方二维码添加客服QQ。</p>
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://example.com/qq-contact" alt="QQ联系二维码" class="message-image">
+                    </div>
+                `;
+                chatMessages.appendChild(botMessage);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }, 1000);
+        });
+        
+// 联系人工按钮点击事件
+document.getElementById('wechatContactBtn').addEventListener('click', function() {
+    const chatMessages = document.getElementById('chatMessages');
+    const botMessage = document.createElement('div');
+    botMessage.className = 'message bot';
+    botMessage.innerHTML = `
+        <div class="message-bubble">
+            
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=请添加客服微信：customer-service-123&format=png&margin=10&color=2E8B57&bgcolor=FFFFFF" alt="人工客服二维码" class="message-image" style="max-width: 200px; border-radius: 10px; box-shadow: 0 3px 10px rgba(0,0,0,0.2);">
+            <p style="margin-top: 10px; color: #666; font-size: 0.9rem;">扫码添加客服微信，我们将为您提供一对一服务</p>
+        </div>
+    `;
+    chatMessages.appendChild(botMessage);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+});
+        
+        // 关闭联系图片弹窗
+        document.getElementById('closeContactImage').addEventListener('click', function() {
+            document.getElementById('contactImageModal').classList.remove('active');
+        });
+        
+        // 点击联系图片弹窗外部关闭
+        document.getElementById('contactImageModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                document.getElementById('contactImageModal').classList.remove('active');
+            }
+        });
+        
+        // 发送按钮点击事件
+        document.getElementById('sendMessageBtn').addEventListener('click', function() {
+            const messageInput = document.getElementById('messageInput');
+            const message = messageInput.value.trim();
+            
+            if (message) {
+                // 添加用户消息
+                const chatMessages = document.getElementById('chatMessages');
+                const userMessage = document.createElement('div');
+                userMessage.className = 'message customer';
+                userMessage.innerHTML = `
+                    <div class="message-bubble">${message}</div>
+                `;
+                chatMessages.appendChild(userMessage);
+                
+                // 清空输入框
+                messageInput.value = '';
+                
+                // 自动回复
+                setTimeout(function() {
+                    const botMessage = document.createElement('div');
+                    botMessage.className = 'message bot';
+                    botMessage.innerHTML = `
+                        <div class="message-bubble">
+                            <p>请等待，客服正在处理您的请求...</p>
+                        </div>
+                    `;
+                    chatMessages.appendChild(botMessage);
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }, 1000);
+                
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+        });
+        
+// 图片上传功能
+document.getElementById('imageUpload').addEventListener('change', function(e) {
+    if (e.target.files && e.target.files[0]) {
+        const file = e.target.files[0];
+        
+        // 检查是否为图片文件
+        if (!file.type.match('image.*')) {
+            alert('请上传图片文件！');
+            return;
+        }
+        
+        const reader = new FileReader();
+        
+        reader.onload = function(event) {
+            // 添加用户上传的图片消息
+            const chatMessages = document.getElementById('chatMessages');
+            const userMessage = document.createElement('div');
+            userMessage.className = 'message customer';
+            userMessage.innerHTML = `
+                <div class="message-bubble">
+                    <img src="${event.target.result}" alt="上传的图片" class="message-image">
+                </div>
+            `;
+            chatMessages.appendChild(userMessage);
+            
+            // 立即滚动到最新消息
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            
+            // 添加客服回复消息
+            const botMessage1 = document.createElement('div');
+            botMessage1.className = 'message bot';
+            botMessage1.innerHTML = `
+                <div class="message-bubble">
+                    <p>图片已收到，正在审核中...</p>
+                </div>
+            `;
+            chatMessages.appendChild(botMessage1);
+            
+            // 立即滚动到最新消息
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            
+            // 4秒后自动回复卡片
+            setTimeout(function() {
+                const botMessage2 = document.createElement('div');
+                botMessage2.className = 'message bot';
+                botMessage2.innerHTML = `
+                    <div class="message-bubble">
+                        <p style="color: #2ecc71; font-weight: bold;">✅ 审核通过！</p>
+                        <p>图片审核成功，请关注我们的官方平台：</p>
+                        <div style="margin-top: 15px; display: flex; flex-direction: column; gap: 10px;">
+                            <div class="tiktok-card" id="platformCard1">
+                                <div style="width: 40px; height: 40px; background: #3498db; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-right: 12px;">
+                                    <i class="fas fa-video" style="color: white; font-size: 18px;"></i>
+                                </div>
+                                <div class="tiktok-card-content">
+                                    <div class="tiktok-card-title">视频平台</div>
+                                    <div class="tiktok-card-desc">观看产品演示视频</div>
+                                </div>
+                            </div>
+                            <div class="tiktok-card" id="platformCard2">
+                                <div style="width: 40px; height: 40px; background: #3498db; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-right: 12px;">
+                                    <i class="fas fa-video" style="color: white; font-size: 18px;"></i>
+                                </div>
+                                <div class="tiktok-card-content">
+                                    <div class="tiktok-card-title">短视频平台</div>
+                                    <div class="tiktok-card-desc">每日更新内容</div>
+                                </div>
+                            </div>
+                            <div class="tiktok-card" id="platformCard3">
+                                <div style="width: 40px; height: 40px; background: #3498db; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-right: 12px;">
+                                    <i class="fas fa-video" style="color: white; font-size: 18px;"></i>
+                                </div>
+                                <div class="tiktok-card-content">
+                                    <div class="tiktok-card-title">直播平台</div>
+                                    <div class="tiktok-card-desc">实时互动直播</div>
+                                </div>
+                            </div>
+                            <div class="tiktok-card" id="platformCard4">
+                                <div style="width: 40px; height: 40px; background: #2ecc71; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-right: 12px;">
+                                    <i class="fas fa-users" style="color: white; font-size: 18px;"></i>
+                                </div>
+                                <div class="tiktok-card-content">
+                                    <div class="tiktok-card-title">用户群</div>
+                                    <div class="tiktok-card-desc">加入官方社群</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                chatMessages.appendChild(botMessage2);
+                
+                // 立即滚动到最新消息
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+                
+            }, 4000);
+        };
+        
+        reader.readAsDataURL(file);
+        
+        // 重置文件输入
+        e.target.value = '';
+    }
+});
+
+// 事件委托处理卡片点击（放在图片上传函数外面，只需绑定一次）
+document.getElementById('chatMessages').addEventListener('click', function(e) {
+    const card = e.target.closest('.tiktok-card');
+    if (!card) return;
+
+    switch(card.id) {
+        case 'platformCard1':
+            window.open('https://example.com/video', '_blank');
+            break;
+        case 'platformCard2':
+            window.open('https://example.com/shortvideo', '_blank');
+            break;
+        case 'platformCard3':
+            window.open('https://example.com/live', '_blank');
+            break;
+        case 'platformCard4':
+            window.open('https://example.com/group', '_blank');
+            break;
+    }
+});
+        // 点击页面其他地方关闭客服聊天窗口
+        document.addEventListener('click', function(e) {
+            const chatWindow = document.getElementById('customerServiceChat');
+            const toggleButton = document.getElementById('customerServiceToggle');
+            
+            if (!chatWindow.contains(e.target) && !toggleButton.contains(e.target) && chatWindow.classList.contains('active')) {
+                closeChatWindow();
+            }
+        });
     </script>
 </body>
 </html>
