@@ -20,6 +20,11 @@
             min-height: 100vh;
         }
         
+        /* 添加聊天窗口打开时的body锁定 */
+        body.chat-open {
+            overflow: hidden;
+        }
+        
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -216,23 +221,25 @@
             border-color: #3498db;
         }
         
-        .image-container {
-            width: 100%;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #1a202c;
-            padding: 0;
-            position: relative;
-        }
-        
-        .product-image {
-            width: 100%;
-            height: auto;
-            display: block;
-            transition: transform 0.5s ease;
-        }
+     .image-container {
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #1a202c;
+    padding: 0;
+    position: relative;
+    /* 移除固定高度，让容器根据图片自适应 */
+}
+
+.product-image {
+    width: 100%;
+    height: auto; /* 改为auto让图片按比例自适应 */
+    display: block;
+    transition: transform 0.5s ease;
+    /* 移除object-fit，让图片按原始尺寸显示 */
+}
         
         .product-card:hover .product-image {
             transform: scale(1.05);
@@ -856,7 +863,7 @@
             color: #666;
         }
         
-        /* 修改后的悬浮客服按钮样式 - 长条形 */
+        /* 修改后的悬浮客服按钮样式 - 长条形，去掉图标 */
         .customer-service-toggle {
             position: fixed;
             bottom: 30px;
@@ -882,12 +889,6 @@
             box-shadow: 0 8px 25px rgba(52, 152, 219, 0.7);
         }
         
-        .customer-service-toggle i {
-            color: white;
-            font-size: 1.5rem;
-            margin-right: 10px;
-        }
-        
         .customer-service-toggle-text {
             color: white;
             font-size: 1.1rem;
@@ -907,36 +908,90 @@
             border: 1px solid rgba(231, 76, 60, 0.3);
         }
         
-        /* 客服聊天窗口底部页尾 */
+        /* 客服聊天窗口底部页尾 - 改为白色 */
         .chat-footer {
             padding: 15px;
-            background: #2c3e50;
-            color: white;
+            background: white;
+            color: #333;
             text-align: center;
-            border-top: 1px solid #3a4556;
+            border-top: 1px solid #e1e4e8;
             font-size: 0.8rem;
         }
         
-        /* 响应式设计 */
-        @media (max-width: 1200px) {
-            .products-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
-        
-        @media (max-width: 992px) {
-            .products-grid {
+        /* 响应式设计 - 修正移动端布局 */
+                @media (max-width: 768px) {
+    .products-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 15px;
+    }
+            
+            /* 确保每页显示12个产品，形成横2竖6布局 */
+            #home-products,
+            #products-products,
+            #product1-products,
+            #product2-products {
+                display: grid;
                 grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
             }
             
-            .customer-service-chat {
-                width: 400px;
+            .product-card {
+                aspect-ratio: 3/4;
             }
+            
+                    .image-container {
+            width: 100%;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #1a202c;
+            padding: 0;
+            position: relative;
+            /* 移除固定高度，让容器根据图片自适应 */
         }
         
+        .product-image {
+            width: 100%;
+            height: auto; /* 改为auto让图片按比例自适应 */
+            display: block;
+            transition: transform 0.5s ease;
+            /* 移除object-fit，让图片按原始尺寸显示 */
+        }
+        
+        /* 响应式设计 - 修正移动端布局 */
         @media (max-width: 768px) {
             .products-grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 15px;
+            }
+            
+            /* 确保每页显示12个产品，形成横2竖6布局 */
+            #home-products,
+            #products-products,
+            #product1-products,
+            #product2-products {
+                display: grid;
                 grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+            }
+            
+            .product-card {
+                aspect-ratio: auto; /* 改为auto让卡片根据图片自适应 */
+            }
+            
+            .product-image {
+                width: 100%;
+                height: auto; /* 确保移动端也是自适应高度 */
+            }
+            
+            .product-title {
+                font-size: 0.9rem;
+                white-space: normal;
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
             }
             
             h1 {
@@ -991,33 +1046,32 @@
             }
         }
         
-        @media (max-width: 576px) {
+        @media (max-width: 480px) {
             .products-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 15px;
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 10px;
             }
             
-            .modal-buttons {
-                flex-direction: column;
+            .product-card {
+                aspect-ratio: auto; /* 改为auto让卡片根据图片自适应 */
             }
             
-            .nav-links {
-                flex-wrap: wrap;
-                justify-content: center;
+            .product-image {
+                width: 100%;
+                height: auto; /* 确保移动端也是自适应高度 */
             }
             
-            .nav-links li {
-                margin: 5px;
+            .product-info {
+                padding: 10px;
             }
             
-            .nav-links a {
-                font-size: 0.9rem;
-                padding: 6px 12px;
+            .product-title {
+                font-size: 0.8rem;
+                -webkit-line-clamp: 2;
             }
             
-            .announcement-btn {
-                width: 80%;
-                max-width: 200px;
+            .product-stats {
+                font-size: 0.8rem;
             }
             
             .customer-service-toggle {
@@ -1026,18 +1080,68 @@
                 bottom: 20px;
             }
             
-            .customer-service-toggle i {
-                font-size: 1.3rem;
-            }
-            
             .customer-service-toggle-text {
                 font-size: 1rem;
             }
         }
+            
+            .customer-service-chat {
+                width: 100%;
+                right: -100%;
+                border-radius: 0;
+            }
+            
+            .chat-input {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .contact-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .qq-contact-btn, .wechat-contact-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
         
-        @media (max-width: 400px) {
+                @media (max-width: 480px) {
             .products-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 10px;
+            }
+            
+            .product-card {
+                aspect-ratio: 3/4;
+            }
+            
+            .image-container {
+                height: 120px; /* 更小的移动端调整高度 */
+            }
+            
+            .product-info {
+                padding: 10px;
+            }
+            
+            .product-title {
+                font-size: 0.8rem;
+                -webkit-line-clamp: 2;
+            }
+            
+            .product-stats {
+                font-size: 0.8rem;
+            }
+            
+            .customer-service-toggle {
+                width: 90%;
+                height: 50px;
+                bottom: 20px;
+            }
+            
+            .customer-service-toggle-text {
+                font-size: 1rem;
             }
         }
         
@@ -1067,6 +1171,20 @@
         
         .chat-messages::-webkit-scrollbar-thumb:hover {
             background: #2980b9;
+        }
+        /* 修复iOS Safari底部输入框问题 */
+        @supports (-webkit-overflow-scrolling: touch) {
+            body {
+                padding-bottom: env(safe-area-inset-bottom);
+            }
+            
+            .chat-input {
+                padding-bottom: calc(15px + env(safe-area-inset-bottom));
+            }
+            
+            .customer-service-toggle {
+                bottom: calc(30px + env(safe-area-inset-bottom));
+            }
         }
     </style>
 </head>
@@ -1256,7 +1374,7 @@
             </div>
             <div class="contact-text">有问题可以联系</div>
         </div>
-        <!-- 新增聊天窗口页尾 -->
+        <!-- 新增聊天窗口页尾 - 改为白色 -->
         <div class="chat-footer">
             <p>© 2023 高端产品展示系统 | 客服热线: 400-123-4567</p>
         </div>
@@ -1270,9 +1388,8 @@
         </div>
     </div>
     
-    <!-- 悬浮客服按钮 -->
+    <!-- 悬浮客服按钮 - 去掉图标 -->
     <div class="customer-service-toggle" id="customerServiceToggle">
-        <i class="fas fa-headset"></i>
         <div class="customer-service-toggle-text">在线客服</div>
     </div>
     
@@ -1381,7 +1498,7 @@
             });
         });
 
-        // 动态生成产品
+        // 动态生成产品 - 修正移动端布局
         function generateProducts(pageId) {
             const containerId = pageId.replace('-page', '-products');
             const container = document.getElementById(containerId);
@@ -1404,6 +1521,12 @@
             } else if (pageId === 'product2-page') {
                 startIndex = 36;
                 endIndex = 48;
+            }
+            
+            // 在移动端，每页只显示12个产品（横2竖6）
+            const isMobile = window.innerWidth <= 768;
+            if (isMobile) {
+                endIndex = Math.min(startIndex + 12, products.length);
             }
             
             // 为各页面生成产品
@@ -1463,6 +1586,32 @@
         // 初始化首页产品
         generateProducts('home-page');
 
+        // 添加窗口大小变化监听，确保布局正确
+        window.addEventListener('resize', function() {
+            const activePage = document.querySelector('.page-content.active');
+            if (activePage) {
+                generateProducts(activePage.id);
+            }
+        });
+
+        // 聊天窗口滑动控制
+        const customerServiceChat = document.getElementById('customerServiceChat');
+        const customerServiceToggle = document.getElementById('customerServiceToggle');
+        const closeChat = document.getElementById('closeChat');
+
+        function openChat() {
+            customerServiceChat.classList.add('active');
+            document.body.classList.add('chat-open');
+        }
+
+        function closeChatWindow() {
+            customerServiceChat.classList.remove('active');
+            document.body.classList.remove('chat-open');
+        }
+
+        customerServiceToggle.addEventListener('click', openChat);
+        closeChat.addEventListener('click', closeChatWindow);
+
         // 关闭弹窗
         document.getElementById('closeModal').addEventListener('click', function() {
             document.getElementById('productModal').classList.remove('active');
@@ -1510,21 +1659,16 @@
             alert('感谢您的参与！请填写相关信息以领取优惠。');
         });
         
-        // 在线客服按钮点击事件 - 统一功能
+                              // 在线客服按钮点击事件 - 修复版本
         document.getElementById('customerServiceBtn').addEventListener('click', function() {
+            console.log('客服按钮被点击了');
             // 关闭产品弹窗
             document.getElementById('productModal').classList.remove('active');
-            // 打开客服聊天窗口
-            document.getElementById('customerServiceChat').classList.add('active');
-        });
-        
-        // 客服聊天窗口功能
-        document.getElementById('customerServiceToggle').addEventListener('click', function() {
-            document.getElementById('customerServiceChat').classList.add('active');
-        });
-        
-        document.getElementById('closeChat').addEventListener('click', function() {
-            document.getElementById('customerServiceChat').classList.remove('active');
+            // 直接打开客服聊天窗口
+            setTimeout(function() {
+                document.getElementById('customerServiceChat').classList.add('active');
+                document.body.classList.add('chat-open');
+            }, 300);
         });
         
         // QQ联系按钮点击事件
@@ -1690,9 +1834,37 @@
             const toggleButton = document.getElementById('customerServiceToggle');
             
             if (!chatWindow.contains(e.target) && !toggleButton.contains(e.target) && chatWindow.classList.contains('active')) {
-                chatWindow.classList.remove('active');
+                closeChatWindow();
             }
         });
+        // 修复iOS Safari底部输入框被遮挡问题
+        function fixIOSInput() {
+            if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
+                const inputs = document.querySelectorAll('input, textarea');
+                inputs.forEach(input => {
+                    input.addEventListener('focus', function() {
+                        setTimeout(() => {
+                            document.body.scrollIntoView({ behavior: 'smooth', block: 'end' });
+                        }, 300);
+                    });
+                });
+            }
+        }
+
+        // 初始化修复
+        fixIOSInput();
+
+        // 替换原来的openChat函数
+        function openChat() {
+            customerServiceChat.classList.add('active');
+            document.body.classList.add('chat-open');
+            // iOS修复
+            if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
+                setTimeout(() => {
+                    window.scrollTo(0, document.body.scrollHeight);
+                }, 100);
+            }
+        }
     </script>
 </body>
 </html>
