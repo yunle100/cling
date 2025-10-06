@@ -191,11 +191,11 @@
             border-radius: 2px;
         }
         
-        /* 产品网格样式 */
+        /* 产品网格样式 - 修改为移动端横2竖6布局 */
         .products-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
             margin-bottom: 50px;
         }
         
@@ -207,6 +207,7 @@
             transition: all 0.3s ease;
             cursor: pointer;
             border: 1px solid #3a4556;
+            position: relative;
         }
         
         .product-card:hover {
@@ -223,6 +224,7 @@
             justify-content: center;
             background: #1a202c;
             padding: 0;
+            position: relative;
         }
         
         .product-image {
@@ -234,6 +236,28 @@
         
         .product-card:hover .product-image {
             transform: scale(1.05);
+        }
+        
+        /* 产品播放图标 - 仅产品1和产品2显示 */
+        .product-play-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+        }
+        
+        .product-play-icon i {
+            color: white;
+            font-size: 24px;
+            margin-left: 5px;
         }
         
         .product-info {
@@ -503,6 +527,18 @@
             font-size: 1.5rem;
         }
         
+        /* 在线状态标识 */
+        .online-status {
+            display: inline-block;
+            padding: 2px 8px;
+            background: #2ecc71;
+            color: white;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            margin-left: 8px;
+            vertical-align: middle;
+        }
+        
         .close-chat {
             background: rgba(255, 255, 255, 0.2);
             border: none;
@@ -575,39 +611,174 @@
         }
         
         .chat-input {
-            padding: 20px;
+            padding: 15px;
             border-top: 1px solid #e1e4e8;
             display: flex;
-            align-items: center;
+            flex-direction: column;
             background: white;
+            gap: 10px;
         }
         
-        .image-upload-label {
-            background: linear-gradient(135deg, #3498db, #2980b9);
-            color: white;
-            padding: 12px 20px;
-            border-radius: 30px;
+        .quick-buttons {
+            display: flex;
+            gap: 10px;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        
+        .quick-btn {
+            padding: 8px 15px;
+            border-radius: 20px;
             cursor: pointer;
             display: flex;
             align-items: center;
-            margin-right: 10px;
             transition: all 0.3s;
-            box-shadow: 0 3px 10px rgba(52, 152, 219, 0.3);
             font-weight: 500;
+            border: none;
+            font-size: 0.9rem;
+            flex: 1;
+            justify-content: center;
         }
         
-        .image-upload-label:hover {
+        .quick-btn i {
+            margin-right: 8px;
+            font-size: 1rem;
+        }
+        
+        .quick-btn-complete {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            color: white;
+            box-shadow: 0 3px 10px rgba(46, 204, 113, 0.3);
+        }
+        
+        .quick-btn-complete:hover {
+            background: linear-gradient(135deg, #27ae60, #219653);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(46, 204, 113, 0.4);
+        }
+        
+        .quick-btn-upload {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            box-shadow: 0 3px 10px rgba(52, 152, 219, 0.3);
+        }
+        
+        .quick-btn-upload:hover {
+            background: linear-gradient(135deg, #2980b9, #21618c);
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
         }
         
-        .image-upload-label i {
-            margin-right: 8px;
-            font-size: 1.2rem;
+        .quick-btn-human {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            color: white;
+            box-shadow: 0 3px 10px rgba(243, 156, 18, 0.3);
         }
         
-        .image-upload-input {
+        .quick-btn-human:hover {
+            background: linear-gradient(135deg, #e67e22, #d35400);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(243, 156, 18, 0.4);
+        }
+        
+        .input-area {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        
+        .message-input {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            background: #f5f5f5;
+            color: #666;
+        }
+        
+        .message-input:disabled {
+            background: #f0f0f0;
+            color: #999;
+            cursor: not-allowed;
+        }
+        
+        .send-btn {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 8px 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .send-btn:hover {
+            background: linear-gradient(135deg, #2980b9, #21618c);
+            transform: translateY(-2px);
+            box-shadow: 0 3px 10px rgba(52, 152, 219, 0.4);
+        }
+        
+        .send-btn:active {
+            transform: scale(0.95);
+        }
+        
+        /* 联系图片弹窗 */
+        .contact-image-modal {
             display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1002;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .contact-image-modal.active {
+            display: flex;
+        }
+        
+        .contact-image-content {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            position: relative;
+            max-width: 300px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .contact-image {
+            max-width: 100%;
+            border-radius: 10px;
+        }
+        
+        .close-contact-image {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+            background: rgba(255, 255, 255, 0.8);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .close-contact-image:hover {
+            background: rgba(255, 255, 255, 1);
+            color: #333;
         }
         
         .tiktok-card {
@@ -702,28 +873,44 @@
             border: 1px solid rgba(231, 76, 60, 0.3);
         }
         
+        /* 加载条样式 */
+        .loading-bar {
+            width: 100%;
+            height: 6px;
+            background-color: #e0e0e0;
+            border-radius: 3px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+        
+        .loading-progress {
+            height: 100%;
+            background-color: #3498db;
+            width: 0%;
+            border-radius: 3px;
+            transition: width 5s linear;
+        }
+        
         /* 响应式设计 */
-        @media (max-width: 1200px) {
+        @media (min-width: 768px) {
             .products-grid {
                 grid-template-columns: repeat(3, 1fr);
             }
         }
         
-        @media (max-width: 992px) {
+        @media (min-width: 992px) {
             .products-grid {
-                grid-template-columns: repeat(2, 1fr);
+                grid-template-columns: repeat(4, 1fr);
             }
-            
+        }
+        
+        @media (max-width: 992px) {
             .customer-service-chat {
                 width: 400px;
             }
         }
         
         @media (max-width: 768px) {
-            .products-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
             h1 {
                 font-size: 1.8rem;
             }
@@ -759,14 +946,26 @@
                 right: -100%;
                 border-radius: 0;
             }
+            
+            .chat-input {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .quick-buttons {
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+            }
+            
+            .quick-btn {
+                width: 32%;
+                justify-content: center;
+                font-size: 0.8rem;
+            }
         }
         
         @media (max-width: 576px) {
-            .products-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 15px;
-            }
-            
             .modal-buttons {
                 flex-direction: column;
             }
@@ -802,6 +1001,14 @@
             
             .customer-service-toggle-text {
                 font-size: 1rem;
+            }
+            
+            .quick-buttons {
+                flex-direction: column;
+            }
+            
+            .quick-btn {
+                width: 100%;
             }
         }
         
@@ -954,21 +1161,14 @@
     <div class="modal" id="productModal">
         <div class="modal-content">
             <span class="close-modal" id="closeModal">&times;</span>
-            <h2 class="modal-title" id="modalProductTitle">产品名称</h2>
+            <h2 class="modal-title">产品详情</h2>
             <div class="modal-buttons">
-                <button class="btn btn-primary" id="viewNowBtn">
-                    <i class="fas fa-eye"></i> 立即查看
-                </button>
                 <button class="btn btn-customer-service" id="customerServiceBtn">
                     <i class="fas fa-headset"></i> 在线客服
                 </button>
-                <button class="btn btn-secondary" id="closeModalBtn">
+                <button class="btn btn-secondary" id="closeDetailBtn">
                     <i class="fas fa-times"></i> 关闭
                 </button>
-            </div>
-            <!-- 无权限提示 -->
-            <div class="permission-message" id="permissionMessage" style="display: none;">
-                当前无权限查看此产品详情
             </div>
         </div>
     </div>
@@ -976,51 +1176,52 @@
     <!-- 客服聊天窗口 -->
     <div class="customer-service-chat" id="customerServiceChat">
         <div class="chat-header">
-            <h3><i class="fas fa-headset"></i> 在线客服</h3>
-            <button class="close-chat" id="closeChat">&times;</button>
+            <h3><i class="fas fa-headset"></i> 在线客服 <span class="online-status">在线</span></h3>
+            <button class="close-chat" id="closeChat"><i class="fas fa-times"></i></button>
         </div>
         <div class="chat-messages" id="chatMessages">
-            <!-- 初始客服消息 -->
-            <div class="message bot">
-                <div class="message-bubble">
-                    <p>您好！欢迎咨询我们的产品，很高兴为您服务！</p>
-                </div>
-            </div>
-            <div class="message bot">
-                <div class="message-bubble">
-                    <p>请扫描下方二维码完成支付：</p>
-                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://example.com/payment" alt="收款二维码" class="message-image">
-                </div>
-            </div>
+            <!-- 初始消息 -->
         </div>
         <div class="chat-input">
-            <label for="imageUpload" class="image-upload-label">
-                <i class="fas fa-image"></i> 上传图片
-            </label>
-            <input type="file" id="imageUpload" class="image-upload-input" accept="image/*">
+            <div class="quick-buttons">
+                <button class="quick-btn quick-btn-complete" id="completeBtn">
+                    <i class="fas fa-check-circle"></i> 已完成
+                </button>
+                <button class="quick-btn quick-btn-upload" id="uploadBtn">
+                    <i class="fas fa-image"></i> 请上传
+                </button>
+                <button class="quick-btn quick-btn-human" id="humanBtn">
+                    <i class="fas fa-user"></i> 人工
+                </button>
+            </div>
+            <div class="input-area">
+                <input type="text" class="message-input" id="messageInput" placeholder="输入您的问题...">
+                <button class="send-btn" id="sendMessageBtn"><i class="fas fa-paper-plane"></i> 发送</button>
+            </div>
+            <input type="file" class="image-upload-input" id="imageUploadInput" accept="image/*" style="display: none;">
         </div>
     </div>
     
     <!-- 悬浮客服按钮 -->
     <div class="customer-service-toggle" id="customerServiceToggle">
         <i class="fas fa-headset"></i>
-        <div class="customer-service-toggle-text">在线客服</div>
+        <div class="customer-service-toggle-text">点击联系在线客服</div>
     </div>
     
     <footer>
         <div class="container">
-            <p>&copy; 2023 高端产品展示系统. 保留所有权利.</p>
+            <p>© 2023 高端产品展示系统 | 版权所有</p>
         </div>
     </footer>
-    
+
     <script>
         // 产品数据 - 48个不同的产品
         const products = [
             // 热门产品推荐 - 12个产品
-            { id: 1, title: "高品质无线蓝牙降噪耳机", image: "https://img10.360buyimg.com/ddimg/jfs/t1/320986/36/21234/113194/68909680F2322a161/160ec723c779202d.jpg", rating: 4.8, views: 1200 },
-            { id: 2, title: "专业全画幅单反相机", image: "https://img11.360buyimg.com/ddimg/jfs/t1/317770/4/21935/33997/6890967fF03a40747/d23baf52dd64ed94.jpg", rating: 4.9, views: 2500 },
-            { id: 3, title: "多功能智能运动健康手表", image: "https://img14.360buyimg.com/ddimg/jfs/t1/307231/40/22715/45951/6890967eFcc87a19d/6c61bc5173c51f6e.jpg", rating: 4.7, views: 1800 },
-            { id: 4, title: "专业缓震透气跑步鞋", image: "https://img13.360buyimg.com/ddimg/jfs/t1/324976/10/857/44815/6890967eFf90a7cde/af50a6f7c2da5324.jpg", rating: 4.6, views: 1500 },
+            { id: 1, title: "高品质无线蓝牙降噪耳机", image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.8, views: 1200 },
+            { id: 2, title: "专业全画幅单反相机", image: "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.9, views: 2500 },
+            { id: 3, title: "多功能智能运动健康手表", image: "https://images.unsplash.com/photo-1546868871-7041f2a55e12?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.7, views: 1800 },
+            { id: 4, title: "专业缓震透气跑步鞋", image: "https://images.unsplash.com/photo-1491553895911-0055eca6402d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.6, views: 1500 },
             { id: 5, title: "经典商务休闲时尚腕表", image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.8, views: 2100 },
             { id: 6, title: "360度环绕立体声音箱", image: "https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.5, views: 1300 },
             { id: 7, title: "智能家居控制中心", image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.7, views: 1800 },
@@ -1031,10 +1232,10 @@
             { id: 12, title: "专业摄影三脚架", image: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.5, views: 1600 },
             
             // 全部产品 - 12个产品
-            { id: 13, title: "智能空气净化器", image: "https://img12.360buyimg.com/ddimg/jfs/t1/300782/29/12573/94387/6875e873F4f5cca4f/dbcf24bdaaf7a947.jpg", rating: 4.7, views: 1800 },
-            { id: 14, title: "便携式蓝牙音箱", image: "https://img14.360buyimg.com/ddimg/jfs/t1/318404/13/16239/63276/6875e877F463e208a/c1be48d6db5295a7.jpg", rating: 4.5, views: 1300 },
-            { id: 15, title: "智能体重秤", image: "https://img11.360buyimg.com/ddimg/jfs/t1/302232/9/19805/78332/6875e87aF76080926/30fa6e47234b66af.jpg", rating: 4.6, views: 1500 },
-            { id: 16, title: "无线充电器", image: "https://img10.360buyimg.com/ddimg/jfs/t1/318601/28/16240/46118/6875e880F008d518e/5a4ef55371e17c0f.jpg", rating: 4.4, views: 1200 },
+            { id: 13, title: "智能空气净化器", image: "https://images.unsplash.com/photo-1587334985589-80abfadca6c8?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.7, views: 1800 },
+            { id: 14, title: "便携式蓝牙音箱", image: "https://images.unsplash.com/photo-1546435770-a3e426bf472b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.5, views: 1300 },
+            { id: 15, title: "智能体重秤", image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.6, views: 1500 },
+            { id: 16, title: "无线充电器", image: "https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.4, views: 1200 },
             { id: 17, title: "智能扫地机器人", image: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.6, views: 2100 },
             { id: 18, title: "多功能料理锅", image: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.7, views: 1800 },
             { id: 19, title: "智能监控摄像头", image: "https://images.unsplash.com/photo-1557597774-9d273605dfa9?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.5, views: 1700 },
@@ -1045,10 +1246,10 @@
             { id: 24, title: "智能体脂秤", image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.3, views: 1000 },
             
             // 产品系列1 - 12个产品
-            { id: 25, title: "高端游戏笔记本电脑", image: "https://img13.360buyimg.com/ddimg/jfs/t1/308486/23/17199/95314/6875e772F6971147b/77c82bf05c8a657e.jpg", rating: 4.9, views: 2800 },
-            { id: 26, title: "无线降噪头戴式耳机", image: "https://img10.360buyimg.com/ddimg/jfs/t1/305150/38/18191/91358/6875e777F11a7df6e/e0d050cbef58caeb.jpg", rating: 4.7, views: 1900 },
-            { id: 27, title: "智能电动牙刷", image: "https://img12.360buyimg.com/ddimg/jfs/t1/296924/12/20401/104118/6875e779Fee4f78d8/d5dc14661135b3ee.jpg", rating: 4.5, views: 1600 },
-            { id: 28, title: "高清行车记录仪", image: "https://img13.360buyimg.com/ddimg/jfs/t1/307775/31/17161/98018/6875e77bFbaeab7c6/b737c6eb1fd1530d.jpg", rating: 4.6, views: 1700 },
+            { id: 25, title: "高端游戏笔记本电脑", image: "https://images.unsplash.com/photo-1593640408182-31c70c8268f5?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.9, views: 2800 },
+            { id: 26, title: "无线降噪头戴式耳机", image: "https://images.unsplash.com/photo-1484704849700-f032a568e944?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.7, views: 1900 },
+            { id: 27, title: "智能电动牙刷", image: "https://images.unsplash.com/photo-1505751172876-fa1923c5c528?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.5, views: 1600 },
+            { id: 28, title: "高清行车记录仪", image: "https://images.unsplash.com/photo-1553440569-bcc63803a83d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.6, views: 1700 },
             { id: 29, title: "便携式电动滑板车", image: "https://images.unsplash.com/photo-1571068316344-75bc76f77890?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.4, views: 1400 },
             { id: 30, title: "智能温湿度计", image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.3, views: 1100 },
             { id: 31, title: "多功能电动工具套装", image: "https://images.unsplash.com/photo-1572981779307-38f8b0456220?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.7, views: 1800 },
@@ -1059,10 +1260,10 @@
             { id: 36, title: "无线充电鼠标垫", image: "https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.4, views: 1400 },
             
             // 产品系列2 - 12个产品
-            { id: 37, title: "智能健身镜", image: "https://img13.360buyimg.com/ddimg/jfs/t1/290701/29/19401/90833/6878e13bF6ae1a60c/b498c05f12fa3b78.jpg", rating: 4.6, views: 1900 },
-            { id: 38, title: "便携式空调扇", image: "https://img11.360buyimg.com/ddimg/jfs/t1/289929/18/18115/67306/68756398F082a3b05/fde24cae71bea707.jpg", rating: 4.3, views: 1100 },
-            { id: 39, title: "智能枕头", image: "https://img14.360buyimg.com/ddimg/jfs/t1/308161/30/16818/56360/68756396Fd66591d1/cad181df5938d677.jpg", rating: 4.5, views: 1600 },
-            { id: 40, title: "高清运动相机", image: "https://img11.360buyimg.com/ddimg/jfs/t1/318812/16/16582/119200/68756393F8f36d8f7/8045b77026040f78.jpg", rating: 4.7, views: 2000 },
+            { id: 37, title: "智能健身镜", image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.6, views: 1900 },
+            { id: 38, title: "便携式空调扇", image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.3, views: 1100 },
+            { id: 39, title: "智能枕头", image: "https://images.unsplash.com/photo-1587334985589-80abfadca6c8?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.5, views: 1600 },
+            { id: 40, title: "高清运动相机", image: "https://images.unsplash.com/photo-1552168324-d612d77725e3?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.7, views: 2000 },
             { id: 41, title: "智能花盆", image: "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.2, views: 900 },
             { id: 42, title: "便携式按摩器", image: "https://images.unsplash.com/photo-1546435770-a3e426bf472b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.6, views: 1700 },
             { id: 43, title: "智能闹钟", image: "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80", rating: 4.4, views: 1300 },
@@ -1127,21 +1328,28 @@
             // 为各页面生成产品
             for (let i = startIndex; i < endIndex; i++) {
                 const product = products[i];
-                const productCard = createProductCard(product);
+                const productCard = createProductCard(product, pageId);
                 container.appendChild(productCard);
             }
         }
 
         // 创建产品卡片
-        function createProductCard(product) {
+        function createProductCard(product, pageId) {
             const card = document.createElement('div');
             card.className = 'product-card';
             card.setAttribute('data-id', product.id);
             card.setAttribute('data-title', product.title);
             
+            // 为产品1和产品2页面添加播放图标
+            const playIcon = (pageId === 'product1-page' || pageId === 'product2-page') ? 
+                `<div class="product-play-icon">
+                    <i class="fas fa-play"></i>
+                </div>` : '';
+            
             card.innerHTML = `
                 <div class="image-container">
                     <img src="${product.image}" alt="${product.title}" class="product-image">
+                    ${playIcon}
                 </div>
                 <div class="product-info">
                     <div class="product-title">${product.title}</div>
@@ -1163,9 +1371,7 @@
                 const productId = this.getAttribute('data-id');
                 const productTitle = this.getAttribute('data-title');
                 
-                document.getElementById('modalProductTitle').textContent = productTitle;
                 document.getElementById('productModal').classList.add('active');
-                document.getElementById('permissionMessage').style.display = 'none';
             });
             
             return card;
@@ -1179,13 +1385,8 @@
             document.getElementById('productModal').classList.remove('active');
         });
         
-        document.getElementById('closeModalBtn').addEventListener('click', function() {
+        document.getElementById('closeDetailBtn').addEventListener('click', function() {
             document.getElementById('productModal').classList.remove('active');
-        });
-        
-        // 立即查看按钮事件
-        document.getElementById('viewNowBtn').addEventListener('click', function() {
-            document.getElementById('permissionMessage').style.display = 'block';
         });
         
         // 查看更多按钮点击事件
@@ -1221,25 +1422,48 @@
             alert('感谢您的参与！请填写相关信息以领取优惠。');
         });
         
-        // 在线客服按钮点击事件
+        // 在线客服按钮点击事件 - 修复：点击绿色按钮打开聊天窗口
         document.getElementById('customerServiceBtn').addEventListener('click', function() {
             // 关闭产品弹窗
             document.getElementById('productModal').classList.remove('active');
             // 打开客服聊天窗口
             document.getElementById('customerServiceChat').classList.add('active');
+            // 添加初始客服消息
+            addInitialBotMessage();
         });
         
         // 客服聊天窗口功能
         document.getElementById('customerServiceToggle').addEventListener('click', function() {
             document.getElementById('customerServiceChat').classList.add('active');
+            // 添加初始客服消息
+            addInitialBotMessage();
         });
         
         document.getElementById('closeChat').addEventListener('click', function() {
             document.getElementById('customerServiceChat').classList.remove('active');
         });
         
+        // 添加快捷按钮功能
+        document.getElementById('completeBtn').addEventListener('click', function() {
+            addCustomerMessage("已完成");
+            setTimeout(function() {
+                addBotMessage("好的，请等待客服处理");
+            }, 1000);
+        });
+        
+        document.getElementById('uploadBtn').addEventListener('click', function() {
+            document.getElementById('imageUploadInput').click();
+        });
+        
+        document.getElementById('humanBtn').addEventListener('click', function() {
+            addCustomerMessage("需要人工客服");
+            setTimeout(function() {
+                addBotMessageWithImage("请稍等，正在为您转接人工客服", "https://images.unsplash.com/photo-1551836026-d5c88ac5d4d9?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80");
+            }, 1000);
+        });
+        
         // 图片上传功能
-        document.getElementById('imageUpload').addEventListener('change', function(e) {
+        document.getElementById('imageUploadInput').addEventListener('change', function(e) {
             if (e.target.files && e.target.files[0]) {
                 const file = e.target.files[0];
                 
@@ -1253,55 +1477,19 @@
                 
                 reader.onload = function(event) {
                     // 添加用户上传的图片消息
-                    const chatMessages = document.getElementById('chatMessages');
-                    const userMessage = document.createElement('div');
-                    userMessage.className = 'message customer';
-                    userMessage.innerHTML = `
-                        <div class="message-bubble">
-                            <img src="${event.target.result}" alt="上传的图片" class="message-image">
-                        </div>
-                    `;
-                    chatMessages.appendChild(userMessage);
+                    addCustomerMessageWithImage("上传图片", event.target.result);
                     
-                    // 添加客服回复消息
-                    const botMessage1 = document.createElement('div');
-                    botMessage1.className = 'message bot';
-                    botMessage1.innerHTML = `
-                        <div class="message-bubble">
-                            <p>图片已收到，正在审核中...</p>
-                        </div>
-                    `;
-                    chatMessages.appendChild(botMessage1);
+                    // 添加加载条消息
+                    const loadingMessageId = addLoadingMessage("正在审核中...");
                     
-                    // 滚动到最新消息
-                    chatMessages.scrollTop = chatMessages.scrollHeight;
-                    
-                    // 4秒后自动回复抖音卡片
+                    // 5秒后自动回复抖音卡片
                     setTimeout(function() {
-                        const botMessage2 = document.createElement('div');
-                        botMessage2.className = 'message bot';
-                        botMessage2.innerHTML = `
-                            <div class="message-bubble">
-                                <p>图片审核通过！了解更多产品信息，请关注我们的抖音账号：</p>
-                                <div class="tiktok-card" id="tiktokCard">
-                                    <img src="https://sf16-scmcdn-va.ibytedtos.com/goofy/tiktok/web/node/_next/static/images/douyin-64c34bf5065c4c2d8c8c6c8c6c8c6c8c.png" alt="抖音图标">
-                                    <div class="tiktok-card-content">
-                                        <div class="tiktok-card-title">官方抖音账号</div>
-                                        <div class="tiktok-card-desc">点击查看最新产品视频</div>
-                                    </div>
-                                </div>
-                            </div>
-                        `;
-                        chatMessages.appendChild(botMessage2);
+                        // 移除加载条
+                        removeLoadingMessage(loadingMessageId);
                         
-                        // 滚动到最新消息
-                        chatMessages.scrollTop = chatMessages.scrollHeight;
-                        
-                        // 添加抖音卡片点击事件
-                        document.getElementById('tiktokCard').addEventListener('click', function() {
-                            window.open('https://www.douyin.com/', '_blank');
-                        });
-                    }, 4000);
+                        // 添加抖音卡片回复
+                        addBotMessageWithTikTokCard("图片审核通过！了解更多产品信息，请关注我们的抖音账号");
+                    }, 5000);
                 };
                 
                 reader.readAsDataURL(file);
@@ -1310,6 +1498,192 @@
                 e.target.value = '';
             }
         });
+        
+        // 发送按钮点击事件
+        document.getElementById('sendMessageBtn').addEventListener('click', function() {
+            const messageInput = document.getElementById('messageInput');
+            const message = messageInput.value.trim();
+            
+            if (message === '') return;
+            
+            // 添加用户消息
+            addCustomerMessage(message);
+            
+            // 清空输入框
+            messageInput.value = '';
+            
+            // 模拟客服回复
+            setTimeout(function() {
+                addBotMessage("排队中，请稍候...");
+            }, 1000);
+        });
+        
+        // 按Enter键发送消息
+        document.getElementById('messageInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                document.getElementById('sendMessageBtn').click();
+            }
+        });
+        
+        // 添加初始客服消息
+        function addInitialBotMessage() {
+            const chatMessages = document.getElementById('chatMessages');
+            
+            // 清空现有消息
+            chatMessages.innerHTML = '';
+            
+            // 添加初始客服消息
+            const botMessage = document.createElement('div');
+            botMessage.className = 'message bot';
+            botMessage.innerHTML = `
+                <div class="message-bubble">
+                    <p>您好！欢迎咨询我们的产品，很高兴为您服务！</p>
+                    <img src="https://img.alicdn.com/imgextra/i4/O1CN0170Cu4o1u13yyLplX7_!!4611686018427381912-0-amp.jpg" alt="客服问候" class="message-image">
+                </div>
+            `;
+            chatMessages.appendChild(botMessage);
+            
+            // 滚动到最新消息
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        // 添加用户消息
+        function addCustomerMessage(message) {
+            const chatMessages = document.getElementById('chatMessages');
+            
+            const userMessage = document.createElement('div');
+            userMessage.className = 'message customer';
+            userMessage.innerHTML = `
+                <div class="message-bubble">
+                    <p>${message}</p>
+                </div>
+            `;
+            chatMessages.appendChild(userMessage);
+            
+            // 滚动到最新消息
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        // 添加用户图片消息
+        function addCustomerMessageWithImage(message, imageSrc) {
+            const chatMessages = document.getElementById('chatMessages');
+            
+            const userMessage = document.createElement('div');
+            userMessage.className = 'message customer';
+            userMessage.innerHTML = `
+                <div class="message-bubble">
+                    <p>${message}</p>
+                    <img src="${imageSrc}" alt="上传的图片" class="message-image">
+                </div>
+            `;
+            chatMessages.appendChild(userMessage);
+            
+            // 滚动到最新消息
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        // 添加客服消息
+        function addBotMessage(message) {
+            const chatMessages = document.getElementById('chatMessages');
+            
+            const botMessage = document.createElement('div');
+            botMessage.className = 'message bot';
+            botMessage.innerHTML = `
+                <div class="message-bubble">
+                    <p>${message}</p>
+                </div>
+            `;
+            chatMessages.appendChild(botMessage);
+            
+            // 滚动到最新消息
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        // 添加带图片的客服消息
+        function addBotMessageWithImage(message, imageSrc) {
+            const chatMessages = document.getElementById('chatMessages');
+            
+            const botMessage = document.createElement('div');
+            botMessage.className = 'message bot';
+            botMessage.innerHTML = `
+                <div class="message-bubble">
+                    <p>${message}</p>
+                    <img src="${imageSrc}" alt="客服回复图片" class="message-image">
+                </div>
+            `;
+            chatMessages.appendChild(botMessage);
+            
+            // 滚动到最新消息
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        // 添加加载条消息
+        function addLoadingMessage(message) {
+            const chatMessages = document.getElementById('chatMessages');
+            
+            const botMessage = document.createElement('div');
+            botMessage.className = 'message bot';
+            botMessage.id = 'loading-message-' + Date.now();
+            botMessage.innerHTML = `
+                <div class="message-bubble">
+                    <p>${message}</p>
+                    <div class="loading-bar">
+                        <div class="loading-progress"></div>
+                    </div>
+                </div>
+            `;
+            chatMessages.appendChild(botMessage);
+            
+            // 滚动到最新消息
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            
+            // 启动加载条动画
+            setTimeout(() => {
+                const progressBar = botMessage.querySelector('.loading-progress');
+                if (progressBar) {
+                    progressBar.style.width = '100%';
+                }
+            }, 100);
+            
+            return botMessage.id;
+        }
+        
+        // 移除加载条消息
+        function removeLoadingMessage(messageId) {
+            const messageElement = document.getElementById(messageId);
+            if (messageElement) {
+                messageElement.remove();
+            }
+        }
+        
+        // 添加带抖音卡片的客服消息
+        function addBotMessageWithTikTokCard(message) {
+            const chatMessages = document.getElementById('chatMessages');
+            
+            const botMessage = document.createElement('div');
+            botMessage.className = 'message bot';
+            botMessage.innerHTML = `
+                <div class="message-bubble">
+                    <p>${message}</p>
+                    <div class="tiktok-card" id="tiktokCard">
+                        <img src="https://images.unsplash.com/photo-1611605698335-8b1569810432?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="抖音图标">
+                        <div class="tiktok-card-content">
+                            <div class="tiktok-card-title">官方抖音账号</div>
+                            <div class="tiktok-card-desc">点击查看最新产品视频</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            chatMessages.appendChild(botMessage);
+            
+            // 滚动到最新消息
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            
+            // 添加抖音卡片点击事件
+            document.getElementById('tiktokCard').addEventListener('click', function() {
+                window.open('https://www.douyin.com/', '_blank');
+            });
+        }
         
         // 点击页面其他地方关闭客服聊天窗口
         document.addEventListener('click', function(e) {
