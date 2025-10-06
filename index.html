@@ -691,10 +691,16 @@
             margin-right: 8px;
             font-size: 1rem;
         }
+/* 隐藏QQ联系按钮 */
+.qq-contact-btn {
+    display: none !important;
+}
         
         /* 微信联系按钮样式 */
         .wechat-contact-btn {
-            background: linear-gradient(135deg, #1aad19, #0d8c0d);
+    background: #fff9c4 !important;
+    color: #333 !important;
+    box-shadow: 0 3px 10px rgba(255, 255, 255, 0.5) !important;
             color: white;
             padding: 8px 15px;
             border-radius: 20px;
@@ -870,7 +876,7 @@
             width: 85%;
             max-width: 600px;
             height: 60px;
-            background: linear-gradient(135deg, #3498db, #2980b9);
+            background: linear-gradient(135deg, #00cec9, #0984e3);
             border-radius: 30px;
             display: flex;
             align-items: center;
@@ -1103,15 +1109,12 @@
                     🎉 庆祝公司成立10周年，全场产品享受<span style="font-weight:700;color:#ffeb3b;">8折优惠</span>！<br>
                     🎁 新用户注册即送<span style="font-weight:700;color:#ffeb3b;">100元优惠券</span>，活动截止至本月底，赶快参与吧！
                 </div>
-                <button class="announcement-btn" id="announcementBtn">立即参与</button>
             </div>
         </div>
         
         <!-- 首页内容 -->
         <div id="home-page" class="page-content active">
-            <header>
-                <h1>热门产品推荐</h1>
-            </header>
+            
             
             <main>
                 <div class="products-grid" id="home-products">
@@ -1129,9 +1132,7 @@
         
         <!-- 产品页面 -->
         <div id="products-page" class="page-content">
-            <header>
-                <h1>全部产品</h1>
-            </header>
+
             
             <main>
                 <div class="products-grid" id="products-products">
@@ -1149,9 +1150,7 @@
         
         <!-- 产品1页面 -->
         <div id="product1-page" class="page-content">
-            <header>
-                <h1>产品系列1</h1>
-            </header>
+ 
             
             <main>
                 <div class="products-grid" id="product1-products">
@@ -1169,9 +1168,6 @@
         
         <!-- 产品2页面 -->
         <div id="product2-page" class="page-content">
-            <header>
-                <h1>产品系列2</h1>
-            </header>
             
             <main>
                 <div class="products-grid" id="product2-products">
@@ -1187,12 +1183,7 @@
             </main>
         </div>
     </div>
-    
-    <footer>
-        <div class="container">
-            <p>&copy; 2023 高端产品展示系统. 保留所有权利.</p>
-        </div>
-    </footer>
+
     
     <!-- 产品详情弹窗 -->
     <div class="modal" id="productModal">
@@ -1232,7 +1223,7 @@
             </div>
             <div class="message bot">
                 <div class="message-bubble">
-                    <p style="color: green;">请扫描下方二维码完成支付：</p>
+                    <p style="color: #2ecc71;">请扫描下方二维码完成支付：</p>
                     <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://example.com/payment" alt="收款二维码" class="message-image">
                 </div>
             </div>
@@ -1253,8 +1244,8 @@
                     <i class="fab fa-qq"></i> QQ联系
                 </button>
                 <button class="wechat-contact-btn" id="wechatContactBtn">
-                    <i class="fab fa-weixin"></i> 微信联系
-                </button>
+    联系人工
+</button>
             </div>
             <div class="input-area">
                 <input type="text" class="message-input" id="messageInput" placeholder="请输入消息...">
@@ -1262,13 +1253,9 @@
                     <i class="fas fa-paper-plane"></i> 发送
                 </button>
             </div>
-            <div class="contact-text">有问题可以联系</div>
+            <div class="contact-text">@2025</div>
         </div>
-        <!-- 新增聊天窗口页尾 - 改为白色 -->
-        <div class="chat-footer">
-            <p>© 2023 高端产品展示系统 | 客服热线: 400-123-4567</p>
-        </div>
-    </div>
+     </div>
     
     <!-- 联系图片弹窗 -->
     <div class="contact-image-modal" id="contactImageModal">
@@ -1545,10 +1532,7 @@
             alert('更多产品正在加载中...');
         });
         
-        // 公告按钮点击事件
-        document.getElementById('announcementBtn').addEventListener('click', function() {
-            alert('感谢您的参与！请填写相关信息以领取优惠。');
-        });
+
         
         // 在线客服按钮点击事件
         document.getElementById('customerServiceBtn').addEventListener('click', function() {
@@ -1582,22 +1566,21 @@
             }, 1000);
         });
         
-        // 微信联系按钮点击事件
-        document.getElementById('wechatContactBtn').addEventListener('click', function() {
-            // 自动回复微信联系消息
-            setTimeout(function() {
-                const chatMessages = document.getElementById('chatMessages');
-                const botMessage = document.createElement('div');
-                botMessage.className = 'message bot';
-                botMessage.innerHTML = `
-                    <div class="message-bubble">
-                        <p>已收到您的微信联系请求，请添加客服微信：example123</p>
-                    </div>
-                `;
-                chatMessages.appendChild(botMessage);
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-            }, 1000);
-        });
+// 联系人工按钮点击事件
+document.getElementById('wechatContactBtn').addEventListener('click', function() {
+    const chatMessages = document.getElementById('chatMessages');
+    const botMessage = document.createElement('div');
+    botMessage.className = 'message bot';
+    botMessage.innerHTML = `
+        <div class="message-bubble">
+            
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=请添加客服微信：customer-service-123&format=png&margin=10&color=2E8B57&bgcolor=FFFFFF" alt="人工客服二维码" class="message-image" style="max-width: 200px; border-radius: 10px; box-shadow: 0 3px 10px rgba(0,0,0,0.2);">
+            <p style="margin-top: 10px; color: #666; font-size: 0.9rem;">扫码添加客服微信，我们将为您提供一对一服务</p>
+        </div>
+    `;
+    chatMessages.appendChild(botMessage);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+});
         
         // 关闭联系图片弹窗
         document.getElementById('closeContactImage').addEventListener('click', function() {
@@ -1646,79 +1629,130 @@
             }
         });
         
-        // 图片上传功能
-        document.getElementById('imageUpload').addEventListener('change', function(e) {
-            if (e.target.files && e.target.files[0]) {
-                const file = e.target.files[0];
-                
-                // 检查是否为图片文件
-                if (!file.type.match('image.*')) {
-                    alert('请上传图片文件！');
-                    return;
-                }
-                
-                const reader = new FileReader();
-                
-                reader.onload = function(event) {
-                    // 添加用户上传的图片消息
-                    const chatMessages = document.getElementById('chatMessages');
-                    const userMessage = document.createElement('div');
-                    userMessage.className = 'message customer';
-                    userMessage.innerHTML = `
-                        <div class="message-bubble">
-                            <img src="${event.target.result}" alt="上传的图片" class="message-image">
-                        </div>
-                    `;
-                    chatMessages.appendChild(userMessage);
-                    
-                    // 添加客服回复消息
-                    const botMessage1 = document.createElement('div');
-                    botMessage1.className = 'message bot';
-                    botMessage1.innerHTML = `
-                        <div class="message-bubble">
-                            <p>图片已收到，正在审核中...</p>
-                        </div>
-                    `;
-                    chatMessages.appendChild(botMessage1);
-                    
-                    // 滚动到最新消息
-                    chatMessages.scrollTop = chatMessages.scrollHeight;
-                    
-                    // 4秒后自动回复抖音卡片
-                    setTimeout(function() {
-                        const botMessage2 = document.createElement('div');
-                        botMessage2.className = 'message bot';
-                        botMessage2.innerHTML = `
-                            <div class="message-bubble">
-                                <p>图片审核通过！了解更多产品信息，请关注我们的抖音账号：</p>
-                                <div class="tiktok-card" id="tiktokCard">
-                                    <img src="https://sf16-scmcdn-va.ibytedtos.com/goofy/tiktok/web/node/_next/static/images/douyin-64c34bf5065c4c2d8c8c6c8c6c8c6c8c.png" alt="抖音图标">
-                                    <div class="tiktok-card-content">
-                                        <div class="tiktok-card-title">官方抖音账号</div>
-                                        <div class="tiktok-card-desc">点击查看最新产品视频</div>
-                                    </div>
+// 图片上传功能
+document.getElementById('imageUpload').addEventListener('change', function(e) {
+    if (e.target.files && e.target.files[0]) {
+        const file = e.target.files[0];
+        
+        // 检查是否为图片文件
+        if (!file.type.match('image.*')) {
+            alert('请上传图片文件！');
+            return;
+        }
+        
+        const reader = new FileReader();
+        
+        reader.onload = function(event) {
+            // 添加用户上传的图片消息
+            const chatMessages = document.getElementById('chatMessages');
+            const userMessage = document.createElement('div');
+            userMessage.className = 'message customer';
+            userMessage.innerHTML = `
+                <div class="message-bubble">
+                    <img src="${event.target.result}" alt="上传的图片" class="message-image">
+                </div>
+            `;
+            chatMessages.appendChild(userMessage);
+            
+            // 立即滚动到最新消息
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            
+            // 添加客服回复消息
+            const botMessage1 = document.createElement('div');
+            botMessage1.className = 'message bot';
+            botMessage1.innerHTML = `
+                <div class="message-bubble">
+                    <p>图片已收到，正在审核中...</p>
+                </div>
+            `;
+            chatMessages.appendChild(botMessage1);
+            
+            // 立即滚动到最新消息
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            
+            // 4秒后自动回复卡片
+            setTimeout(function() {
+                const botMessage2 = document.createElement('div');
+                botMessage2.className = 'message bot';
+                botMessage2.innerHTML = `
+                    <div class="message-bubble">
+                        <p style="color: #2ecc71; font-weight: bold;">✅ 审核通过！</p>
+                        <p>图片审核成功，请关注我们的官方平台：</p>
+                        <div style="margin-top: 15px; display: flex; flex-direction: column; gap: 10px;">
+                            <div class="tiktok-card" id="platformCard1">
+                                <div style="width: 40px; height: 40px; background: #3498db; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-right: 12px;">
+                                    <i class="fas fa-video" style="color: white; font-size: 18px;"></i>
+                                </div>
+                                <div class="tiktok-card-content">
+                                    <div class="tiktok-card-title">视频平台</div>
+                                    <div class="tiktok-card-desc">观看产品演示视频</div>
                                 </div>
                             </div>
-                        `;
-                        chatMessages.appendChild(botMessage2);
-                        
-                        // 滚动到最新消息
-                        chatMessages.scrollTop = chatMessages.scrollHeight;
-                        
-                        // 添加抖音卡片点击事件
-                        document.getElementById('tiktokCard').addEventListener('click', function() {
-                            window.open('https://www.douyin.com/', '_blank');
-                        });
-                    }, 4000);
-                };
+                            <div class="tiktok-card" id="platformCard2">
+                                <div style="width: 40px; height: 40px; background: #3498db; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-right: 12px;">
+                                    <i class="fas fa-video" style="color: white; font-size: 18px;"></i>
+                                </div>
+                                <div class="tiktok-card-content">
+                                    <div class="tiktok-card-title">短视频平台</div>
+                                    <div class="tiktok-card-desc">每日更新内容</div>
+                                </div>
+                            </div>
+                            <div class="tiktok-card" id="platformCard3">
+                                <div style="width: 40px; height: 40px; background: #3498db; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-right: 12px;">
+                                    <i class="fas fa-video" style="color: white; font-size: 18px;"></i>
+                                </div>
+                                <div class="tiktok-card-content">
+                                    <div class="tiktok-card-title">直播平台</div>
+                                    <div class="tiktok-card-desc">实时互动直播</div>
+                                </div>
+                            </div>
+                            <div class="tiktok-card" id="platformCard4">
+                                <div style="width: 40px; height: 40px; background: #2ecc71; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-right: 12px;">
+                                    <i class="fas fa-users" style="color: white; font-size: 18px;"></i>
+                                </div>
+                                <div class="tiktok-card-content">
+                                    <div class="tiktok-card-title">用户群</div>
+                                    <div class="tiktok-card-desc">加入官方社群</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                chatMessages.appendChild(botMessage2);
                 
-                reader.readAsDataURL(file);
+                // 立即滚动到最新消息
+                chatMessages.scrollTop = chatMessages.scrollHeight;
                 
-                // 重置文件输入
-                e.target.value = '';
-            }
-        });
+            }, 4000);
+        };
         
+        reader.readAsDataURL(file);
+        
+        // 重置文件输入
+        e.target.value = '';
+    }
+});
+
+// 事件委托处理卡片点击（放在图片上传函数外面，只需绑定一次）
+document.getElementById('chatMessages').addEventListener('click', function(e) {
+    const card = e.target.closest('.tiktok-card');
+    if (!card) return;
+
+    switch(card.id) {
+        case 'platformCard1':
+            window.open('https://example.com/video', '_blank');
+            break;
+        case 'platformCard2':
+            window.open('https://example.com/shortvideo', '_blank');
+            break;
+        case 'platformCard3':
+            window.open('https://example.com/live', '_blank');
+            break;
+        case 'platformCard4':
+            window.open('https://example.com/group', '_blank');
+            break;
+    }
+});
         // 点击页面其他地方关闭客服聊天窗口
         document.addEventListener('click', function(e) {
             const chatWindow = document.getElementById('customerServiceChat');
