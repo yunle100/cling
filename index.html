@@ -489,11 +489,11 @@
         
         /* 新增客服聊天窗口样式 */
         .customer-service-chat {
-            position: fixed;
-            top: 0;
-            right: -450px;
-            width: 450px;
-            height: 100vh;
+    position: fixed;
+    top: 0;
+    right: -450px;
+    width: 450px;
+    height: 100%;
             background: linear-gradient(135deg, #2c3e50, #34495e);
             box-shadow: -5px 0 25px rgba(0, 0, 0, 0.3);
             z-index: 1001;
@@ -615,15 +615,14 @@
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
         }
         
-.chat-input {
-    padding: 15px;
-    padding-bottom: 5px;  /* 单独设置底部padding */
-    border-top: 1px solid #e1e4e8;
-    display: flex;
-    flex-direction: column;
-    background: white;
-    gap: 10px;
-}
+        .chat-input {
+            padding: 15px;
+            border-top: 1px solid #e1e4e8;
+            display: flex;
+            flex-direction: column;
+            background: white;
+            gap: 10px;
+        }
         
         .contact-buttons {
             display: flex;
@@ -699,9 +698,7 @@
         
         /* 微信联系按钮样式 */
         .wechat-contact-btn {
-    background: #fff9c4 !important;
-    color: #333 !important;
-    box-shadow: 0 3px 10px rgba(255, 255, 255, 0.5) !important;
+            background: linear-gradient(135deg, #1aad19, #0d8c0d);
             color: white;
             padding: 8px 15px;
             border-radius: 20px;
@@ -923,12 +920,16 @@
             font-size: 0.8rem;
         }
         
-        /* 响应式设计 - 修正移动端布局 */
-        @media (max-width: 768px) {
-            .products-grid {
-                grid-template-columns: repeat(2, 1fr) !important;
-                gap: 15px;
-            }
+@media (max-width: 768px) {
+    .customer-service-chat {
+        width: 100%;
+        right: -100%;
+        height: 100%;  /* 添加这一行 */
+        border-radius: 0;
+    }
+    
+    /* 其他移动端样式... */
+}
             
             /* 确保每页显示12个产品，形成横2竖6布局 */
             #home-products,
